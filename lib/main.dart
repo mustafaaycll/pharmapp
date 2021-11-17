@@ -9,6 +9,8 @@ import 'package:pharm_app/screens/profile/profile.dart';
 void main() {
   runApp(
     MaterialApp(
+      title: 'PharMapp',
+      debugShowCheckedModeBanner: false,
       home: Home(),
       routes: {
         '/home': (context) => Home(),
