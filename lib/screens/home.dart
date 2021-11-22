@@ -34,15 +34,41 @@ class _HomeState extends State<Home> {
                 hint: Text('Select Address'),
                 items: [],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              Column(
                 children: [
-                  Expanded(
-                      child:
-                          AppTextButton(isClicked: isClicked, name: 'Orders')),
-                  Expanded(
-                      child: AppTextButton(
-                          isClicked: isClicked, name: 'Favorites')),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child:
+                            AppTextButton(isClicked: isClicked, name: 'Orders'),
+                      ),
+                      Expanded(
+                        child: AppTextButton(
+                            isClicked: isClicked, name: 'Favorites'),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 1, color: AppColors.blackColor),
+                    ),
+                    width: double.infinity,
+                    height: 100,
+                    child: ListView(
+                      children: [
+                        Text('data'),
+                        Text('data'),
+                        Text('data'),
+                        Text('data'),
+                        Text('data'),
+                        Text('data'),
+                        Text('data'),
+                        Text('data'),
+                        Text('data'),
+                      ],
+                    ),
+                  )
                 ],
               ),
               Row(children: [
