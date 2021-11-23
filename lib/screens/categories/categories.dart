@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:pharm_app/utils/colors.dart';
 
-class categories extends StatefulWidget {
-  const categories({Key? key}) : super(key: key);
+//categories are going to be fixed?
+
+class Categories extends StatefulWidget {
+  const Categories({Key? key}) : super(key: key);
 
   @override
-  _categoriesState createState() => _categoriesState();
+  _CategoriesState createState() => _CategoriesState();
 }
 
-class _categoriesState extends State<categories> {
+class _CategoriesState extends State<Categories> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +26,7 @@ class _categoriesState extends State<categories> {
         centerTitle: true,
         backgroundColor: AppColors.primary,
         actions: [IconButton(
-          onPressed: buttonPressed,
+          onPressed: buttonPressed, // onpressed is gonna be changed
           //onPressed: (){
             //Navigator.pushNamed(context, '/filters');
           //},
