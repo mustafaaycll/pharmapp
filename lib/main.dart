@@ -11,7 +11,7 @@ void main() {
     MaterialApp(
       title: 'PharMapp',
       debugShowCheckedModeBanner: false,
-      home: Login(),
+      home: Home(),
       routes: {
         '/home': (context) => Home(),
         '/profile': (context) => Profile(),

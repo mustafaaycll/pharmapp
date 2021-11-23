@@ -35,112 +35,147 @@ class _LoginState extends State<Login> {
       appBar: AppBar(
         title: Text(
           'LOGIN',
+          style: TextStyle(color: AppColors.titleText),
         ),
-        backgroundColor: AppColors.greenColor,
+        backgroundColor: AppColors.primary,
         centerTitle: true,
         elevation: 0.0,
       ),
       body: Padding(
         padding: EdgeInsets.all(20),
-        child: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          fillColor: AppColors.greenColor,
-                          filled: true,
-                          hintText: 'E-mail',
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: AppColors.blueColor,
+        child: Center(
+          child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        'PharMapp',
+                        style: TextStyle(
+                          color: AppColors.bodyText,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 50,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 30),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            fillColor: AppColors.secondary75percent,
+                            filled: true,
+                            hintText: 'E-mail',
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: AppColors.secondary50percent,
 
-                            ),
-                            borderRadius: BorderRadius.all(Radius.circular(15)),
-                          )
-                        ),
-                        keyboardType: TextInputType.emailAddress,
-                        onSaved: (value) {
-                          if(value != null) {
-                            mail = value;
-                          }
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 16),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          fillColor: AppColors.greenColor,
-                          filled: true,
-                          hintText: 'Password',
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: AppColors.greenColor,
-                            ),
-                            borderRadius: BorderRadius.all(Radius.circular(15)),
+                              ),
+                              borderRadius: BorderRadius.all(Radius.circular(5)),
+                            )
                           ),
-                        ),
-                        keyboardType: TextInputType.text,
-                        obscureText: true,
-                        enableSuggestions: false,
-                        autocorrect: false,
-                        onSaved: (value) {
-                          if(value != null) {
-                            pass = value;
-                          }
+                          keyboardType: TextInputType.emailAddress,
+                          onSaved: (value) {
+                            if(value != null) {
+                              mail = value;
+                            }
                           },
+                        ),
                       ),
-                    )
-                  ],
-                ),
-            SizedBox(height: 16,),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: OutlinedButton(
-                    onPressed: () {
-                      if(_formKey.currentState!.validate()) {
-                        print('Mail: '+mail+"\nPass: "+pass);
-                        _formKey.currentState!.save();
-                        print('Mail: '+mail+"\nPass: "+pass);
-                        setState(() {
-                          count+=1;
-                        });
-                      }
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12.0),
-                      child: Text(
-                        'Login',
+                    ],
+                  ),
+                  SizedBox(height: 16),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            fillColor: AppColors.secondary75percent,
+                            filled: true,
+                            hintText: 'Password',
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: AppColors.secondary75percent,
+                              ),
+                              borderRadius: BorderRadius.all(Radius.circular(5)),
+                            ),
+                          ),
+                          keyboardType: TextInputType.text,
+                          obscureText: true,
+                          enableSuggestions: false,
+                          autocorrect: false,
+                          onSaved: (value) {
+                            if(value != null) {
+                              pass = value;
+                            }
+                            },
+                        ),
+                      )
+                    ],
+                  ),
+              SizedBox(height: 16),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: OutlinedButton(
+                      onPressed: () {},
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12.0),
+                        child: Text(
+                          'Sign Up',
+                          style: TextStyle(color: AppColors.buttonText),
+                        ),
                       ),
-                    ),
-                    style: OutlinedButton.styleFrom(
-                      backgroundColor: AppColors.greenColor,
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: AppColors.button,
+                      ),
                     ),
                   ),
-                ),
+                  SizedBox(width:6),
+                  Expanded(
+                    flex: 1,
+                    child: OutlinedButton(
+                      onPressed: () {
+                        if(_formKey.currentState!.validate()) {
+                          print('Mail: '+mail+"\nPass: "+pass);
+                          _formKey.currentState!.save();
+                          print('Mail: '+mail+"\nPass: "+pass);
+                          setState(() {
+                            count+=1;
+                          });
+                        }
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12.0),
+                        child: Text(
+                          'Login',
+                          style: TextStyle(color: AppColors.buttonText),
+                        ),
+                      ),
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: AppColors.secondary,
+                      ),
+                    ),
+                  )
+                ],
+              ),
               ],
             ),
-            ],
           ),
-        ),
       ),
+        ),
       ),
     );
   }
