@@ -25,6 +25,7 @@ class _CategoriesState extends State<Categories> {
         ),
         centerTitle: true,
         backgroundColor: AppColors.primary,
+        elevation: 0.0,
         actions: [IconButton(
           onPressed: buttonPressed, // onpressed is gonna be changed
           //onPressed: (){
