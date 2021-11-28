@@ -22,7 +22,7 @@ class AppTextButton extends StatelessWidget {
           ),
         ),
         foregroundColor: MaterialStateProperty.all(
-          isClicked ? AppColors.blackColor : AppColors.redColor,
+          isClicked ? AppColors.primary : AppColors.primary,
         ),
       ),
       onPressed: () {},

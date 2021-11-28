@@ -51,7 +51,7 @@ class _HomeState extends State<Home> {
                   ),
                   Container(
                     decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: AppColors.blackColor),
+                      border: Border.all(width: 1, color: AppColors.primary),
                     ),
                     width: double.infinity,
                     height: 100,
