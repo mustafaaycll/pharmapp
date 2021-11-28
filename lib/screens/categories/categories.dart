@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pharm_app/utils/colors.dart';
+import 'package:pharm_app/utils/dimensions.dart';
 
 //categories are going to be fixed?
 
@@ -32,8 +33,8 @@ class _CategoriesState extends State<Categories> {
             //Navigator.pushNamed(context, '/filters');
           //},
           icon: Icon(
-            Icons.settings, // filtreleme iconu gelecek.
-            color: Colors.white,
+            Icons.filter_list_alt, // filtreleme iconu gelecek.
+            color: AppColors.titleText,
           ),
         ),
         ],
@@ -56,6 +57,9 @@ class _CategoriesState extends State<Categories> {
                       ),
                     ),
                     style: OutlinedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: Dimen.boxBorderRadius
+                      ),
                       backgroundColor: AppColors.secondary50percent,
                       minimumSize: Size(375.0,100.0),
                     ),
@@ -71,6 +75,9 @@ class _CategoriesState extends State<Categories> {
                       ),
                     ),
                     style: OutlinedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: Dimen.boxBorderRadius
+                      ),
                       backgroundColor: AppColors.secondary50percent,
                       minimumSize: Size(375.0,100.0),
                     ),
@@ -86,6 +93,9 @@ class _CategoriesState extends State<Categories> {
                       ),
                     ),
                     style: OutlinedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: Dimen.boxBorderRadius
+                      ),
                       backgroundColor: AppColors.secondary50percent,
                       minimumSize: Size(375.0,100.0),
                     ),
@@ -101,6 +111,9 @@ class _CategoriesState extends State<Categories> {
                       ),
                     ),
                     style: OutlinedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: Dimen.boxBorderRadius
+                      ),
                       backgroundColor: AppColors.secondary50percent,
                       minimumSize: Size(375.0,100.0),
                     ),
@@ -116,6 +129,9 @@ class _CategoriesState extends State<Categories> {
                       ),
                     ),
                     style: OutlinedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: Dimen.boxBorderRadius
+                      ),
                       backgroundColor: AppColors.secondary50percent,
                       minimumSize: Size(375.0,100.0),
                     ),
@@ -131,6 +147,9 @@ class _CategoriesState extends State<Categories> {
                       ),
                     ),
                     style: OutlinedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: Dimen.boxBorderRadius
+                      ),
                       backgroundColor: AppColors.secondary50percent,
                       minimumSize: Size(375.0,100.0),
                     ),
@@ -146,6 +165,9 @@ class _CategoriesState extends State<Categories> {
                       ),
                     ),
                     style: OutlinedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: Dimen.boxBorderRadius
+                      ),
                       backgroundColor: AppColors.secondary50percent,
                       minimumSize: Size(375.0,100.0),
                     ),
