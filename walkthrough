@@ -45,6 +45,14 @@ class _WalkThroughState extends State{
         currentPage += 1;
       });
     }
+    else if(currentPage == lastPage){
+      setState(() {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Home()), // eğer walkthrough nun son sayfasındaysa, nextpage'e basıldığında home sayfasına gider.
+        );
+      });
+    }
   }
   void prevPage(){
     if(currentPage > 0) {
