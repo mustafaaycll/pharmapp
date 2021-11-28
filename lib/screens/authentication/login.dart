@@ -34,8 +34,8 @@ class _LoginState extends State<Login> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'LOGIN',
-          style: TextStyle(color: AppColors.titleText),
+          'Login',
+          style: TextStyle(color: AppColors.titleText, fontSize: 26),
         ),
         backgroundColor: AppColors.primary,
         centerTitle: true,
@@ -130,7 +130,9 @@ class _LoginState extends State<Login> {
                   Expanded(
                     flex: 1,
                     child: OutlinedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/signup');
+                      },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 12.0),
                         child: Text(

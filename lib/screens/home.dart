@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pharm_app/screens/basket/basket.dart';
+import 'package:pharm_app/screens/categories/categories.dart';
+import 'package:pharm_app/screens/authentication/login.dart';
+import 'package:pharm_app/utils/colors.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 
 class Home extends StatefulWidget {
@@ -9,67 +13,24 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BubbleNavigationBar(
-        opacity: .3,
-        items: [
-          BubbleBarItem(
-            backgroundColor: Colors.deepPurple,
-            icon: Icon(
-              Icons.home,
-            ),
-            activeIcon: Icon(Icons.home),
-            title: Text("Home"),
-          ),
-          BubbleBarItem(
-            backgroundColor: Colors.green,
-            icon: Icon(
-              Icons.add,
-              color: Colors.black,
-            ),
-            activeIcon: Icon(
-              Icons.add_circle_outline_outlined,
-              color: Colors.green,
-            ),
-            title: Text("Add"),
-          ),
-          BubbleBarItem(
-            backgroundColor: Colors.pinkAccent,
-            icon: Icon(
-              Icons.person,
-            ),
-            title: Text(
-              "Profile",
-            ),
-          ),
-          BubbleBarItem(
-            backgroundColor: Colors.deepPurple,
-            icon: Icon(
-              Icons.home,
-            ),
-            activeIcon: Icon(Icons.home),
-            title: Text("Home"),
-          ),
-        ],
-      ),
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(
-                'PharMapp',
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 30,
-                ),
-              )
-            ],
+      appBar: AppBar(
+        title: Text('PharMapp',
+        style: TextStyle(
+            color: AppColors.titleText,
+            fontSize: 26
           ),
         ),
+        backgroundColor: AppColors.primary,
+        centerTitle: true,
+        elevation: 0.0,
       ),
+      body: Center(child: Text('a')),
     );
   }
 }
