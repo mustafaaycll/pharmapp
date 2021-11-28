@@ -1,30 +1,23 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:pharm_app/utils/colors.dart';
+import 'package:pharm_app/utils/dimensions.dart';
 
-
-/*class Login extends StatelessWidget {
-  const Login({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}*/
 
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
 }
 
-class _LoginState extends State<Login> {
+class _LoginState extends State<Login>
+{
   final _formKey = GlobalKey<FormState>();
   String mail = "";
   String pass = "";
   late int count;
 
-  void initState() {
-    // TODO: implement initState
+  void initState()
+  {
     super.initState();
     count = 0;
   }
@@ -42,7 +35,7 @@ class _LoginState extends State<Login> {
         elevation: 0.0,
       ),
       body: Padding(
-        padding: EdgeInsets.all(20),
+        padding: Dimen.regularPadding,
         child: Center(
           child: SingleChildScrollView(
             child: Form(
@@ -79,7 +72,7 @@ class _LoginState extends State<Login> {
                                 color: AppColors.secondary50percent,
 
                               ),
-                              borderRadius: BorderRadius.all(Radius.circular(5)),
+                              borderRadius: Dimen.boxBorderRadius,
                             )
                           ),
                           keyboardType: TextInputType.emailAddress,
@@ -107,7 +100,7 @@ class _LoginState extends State<Login> {
                               borderSide: BorderSide(
                                 color: AppColors.secondary75percent,
                               ),
-                              borderRadius: BorderRadius.all(Radius.circular(5)),
+                              borderRadius: Dimen.boxBorderRadius,
                             ),
                           ),
                           keyboardType: TextInputType.text,
@@ -141,6 +134,9 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                       style: OutlinedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                        borderRadius: Dimen.boxBorderRadius
+                      ),
                         backgroundColor: AppColors.button,
                       ),
                     ),
@@ -167,6 +163,9 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                       style: OutlinedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                        borderRadius: Dimen.boxBorderRadius
+                      ),
                         backgroundColor: AppColors.secondary,
                       ),
                     ),
