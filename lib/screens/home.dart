@@ -300,7 +300,7 @@ class _HomeState extends State<Home> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(
-                                      Icons.repeat_outlined,
+                                      Icons.list_alt_outlined,
                                       color: AppColors.titleText,
                                     ),
                                     SizedBox(width: 5,),
