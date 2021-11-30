@@ -9,9 +9,14 @@ import 'package:pharm_app/screens/home.dart';
 import 'package:pharm_app/screens/profile/profile.dart';
 import 'package:pharm_app/utils/colors.dart';
 
+int? isviewed;
 void main()
 {
   //kod ekle 
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences.setMockInitialValues({});
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  isviewed = prefs.getInt('WalkThrough');
   runApp(
     PharMapp()
   );
@@ -25,6 +30,7 @@ class PharMapp extends StatelessWidget {
     return new MaterialApp(
       home: MyBottomNavigationBar(),
       routes: {
+        '/WalkThrough': (context) => WalkThrough(),
         '/home': (context) => Home(),
         '/profile': (context) => Profile(),
         '/categories': (context) => Categories(),
@@ -32,6 +38,7 @@ class PharMapp extends StatelessWidget {
         '/login': (context) => Login(),
         '/signup': (context) => SignUp(),
       },
+      initialRoute: '/WalkThrough',
     );
   }
 }
