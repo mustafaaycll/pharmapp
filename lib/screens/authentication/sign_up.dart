@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pharm_app/utils/colors.dart';
 import 'package:pharm_app/utils/dimensions.dart';
+import 'package:email_validator/email_validator.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -54,6 +55,11 @@ class _SignUpState extends State<SignUp> {
                       Expanded(
                         flex: 1,
                         child: TextFormField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Name cannot be empty!';
+                            }
+                          },
                           decoration: InputDecoration(
                               fillColor: AppColors.secondary75percent,
                               filled: true,
@@ -81,6 +87,11 @@ class _SignUpState extends State<SignUp> {
                       Expanded(
                         flex: 1,
                         child: TextFormField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Surname cannot be empty';
+                            }
+                          },
                           decoration: InputDecoration(
                               fillColor: AppColors.secondary75percent,
                               filled: true,
@@ -123,6 +134,7 @@ class _SignUpState extends State<SignUp> {
                             if (value != null) {
                               mail = value;
                             }
+                            if (EmailValidator.validate(value!)) {}
                           },
                         ),
                       ),
@@ -135,6 +147,11 @@ class _SignUpState extends State<SignUp> {
                       Expanded(
                         flex: 1,
                         child: TextFormField(
+                          validator: (value) {
+                            if (value!.length < 6) {
+                              return 'Password length cannot be less than 6.';
+                            }
+                          },
                           decoration: InputDecoration(
                             fillColor: AppColors.secondary75percent,
                             filled: true,
@@ -166,6 +183,11 @@ class _SignUpState extends State<SignUp> {
                       Expanded(
                         flex: 1,
                         child: TextFormField(
+                          validator: (value) {
+                            if (value!.length < 6) {
+                              return 'Password length cannot be less than 6.';
+                            }
+                          },
                           decoration: InputDecoration(
                             fillColor: AppColors.secondary75percent,
                             filled: true,
@@ -209,20 +231,31 @@ class _SignUpState extends State<SignUp> {
                                   name +
                                   '\nSurname: ' +
                                   surname);
-                              _formKey.currentState!.save();
-                              print('Mail: ' +
-                                  mail +
-                                  "\nPass: " +
-                                  pass +
-                                  '\nPass Again: ' +
-                                  passagain +
-                                  '\nName: ' +
-                                  name +
-                                  '\nSurname: ' +
-                                  surname);
-                              setState(() {
-                                count += 1;
-                              });
+                              if (pass == passagain) {
+                                _formKey.currentState!.save();
+                                print('Mail: ' +
+                                    mail +
+                                    "\nPass: " +
+                                    pass +
+                                    '\nPass Again: ' +
+                                    passagain +
+                                    '\nName: ' +
+                                    name +
+                                    '\nSurname: ' +
+                                    surname);
+                                setState(() {
+                                  count += 1;
+                                });
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Passwords must match!',
+                                      style: TextStyle(color: Colors.red),
+                                    ),
+                                  ),
+                                );
+                              }
                             }
                           },
                           child: Padding(
