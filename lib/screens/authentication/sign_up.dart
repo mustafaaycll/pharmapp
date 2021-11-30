@@ -119,6 +119,14 @@ class _SignUpState extends State<SignUp> {
                       Expanded(
                         flex: 1,
                         child: TextFormField(
+                          validator: (value) {
+                            if (EmailValidator.validate(value!)) {
+                              return 'Please enter a valid email!';
+                            }
+                            if (value.isEmpty) {
+                              return 'Email cannot be empty!';
+                            }
+                          },
                           decoration: InputDecoration(
                               fillColor: AppColors.secondary75percent,
                               filled: true,
@@ -134,7 +142,6 @@ class _SignUpState extends State<SignUp> {
                             if (value != null) {
                               mail = value;
                             }
-                            if (EmailValidator.validate(value!)) {}
                           },
                         ),
                       ),
