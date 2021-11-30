@@ -33,19 +33,19 @@ class _WalkThroughState extends State<WalkThrough> {
     'YYYYY',
     'XXXXX',
   ];
-  void nextPage() {
-    if (currentPage < lastPage) {
+  
+    
+    
+  void nextPage(){
+    if(currentPage < lastPage) {
       setState(() {
         currentPage += 1;
       });
-    } else if (currentPage == lastPage) {
+    }
+    else if(currentPage == lastPage){
       setState(() {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  Home()), // eğer walkthrough nun son sayfasındaysa, nextpage'e basıldığında home sayfasına gider.
-        );
+        Navigator.pushNamed(context, '/home'); // eğer walkthrough nun son sayfasındaysa, nextpage'e basıldığında home sayfasına gider.
+
       });
     }
   }
