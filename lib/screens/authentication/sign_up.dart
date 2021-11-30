@@ -253,7 +253,7 @@ class _SignUpState extends State<SignUp> {
                                 setState(() {
                                   count += 1;
                                 });
-                              } else {
+                              } else if (pass != passagain) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(

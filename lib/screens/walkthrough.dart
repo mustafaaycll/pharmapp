@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pharm_app/screens/home.dart';
 
 class WalkThrough extends StatefulWidget {
-
   @override
   _WalkThroughState createState() => _WalkThroughState();
 }
@@ -33,28 +33,31 @@ class _WalkThroughState extends State<WalkThrough> {
     'YYYYY',
     'XXXXX',
   ];
-  void nextPage(){
-    if(currentPage < lastPage) {
+  void nextPage() {
+    if (currentPage < lastPage) {
       setState(() {
         currentPage += 1;
       });
-    }
-    else if(currentPage == lastPage){
+    } else if (currentPage == lastPage) {
       setState(() {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Home()), // eğer walkthrough nun son sayfasındaysa, nextpage'e basıldığında home sayfasına gider.
+          MaterialPageRoute(
+              builder: (context) =>
+                  Home()), // eğer walkthrough nun son sayfasındaysa, nextpage'e basıldığında home sayfasına gider.
         );
       });
     }
   }
-  void prevPage(){
-    if(currentPage > 0) {
+
+  void prevPage() {
+    if (currentPage > 0) {
       setState(() {
         currentPage -= 1;
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,7 +89,6 @@ class _WalkThroughState extends State<WalkThrough> {
                     letterSpacing: -1,
                   ),
                 ),
-
               ),
             ),
             Container(
@@ -114,7 +116,8 @@ class _WalkThroughState extends State<WalkThrough> {
                 height: 80,
                 child: Row(
                   children: [
-                    OutlinedButton(onPressed: prevPage,
+                    OutlinedButton(
+                      onPressed: prevPage,
                       child: Text(
                         'Previous Page',
                         style: TextStyle(
@@ -124,7 +127,7 @@ class _WalkThroughState extends State<WalkThrough> {
                     ),
                     Spacer(),
                     Text(
-                      '${currentPage+1}/${lastPage+1}',
+                      '${currentPage + 1}/${lastPage + 1}',
                     ),
                     Spacer(),
                     OutlinedButton(
@@ -146,6 +149,3 @@ class _WalkThroughState extends State<WalkThrough> {
     );
   }
 }
-
-
-
