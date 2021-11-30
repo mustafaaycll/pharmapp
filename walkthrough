@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
 
-void main(){
-  runApp(MaterialApp(
-      home: WalkThrough(),
-  ));
-}
-
 class WalkThrough extends StatefulWidget {
 
   @override
   _WalkThroughState createState() => _WalkThroughState();
 }
 
-class _WalkThroughState extends State{
+class _WalkThroughState extends State<Walkthrough> {
   int currentPage = 0;
   int lastPage = 3;
   List<String> titles = [
@@ -25,7 +19,7 @@ class _WalkThroughState extends State{
     'Awesome Pharmacy App',
     'Signup Easily',
     'Create Your Profile',
-    'Start meeting new people',
+    'Start Shopping',
   ];
   List<String> imageURLs = [
     'https://www.forumistanbul.com.tr/media/image/eczane.jpg',
@@ -34,10 +28,10 @@ class _WalkThroughState extends State{
     'https://medyascope.tv/wp-content/uploads/2020/03/eccec.jpg',
   ];
   List<String> captions = [
-    'eczane app',
-    'guvenli alisveris',
-    'Update yourss',
-    'kfsfs',
+    'UUUUU',
+    'ZZZZZ',
+    'YYYYY',
+    'XXXXX',
   ];
   void nextPage(){
     if(currentPage < lastPage) {
