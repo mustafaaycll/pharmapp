@@ -1,18 +1,23 @@
 // ignore_for_file: file_names, unnecessary_new, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pharm_app/screens/authentication/login.dart';
 import 'package:pharm_app/screens/authentication/sign_up.dart';
 import 'package:pharm_app/screens/basket/basket.dart';
 import 'package:pharm_app/screens/categories/categories.dart';
 import 'package:pharm_app/screens/home.dart';
 import 'package:pharm_app/screens/profile/profile.dart';
+import 'package:pharm_app/screens/walkthrough.dart';
 import 'package:pharm_app/utils/colors.dart';
 
+
+import 'package:shared_preferences/shared_preferences.dart';
+
+
 int? isviewed;
-void main()
-{
-  //kod ekle 
+void main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences.setMockInitialValues({});
   SharedPreferences prefs = await SharedPreferences.getInstance();
