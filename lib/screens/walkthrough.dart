@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pharm_app/screens/home.dart';
 
 class WalkThrough extends StatefulWidget {
 

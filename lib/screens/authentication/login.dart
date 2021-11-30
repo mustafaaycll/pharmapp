@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:pharm_app/utils/colors.dart';
 import 'package:pharm_app/utils/dimensions.dart';
+import 'package:email_validator/email_validator.dart';
+
 
 
 class Login extends StatefulWidget {
@@ -63,6 +65,20 @@ class _LoginState extends State<Login>
                       Expanded(
                         flex: 1,
                         child: TextFormField(
+                          validator: (value) {
+                          if(value == null) {
+                            return 'E-mail field cannot be empty';
+                          } else {
+                            String trimmedValue = value.trim();
+                            if(trimmedValue.isEmpty) {
+                              return 'E-mail field cannot be empty';
+                            }
+                            if(!EmailValidator.validate(trimmedValue)) {
+                              return 'Please enter a valid email';
+                            }
+                          }
+                          return null;
+                        },
                           decoration: InputDecoration(
                             fillColor: AppColors.secondary75percent,
                             filled: true,
@@ -92,6 +108,20 @@ class _LoginState extends State<Login>
                       Expanded(
                         flex: 1,
                         child: TextFormField(
+                          validator: (value) {
+                          if(value == null) {
+                            return 'Password field cannot be empty';
+                          } else {
+                            String trimmedValue = value.trim();
+                            if(trimmedValue.isEmpty) {
+                              return 'Password field cannot be empty';
+                            }
+                            if(trimmedValue.length < 6) {
+                              return 'Password must be at least 6 characters long';
+                            }
+                          }
+                          return null;
+                        },
                           decoration: InputDecoration(
                             fillColor: AppColors.secondary75percent,
                             filled: true,

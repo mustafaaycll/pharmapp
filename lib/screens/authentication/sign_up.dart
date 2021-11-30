@@ -120,13 +120,19 @@ class _SignUpState extends State<SignUp> {
                         flex: 1,
                         child: TextFormField(
                           validator: (value) {
-                            if (EmailValidator.validate(value!)) {
-                              return 'Please enter a valid email!';
+                          if(value == null) {
+                            return 'E-mail field cannot be empty';
+                          } else {
+                            String trimmedValue = value.trim();
+                            if(trimmedValue.isEmpty) {
+                              return 'E-mail field cannot be empty';
                             }
-                            if (value.isEmpty) {
-                              return 'Email cannot be empty!';
+                            if(!EmailValidator.validate(trimmedValue)) {
+                              return 'Please enter a valid email';
                             }
-                          },
+                          }
+                          return null;
+                        },
                           decoration: InputDecoration(
                               fillColor: AppColors.secondary75percent,
                               filled: true,
@@ -155,10 +161,19 @@ class _SignUpState extends State<SignUp> {
                         flex: 1,
                         child: TextFormField(
                           validator: (value) {
-                            if (value!.length < 6) {
-                              return 'Password length cannot be less than 6.';
+                          if(value == null) {
+                            return 'Password field cannot be empty';
+                          } else {
+                            String trimmedValue = value.trim();
+                            if(trimmedValue.isEmpty) {
+                              return 'Password field cannot be empty';
                             }
-                          },
+                            if(trimmedValue.length < 6) {
+                              return 'Password must be at least 6 characters long';
+                            }
+                          }
+                          return null;
+                        },
                           decoration: InputDecoration(
                             fillColor: AppColors.secondary75percent,
                             filled: true,

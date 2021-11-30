@@ -11,6 +11,7 @@ import 'package:pharm_app/utils/colors.dart';
 
 void main()
 {
+  //kod ekle 
   runApp(
     PharMapp()
   );
