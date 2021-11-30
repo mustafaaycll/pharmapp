@@ -6,7 +6,7 @@ class WalkThrough extends StatefulWidget {
   _WalkThroughState createState() => _WalkThroughState();
 }
 
-class _WalkThroughState extends State<Walkthrough> {
+class _WalkThroughState extends State<WalkThrough> {
   int currentPage = 0;
   int lastPage = 3;
   List<String> titles = [
