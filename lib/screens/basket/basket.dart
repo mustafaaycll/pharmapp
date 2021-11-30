@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:pharm_app/utils/colors.dart';
 import 'package:pharm_app/utils/dimensions.dart';
 
-
 class Basket extends StatefulWidget {
   const Basket({Key? key}) : super(key: key);
 
@@ -27,162 +26,301 @@ class _BasketState extends State<Basket> {
         centerTitle: true,
         backgroundColor: AppColors.primary,
         elevation: 0.0,
+      ),
 
-        ),
+
+
+
+
 
       body: PageView(
         children: [
           SingleChildScrollView(
             child: Center(
-              child:
-                Column(
-                  //crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children:[
-                    SizedBox(height: 8,),
+              child: Column(
+                //crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
 
-                    ListTile(
-                        title: Text('itemInBasket'),
-                        subtitle:Text("Price: XYZ\$"),
-                        trailing: IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () {},
+
+                  ListTile(
+                    leading: FlutterLogo(size: 56.0),
+                    title: Text(
+                      'itemInBasket',
+                      style: TextStyle(
+                        color: AppColors.bodyText,
+                        fontSize: 24,
                       ),
-                      ),
-                    ListTile(
-                      title: Text('itemInBasket'),
-                      subtitle:Text("Price: XYZ\$"),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {},
+
+                    ),
+                    subtitle: Text(
+                      "Price: XYZ\$",
+                      style: TextStyle(
+                        color: AppColors.bodyText,
+                        fontSize: 18,
                       ),
                     ),
-                    ListTile(
-                      title: Text('itemInBasket'),
-                      subtitle:Text("Price: XYZ\$"),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {},
+                    tileColor: AppColors.secondary50percent,
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () {},
+                    ),
+                  ),
+                  ListTile(
+                    leading: FlutterLogo(size: 56.0),
+                    title: Text(
+                      'itemInBasket',
+                      style: TextStyle(
+                        color: AppColors.bodyText,
+                        fontSize: 24,
+                      ),
+
+                    ),
+                    subtitle: Text(
+                      "Price: XYZ\$",
+                      style: TextStyle(
+                        color: AppColors.bodyText,
+                        fontSize: 18,
                       ),
                     ),
-                    ListTile(
-                      title: Text('itemInBasket'),
-                      subtitle:Text("Price: XYZ\$"),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {},
+                    tileColor: AppColors.secondary50percent,
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () {},
+                    ),
+                  ),
+
+                  ListTile(
+                    leading: FlutterLogo(size: 56.0),
+                    title: Text(
+                      'itemInBasket',
+                      style: TextStyle(
+                        color: AppColors.bodyText,
+                        fontSize: 24,
+                      ),
+
+                    ),
+                    subtitle: Text(
+                      "Price: XYZ\$",
+                      style: TextStyle(
+                        color: AppColors.bodyText,
+                        fontSize: 18,
                       ),
                     ),
-                    ListTile(
-                      title: Text('itemInBasket'),
-                      subtitle:Text("Price: XYZ\$"),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {},
+                    tileColor: AppColors.secondary50percent,
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () {},
+                    ),
+                  ),
+
+                  ListTile(
+                    leading: FlutterLogo(size: 56.0),
+                    title: Text(
+                      'itemInBasket',
+                      style: TextStyle(
+                        color: AppColors.bodyText,
+                        fontSize: 24,
+                      ),
+
+                    ),
+                    subtitle: Text(
+                      "Price: XYZ\$",
+                      style: TextStyle(
+                        color: AppColors.bodyText,
+                        fontSize: 18,
                       ),
                     ),
-                    ListTile(
-                      title: Text('itemInBasket'),
-                      subtitle:Text("Price: XYZ\$"),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {},
+                    tileColor: AppColors.secondary50percent,
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () {},
+                    ),
+                  ),
+
+                  ListTile(
+                    leading: FlutterLogo(size: 56.0),
+                    title: Text(
+                      'itemInBasket',
+                      style: TextStyle(
+                        color: AppColors.bodyText,
+                        fontSize: 24,
+                      ),
+
+                    ),
+                    subtitle: Text(
+                      "Price: XYZ\$",
+                      style: TextStyle(
+                        color: AppColors.bodyText,
+                        fontSize: 18,
                       ),
                     ),
-                    ListTile(
-                      title: Text('itemInBasket'),
-                      subtitle:Text("Price: XYZ\$"),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {},
+                    tileColor: AppColors.secondary50percent,
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () {},
+                    ),
+                  ),
+
+                  ListTile(
+                    leading: FlutterLogo(size: 56.0),
+                    title: Text(
+                      'itemInBasket',
+                      style: TextStyle(
+                        color: AppColors.bodyText,
+                        fontSize: 24,
+                      ),
+
+                    ),
+                    subtitle: Text(
+                      "Price: XYZ\$",
+                      style: TextStyle(
+                        color: AppColors.bodyText,
+                        fontSize: 18,
                       ),
                     ),
-                    ListTile(
-                      title: Text('itemInBasket'),
-                      subtitle:Text("Price: XYZ\$"),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {},
+                    tileColor: AppColors.secondary50percent,
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () {},
+                    ),
+                  ),
+
+                  ListTile(
+                    leading: FlutterLogo(size: 56.0),
+                    title: Text(
+                      'itemInBasket',
+                      style: TextStyle(
+                        color: AppColors.bodyText,
+                        fontSize: 24,
+                      ),
+
+                    ),
+                    subtitle: Text(
+                      "Price: XYZ\$",
+                      style: TextStyle(
+                        color: AppColors.bodyText,
+                        fontSize: 18,
                       ),
                     ),
-                    ListTile(
-                      title: Text('itemInBasket'),
-                      subtitle:Text("Price: XYZ\$"),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {},
+                    tileColor: AppColors.secondary50percent,
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () {},
+                    ),
+                  ),
+
+                  ListTile(
+                    leading: FlutterLogo(size: 56.0),
+                    title: Text(
+                      'itemInBasket',
+                      style: TextStyle(
+                        color: AppColors.bodyText,
+                        fontSize: 24,
+                      ),
+
+                    ),
+                    subtitle: Text(
+                      "Price: XYZ\$",
+                      style: TextStyle(
+                        color: AppColors.bodyText,
+                        fontSize: 18,
                       ),
                     ),
-                    ListTile(
-                      title: Text('itemInBasket'),
-                      subtitle:Text("Price: XYZ\$"),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {},
+                    tileColor: AppColors.secondary50percent,
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () {},
+                    ),
+                  ),
+
+                  ListTile(
+                    leading: FlutterLogo(size: 56.0),
+                    title: Text(
+                      'itemInBasket',
+                      style: TextStyle(
+                        color: AppColors.bodyText,
+                        fontSize: 24,
+                      ),
+
+                    ),
+                    subtitle: Text(
+                      "Price: XYZ\$",
+                      style: TextStyle(
+                        color: AppColors.bodyText,
+                        fontSize: 18,
                       ),
                     ),
-                    ListTile(
-                      title: Text('itemInBasket'),
-                      subtitle:Text("Price: XYZ\$"),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {},
+                    tileColor: AppColors.secondary50percent,
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () {},
+                    ),
+                  ),
+
+                  ListTile(
+                    leading: FlutterLogo(size: 56.0),
+                    title: Text(
+                      'itemInBasket',
+                      style: TextStyle(
+                        color: AppColors.bodyText,
+                        fontSize: 24,
+                      ),
+
+                    ),
+                    subtitle: Text(
+                      "Price: XYZ\$",
+                      style: TextStyle(
+                        color: AppColors.bodyText,
+                        fontSize: 18,
                       ),
                     ),
-                    
-                    SizedBox(height: 20),
-
-                    Align(
-                      alignment: FractionalOffset.bottomCenter,
-                        child:
-                        Row(
-                            children:[
-                              Align(
-                                alignment: FractionalOffset.bottomLeft,
-                                child: Text(
+                    tileColor: AppColors.secondary50percent,
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () {},
+                    ),
+                  ),
 
 
-                                  '   Total Price: XXX\$',
-                                  style: TextStyle(
-                                    color: AppColors.bodyText,
-                                    fontSize: 23,
-                                  ),
 
 
-                                ),
+                  SizedBox(height: 20),
 
-                              ),
-                              SizedBox(width: 20),
-                              Align(
-
-                                alignment: FractionalOffset.bottomRight,
-                                child: OutlinedButton(
-                                  child:
-                                  Text(
-                                    'Check Out',
-                                    style: TextStyle(
-                                      color: AppColors.bodyText,
-                                      fontSize: 26,
-                                    ),
-                                  ),
-                                  onPressed: () {},
-
-                                ),
-                              ),
-
-
-                            ]
-
+                  Align(
+                    alignment: FractionalOffset.bottomCenter,
+                    child: Row(children:
+                    [
+                      Align(
+                        alignment: FractionalOffset.bottomLeft,
+                        child: Text(
+                          '               Total Price: XXX\$',
+                          style: TextStyle(
+                            color: AppColors.bodyText,
+                            fontSize: 23,
+                          ),
                         ),
+                      ),
 
-                    )
+                      SizedBox(width: 11),
 
-
+                      Align(
+                        alignment: FractionalOffset.bottomRight,
+                        child: OutlinedButton(
+                          child: Text('Check Out',),
+                          style: OutlinedButton.styleFrom(
+                            primary: Colors.white,
+                            backgroundColor: AppColors.secondary,
+                          ),
+                          onPressed: () {},
+                        ),
+                      ),
+                    ]),
+                  )
 
                 ],
-                ),
-           ),
+              ),
+            ),
           ),
-
 
 
         ],
