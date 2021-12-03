@@ -14,14 +14,16 @@ import 'package:pharm_app/utils/colors.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:introduction_screen/introduction_screen.dart'; // onboarding screen
 
-int? isviewed;
+
+//int? isviewed;
 void main() async {
 
-  WidgetsFlutterBinding.ensureInitialized();
-  SharedPreferences.setMockInitialValues({});
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  isviewed = prefs.getInt('WalkThrough');
+  //WidgetsFlutterBinding.ensureInitialized();
+  //SharedPreferences.setMockInitialValues({});
+  //SharedPreferences prefs = await SharedPreferences.getInstance();
+  //isviewed = prefs.getInt('WalkThrough');
   runApp(
     PharMapp()
   );
