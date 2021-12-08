@@ -271,9 +271,9 @@ class _HomeState extends State<Home> {
                   itemCount: favPharms.length,
                   controller: PageController(viewportFraction: 0.7),
                   onPageChanged: (int index) => setState(() => _index = index),
-                  itemBuilder: (_, i) {
+                  itemBuilder: (_, j) {
                     return Transform.scale(
-                      scale: i == _index? 1 : 0.9,
+                      scale: j == _index? 1 : 0.9,
                       child: Card(
                         elevation: 4,
                         shape: RoundedRectangleBorder(
@@ -287,7 +287,7 @@ class _HomeState extends State<Home> {
                             height: 100,),
                             Center(
                               child: Text(
-                                favPharms[i],
+                                favPharms[j],
                                 style: TextStyle(fontSize: 20),
                               ),
                             ),
