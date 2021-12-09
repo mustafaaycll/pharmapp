@@ -1,9 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pharm_app/screens/basket/basket.dart';
 import 'package:pharm_app/screens/categories/categories.dart';
 import 'package:pharm_app/screens/authentication/login.dart';
 import 'package:pharm_app/utils/colors.dart';
 import 'package:pharm_app/utils/dimensions.dart';
+import 'package:provider/provider.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 import 'package:collection/collection.dart';
 
@@ -53,6 +55,9 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+
+    final user = Provider.of<User?>(context); //use this to check if the user is logged in
+    
     return Scaffold(
       appBar: AppBar(
         title: Text('PharMapp',

@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:pharm_app/services/auth.dart';
 import 'package:pharm_app/utils/colors.dart';
 import 'package:pharm_app/utils/dimensions.dart';
 import 'package:email_validator/email_validator.dart';
-
 
 
 class Login extends StatefulWidget {
@@ -16,12 +18,12 @@ class _LoginState extends State<Login>
   final _formKey = GlobalKey<FormState>();
   String mail = "";
   String pass = "";
-  late int count;
+
+  AuthService auth = AuthService();
 
   void initState()
   {
     super.initState();
-    count = 0;
   }
 
   @override
@@ -177,12 +179,9 @@ class _LoginState extends State<Login>
                     child: OutlinedButton(
                       onPressed: () {
                         if(_formKey.currentState!.validate()) {
-                          print('Mail: '+mail+"\nPass: "+pass);
                           _formKey.currentState!.save();
-                          print('Mail: '+mail+"\nPass: "+pass);
-                          setState(() {
-                            count+=1;
-                          });
+                          auth.loginWithMailandPass(mail, pass);
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Logging In...', style: TextStyle(color: AppColors.titleText),)));
                         }
                       },
                       child: Padding(
