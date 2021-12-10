@@ -116,7 +116,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar>
     Home(),
     Categories(),
     Basket(),
-    Login()
+    Profile(),
   ];
 
   void onTappedBar(int index)

@@ -16,27 +16,29 @@ class AuthService {
     try {
       UserCredential result = await _auth.signInAnonymously();
       User user = result.user!;
+      return _userFromFirebase(user);
     }
     catch (e) {
       return null;
     }
   }
 
-  Future<void> loginWithMailandPass(String mail, String pass) async {
+  Future loginWithMailandPass(String mail, String pass) async {
     try {
       UserCredential result = await _auth.signInWithEmailAndPassword(email: mail, password: pass);
       User user = result.user!;
+      return _userFromFirebase(user);
     } 
     on FirebaseAuthException catch (e) {
       if (e.code == "user-not-found") {
 
         //ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('User does not exist', style: TextStyle(color: AppColors.titleText),)));
-
+        return null;
       }
       else if (e.code == "wrong-password") {
 
         //ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Wrong password', style: TextStyle(color: AppColors.titleText),)));
-
+        return null;
       }
     }
   }
