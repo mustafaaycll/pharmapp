@@ -1,5 +1,6 @@
 // ignore_for_file: file_names, unnecessary_new, prefer_const_literals_to_create_immutables, prefer_const_constructors
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pharm_app/screens/authentication/login.dart';
@@ -9,9 +10,11 @@ import 'package:pharm_app/screens/categories/categories.dart';
 import 'package:pharm_app/screens/home.dart';
 import 'package:pharm_app/screens/profile/profile.dart';
 import 'package:pharm_app/screens/walkthrough.dart';
+import 'package:pharm_app/services/auth.dart';
 import 'package:pharm_app/utils/colors.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -79,18 +82,22 @@ class PharMapp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      home: MyBottomNavigationBar(),
-      routes: {
-        '/WalkThrough': (context) => WalkThrough(),
-        '/home': (context) => Home(),
-        '/profile': (context) => Profile(),
-        '/categories': (context) => Categories(),
-        '/basket': (context) => Basket(),
-        '/login': (context) => Login(),
-        '/signup': (context) => SignUp(),
-      },
-      initialRoute: '/WalkThrough',
+    return StreamProvider<User?>.value(
+      value: AuthService().user,
+      initialData: null,
+      child: new MaterialApp(
+        home: MyBottomNavigationBar(),
+        routes: {
+          '/WalkThrough': (context) => WalkThrough(),
+          '/home': (context) => Home(),
+          '/profile': (context) => Profile(),
+          '/categories': (context) => Categories(),
+          '/basket': (context) => Basket(),
+          '/login': (context) => Login(),
+          '/signup': (context) => SignUp(),
+        },
+        initialRoute: '/WalkThrough',
+      ),
     );
   }
 }
@@ -109,7 +116,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar>
     Home(),
     Categories(),
     Basket(),
-    Login()
+    Profile(),
   ];
 
   void onTappedBar(int index)
