@@ -1,9 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pharm_app/services/auth.dart';
+import 'package:pharm_app/services/google_sign_in.dart';
 import 'package:pharm_app/utils/colors.dart';
 import 'package:pharm_app/utils/dimensions.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:provider/provider.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -321,8 +324,14 @@ class _SignUpState extends State<SignUp> {
                     ],
                   ),
                   IconButton(
-                      onPressed: () => auth.signInWithGoogle(),
-                      icon: Icon(Icons.ac_unit))
+                    onPressed: () {
+                      final provider = Provider.of<GoogleSignInProvider>(
+                          context,
+                          listen: false);
+                      provider.googleLogIn();
+                    },
+                    icon: FaIcon(FontAwesomeIcons.google),
+                  ),
                 ],
               ),
             ),

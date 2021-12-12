@@ -11,6 +11,7 @@ import 'package:pharm_app/screens/home.dart';
 import 'package:pharm_app/screens/profile/profile.dart';
 import 'package:pharm_app/screens/walkthrough.dart';
 import 'package:pharm_app/services/auth.dart';
+import 'package:pharm_app/services/google_sign_in.dart';
 import 'package:pharm_app/utils/colors.dart';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -20,65 +21,60 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:introduction_screen/introduction_screen.dart'; // onboarding screen
 
-
 //int? isviewed;
 void main() async {
-
   //WidgetsFlutterBinding.ensureInitialized();
   //SharedPreferences.setMockInitialValues({});
   //SharedPreferences prefs = await SharedPreferences.getInstance();
   //isviewed = prefs.getInt('WalkThrough');
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(
-    FirebaseInit()
-  );
+  runApp(FirebaseInit());
 }
 
 class FirebaseInit extends StatefulWidget {
-  const FirebaseInit({ Key? key }) : super(key: key);
+  const FirebaseInit({Key? key}) : super(key: key);
 
   @override
   _FirebaseInitState createState() => _FirebaseInitState();
 }
 
 class _FirebaseInitState extends State<FirebaseInit> {
-  
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _initialization,
-      builder: (context, snapshot) {
-        if (snapshot.hasError){
-          return MaterialApp(
-            home: Scaffold(
-              body: Center(
-                child: Text(
-                  'No Firebase Connection: ${snapshot.error.toString()}',
+        future: _initialization,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return ChangeNotifierProvider(
+              create: (context) => GoogleSignInProvider(),
+              child: MaterialApp(
+                home: Scaffold(
+                  body: Center(
+                    child: Text(
+                      'No Firebase Connection: ${snapshot.error.toString()}',
+                    ),
+                  ),
                 ),
               ),
-            ),
-          );
-        }
+            );
+          }
 
-        if (snapshot.connectionState == ConnectionState.done) {
-          return PharMapp();
-        }
-        
-        return MaterialApp(
-          home: Center(
+          if (snapshot.connectionState == ConnectionState.done) {
+            return PharMapp();
+          }
+
+          return MaterialApp(
+              home: Center(
             child: Text('Connecting'),
-          )
-        );
-      }
-    );
+          ));
+        });
   }
 }
 
-
 class PharMapp extends StatelessWidget {
-  const PharMapp({ Key? key }) : super(key: key);
+  const PharMapp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -109,8 +105,7 @@ class MyBottomNavigationBar extends StatefulWidget {
   _MyBottomNavigationBarState createState() => _MyBottomNavigationBarState();
 }
 
-class _MyBottomNavigationBarState extends State<MyBottomNavigationBar>
-{
+class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
   int _currentIndex = 0;
   final List<Widget> _children = [
     Home(),
@@ -119,8 +114,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar>
     Profile(),
   ];
 
-  void onTappedBar(int index)
-  {
+  void onTappedBar(int index) {
     setState(() {
       _currentIndex = index;
     });
@@ -140,7 +134,9 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar>
         currentIndex: _currentIndex,
         items: [
           BottomNavigationBarItem(
-            icon: new Icon(Icons.home,),
+            icon: new Icon(
+              Icons.home,
+            ),
             label: 'Home',
           ),
           BottomNavigationBarItem(
