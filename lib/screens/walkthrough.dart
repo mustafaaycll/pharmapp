@@ -1,15 +1,24 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:pharm_app/main.dart';
 
 class WalkThrough extends StatefulWidget {
+  
+  const WalkThrough({Key? key, required this.analytics, required this.observer}) : super(key: key);
+
+
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
+  
   @override
   _WalkThroughState createState(){
     return _WalkThroughState();
   }
 }
 class _WalkThroughState extends State<WalkThrough> {
-    @override
+  @override
   Widget build(BuildContext context){
       return IntroductionScreen(
         globalBackgroundColor: Colors.white,
@@ -59,14 +68,14 @@ class _WalkThroughState extends State<WalkThrough> {
         onDone: () {
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => MyBottomNavigationBar()),
+            MaterialPageRoute(builder: (context) => MyBottomNavigationBar(analytics: widget.analytics, observer: widget.observer)),
                 (Route<dynamic> route) => false,
           );
         },
         onSkip: (){
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => MyBottomNavigationBar()),
+            MaterialPageRoute(builder: (context) => MyBottomNavigationBar(analytics: widget.analytics, observer: widget.observer,)),
                 (Route<dynamic> route) => false,
           );
         },
