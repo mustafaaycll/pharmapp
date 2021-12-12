@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:pharm_app/services/auth.dart';
 import 'package:pharm_app/utils/colors.dart';
 import 'package:pharm_app/utils/dimensions.dart';
 import 'package:email_validator/email_validator.dart';
@@ -18,6 +20,13 @@ class _SignUpState extends State<SignUp> {
   String name = "";
   String surname = "";
   late int count;
+
+  AuthService auth = AuthService();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -120,19 +129,19 @@ class _SignUpState extends State<SignUp> {
                         flex: 1,
                         child: TextFormField(
                           validator: (value) {
-                          if(value == null) {
-                            return 'E-mail field cannot be empty';
-                          } else {
-                            String trimmedValue = value.trim();
-                            if(trimmedValue.isEmpty) {
+                            if (value == null) {
                               return 'E-mail field cannot be empty';
+                            } else {
+                              String trimmedValue = value.trim();
+                              if (trimmedValue.isEmpty) {
+                                return 'E-mail field cannot be empty';
+                              }
+                              if (!EmailValidator.validate(trimmedValue)) {
+                                return 'Please enter a valid email';
+                              }
                             }
-                            if(!EmailValidator.validate(trimmedValue)) {
-                              return 'Please enter a valid email';
-                            }
-                          }
-                          return null;
-                        },
+                            return null;
+                          },
                           decoration: InputDecoration(
                               fillColor: AppColors.secondary75percent,
                               filled: true,
@@ -161,19 +170,19 @@ class _SignUpState extends State<SignUp> {
                         flex: 1,
                         child: TextFormField(
                           validator: (value) {
-                          if(value == null) {
-                            return 'Password field cannot be empty';
-                          } else {
-                            String trimmedValue = value.trim();
-                            if(trimmedValue.isEmpty) {
+                            if (value == null) {
                               return 'Password field cannot be empty';
+                            } else {
+                              String trimmedValue = value.trim();
+                              if (trimmedValue.isEmpty) {
+                                return 'Password field cannot be empty';
+                              }
+                              if (trimmedValue.length < 6) {
+                                return 'Password must be at least 6 characters long';
+                              }
                             }
-                            if(trimmedValue.length < 6) {
-                              return 'Password must be at least 6 characters long';
-                            }
-                          }
-                          return null;
-                        },
+                            return null;
+                          },
                           decoration: InputDecoration(
                             fillColor: AppColors.secondary75percent,
                             filled: true,
@@ -243,16 +252,6 @@ class _SignUpState extends State<SignUp> {
                         child: OutlinedButton(
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              print('Mail: ' +
-                                  mail +
-                                  "\nPass: " +
-                                  pass +
-                                  '\nPass Again: ' +
-                                  passagain +
-                                  '\nName: ' +
-                                  name +
-                                  '\nSurname: ' +
-                                  surname);
                               if (pass == passagain) {
                                 _formKey.currentState!.save();
                                 print('Mail: ' +
@@ -265,9 +264,13 @@ class _SignUpState extends State<SignUp> {
                                     name +
                                     '\nSurname: ' +
                                     surname);
-                                setState(() {
-                                  count += 1;
-                                });
+                                auth.signUp(mail, pass);
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(SnackBar(
+                                        content: Text(
+                                  'Successfully signed up.',
+                                  style: TextStyle(color: AppColors.titleText),
+                                )));
                               } else if (pass != passagain) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
@@ -317,6 +320,9 @@ class _SignUpState extends State<SignUp> {
                       )
                     ],
                   ),
+                  IconButton(
+                      onPressed: () => auth.signInWithGoogle(),
+                      icon: Icon(Icons.ac_unit))
                 ],
               ),
             ),
