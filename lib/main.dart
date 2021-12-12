@@ -1,5 +1,6 @@
 // ignore_for_file: file_names, unnecessary_new, prefer_const_literals_to_create_immutables, prefer_const_constructors
 
+import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,6 +15,7 @@ import 'package:pharm_app/services/auth.dart';
 import 'package:pharm_app/utils/colors.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:provider/provider.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -80,15 +82,19 @@ class _FirebaseInitState extends State<FirebaseInit> {
 class PharMapp extends StatelessWidget {
   const PharMapp({ Key? key }) : super(key: key);
 
+  static FirebaseAnalytics analytics = FirebaseAnalytics();
+  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
+
   @override
   Widget build(BuildContext context) {
     return StreamProvider<User?>.value(
       value: AuthService().user,
       initialData: null,
       child: new MaterialApp(
-        home: MyBottomNavigationBar(),
+        navigatorObservers: <NavigatorObserver>[observer],
+        home: MyBottomNavigationBar(analytics: analytics, observer: observer,),
         routes: {
-          '/WalkThrough': (context) => WalkThrough(),
+          '/WalkThrough': (context) => WalkThrough(analytics: analytics, observer: observer,),
           '/home': (context) => Home(),
           '/profile': (context) => Profile(),
           '/categories': (context) => Categories(),
@@ -103,7 +109,10 @@ class PharMapp extends StatelessWidget {
 }
 
 class MyBottomNavigationBar extends StatefulWidget {
-  const MyBottomNavigationBar({Key? key}) : super(key: key);
+  const MyBottomNavigationBar({Key? key, required this.analytics, required this.observer}) : super(key: key);
+
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
 
   @override
   _MyBottomNavigationBarState createState() => _MyBottomNavigationBarState();
@@ -112,12 +121,27 @@ class MyBottomNavigationBar extends StatefulWidget {
 class _MyBottomNavigationBarState extends State<MyBottomNavigationBar>
 {
   int _currentIndex = 0;
+
+  List<String> pages = <String>['Home Page', 'Categories', 'Basket', 'Account'];
+
+
   final List<Widget> _children = [
     Home(),
     Categories(),
     Basket(),
     Profile(),
   ];
+
+  Future<void> _setCurrentScreen(String page, User? user) async {
+    await widget.analytics.setCurrentScreen(screenName: page, screenClassOverride: page.toUpperCase());
+
+    if (user != null) {
+      await widget.analytics.setUserId('${user.getIdToken()}');
+    }
+    else {
+      await widget.analytics.setUserId('Anonymous');
+    }
+  }
 
   void onTappedBar(int index)
   {
@@ -128,6 +152,8 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar>
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User?>(context);
+
     return new Scaffold(
       body: _children[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -136,7 +162,10 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar>
         unselectedItemColor: AppColors.bodyText,
         unselectedFontSize: 14.0,
         showUnselectedLabels: true,
-        onTap: onTappedBar,
+        onTap: (int index) {
+          onTappedBar(index);
+          _setCurrentScreen(pages[index], user);
+        },
         currentIndex: _currentIndex,
         items: [
           BottomNavigationBarItem(
