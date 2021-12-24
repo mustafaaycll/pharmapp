@@ -23,14 +23,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:introduction_screen/introduction_screen.dart'; // onboarding screen
 
 
-//int? isviewed;
+int? initScreen;
 void main() async {
-
-  //WidgetsFlutterBinding.ensureInitialized();
-  //SharedPreferences.setMockInitialValues({});
-  //SharedPreferences prefs = await SharedPreferences.getInstance();
-  //isviewed = prefs.getInt('WalkThrough');
   WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  initScreen = await prefs.getInt("initScreen");
+  await prefs.setInt("initScreen", 1);
   runApp(
     FirebaseInit()
   );
@@ -57,9 +55,11 @@ class _FirebaseInitState extends State<FirebaseInit> {
             home: Scaffold(
               body: Center(
                 child: Text(
-                  'No Firebase Connection: ${snapshot.error.toString()}',
+                  'No Firebase Connection\n'+'${snapshot.error.toString()}',
+                  style: TextStyle(color: AppColors.titleText, fontSize: 30),
                 ),
               ),
+            backgroundColor: AppColors.primary,
             ),
           );
         }
@@ -69,9 +69,15 @@ class _FirebaseInitState extends State<FirebaseInit> {
         }
         
         return MaterialApp(
-          home: Center(
-            child: Text('Connecting'),
-          )
+          home: Scaffold(
+            body: Center(
+              child: Text(
+                'Connecting',
+                style: TextStyle(color: AppColors.titleText, fontSize: 30),
+              ),
+            ),
+            backgroundColor: AppColors.primary,
+          ),
         );
       }
     );
@@ -95,6 +101,7 @@ class PharMapp extends StatelessWidget {
         home: MyBottomNavigationBar(analytics: analytics, observer: observer,),
         routes: {
           '/WalkThrough': (context) => WalkThrough(analytics: analytics, observer: observer,),
+          '/navigationBar': (context) =>  MyBottomNavigationBar(analytics: analytics, observer: observer,),
           '/home': (context) => Home(),
           '/profile': (context) => Profile(),
           '/categories': (context) => Categories(),
@@ -102,7 +109,7 @@ class PharMapp extends StatelessWidget {
           '/login': (context) => Login(),
           '/signup': (context) => SignUp(),
         },
-        initialRoute: '/WalkThrough',
+        initialRoute: initScreen == 0 || initScreen == null ? '/WalkThrough' : "/navigationBar",
       ),
     );
   }
