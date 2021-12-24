@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -209,7 +210,36 @@ class _LoginState extends State<Login>
                       ),
                     ),
                   ],
-                )
+                ),
+                SizedBox(height: 6),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex:1,
+                      child: OutlinedButton(
+                        onPressed: () {
+                          auth.googleSignIn();
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            SizedBox(width: 50,),
+                            Image(image: AssetImage('assets/google_logo.png'), width: 23, height: 23,),
+                            Text('Login with Google Account', style: TextStyle(color: AppColors.bodyText),),
+                            SizedBox(width: 50,),
+                          ],
+                        ),
+                        style: OutlinedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                          borderRadius: Dimen.boxBorderRadius
+                        ),
+                          backgroundColor: Color(0xffe8e8e8),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
                 ],
               ),
             ),
