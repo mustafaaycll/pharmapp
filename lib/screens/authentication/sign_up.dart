@@ -319,10 +319,7 @@ class _SignUpState extends State<SignUp> {
                         ),
                       )
                     ],
-                  ),
-                  IconButton(
-                      onPressed: () => auth.signInWithGoogle(),
-                      icon: Icon(Icons.ac_unit))
+                  )
                 ],
               ),
             ),

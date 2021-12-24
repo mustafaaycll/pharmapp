@@ -209,9 +209,7 @@ class _LoginState extends State<Login>
                       ),
                     ),
                   ],
-                ),
-                SizedBox(height: 60,),
-                Text('TRY USING:\n\nmustafayucel@sabanciuniv.edu\n\nWITH THE PASSWORD:\n\nmustafa123A\n\nIN ORDER TO\nVIEW PROFILE\nPAGE')
+                )
                 ],
               ),
             ),
