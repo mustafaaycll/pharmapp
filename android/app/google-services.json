@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "591966600274-jkr022htdab9rkbcgqdbstls6jn2bhlr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pharm_app",
+            "certificate_hash": "27c68c267b06f993300146d7b25e4adabd10cbdb"
+          }
+        },
+        {
+          "client_id": "591966600274-rm1gs6qmml4q7gi6cjkecg2ksfj1meuc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pharm_app",
+            "certificate_hash": "fbc526d62e9e02786eb9ffa524cba4400a40beb2"
+          }
+        },
+        {
           "client_id": "591966600274-kprkrlir34hsp9n239bnrtel7o6k7lhd.apps.googleusercontent.com",
           "client_type": 3
         }
