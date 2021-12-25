@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:pharm_app/models/users/users.dart';
 import 'package:pharm_app/screens/authentication/login.dart';
 import 'package:pharm_app/services/auth.dart';
 import 'package:pharm_app/utils/colors.dart';

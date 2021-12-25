@@ -15,6 +15,7 @@ class pharmappUser with _$pharmappUser {
     required String name,
     required String surname,
     required String email,
+    required String password,
     @Default('') String profile_pic_url,
     @Default([]) List<pharmappAddress> addresses,
     @Default([]) List<pharmappPharmacy> fav_pharms,

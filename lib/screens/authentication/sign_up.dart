@@ -264,7 +264,7 @@ class _SignUpState extends State<SignUp> {
                                     name +
                                     '\nSurname: ' +
                                     surname);
-                                auth.signUp(mail, pass);
+                                auth.signUp(name, surname, mail, pass);
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(SnackBar(
                                         content: Text(
