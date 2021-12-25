@@ -26,6 +26,7 @@ class _$pharmappUserTearOff {
       required String name,
       required String surname,
       required String email,
+      required String password,
       String profile_pic_url = '',
       List<pharmappAddress> addresses = const [],
       List<pharmappPharmacy> fav_pharms = const [],
@@ -35,6 +36,7 @@ class _$pharmappUserTearOff {
       name: name,
       surname: surname,
       email: email,
+      password: password,
       profile_pic_url: profile_pic_url,
       addresses: addresses,
       fav_pharms: fav_pharms,
@@ -56,6 +58,7 @@ mixin _$pharmappUser {
   String get name => throw _privateConstructorUsedError;
   String get surname => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
+  String get password => throw _privateConstructorUsedError;
   String get profile_pic_url => throw _privateConstructorUsedError;
   List<pharmappAddress> get addresses => throw _privateConstructorUsedError;
   List<pharmappPharmacy> get fav_pharms => throw _privateConstructorUsedError;
@@ -77,6 +80,7 @@ abstract class $pharmappUserCopyWith<$Res> {
       String name,
       String surname,
       String email,
+      String password,
       String profile_pic_url,
       List<pharmappAddress> addresses,
       List<pharmappPharmacy> fav_pharms,
@@ -97,6 +101,7 @@ class _$pharmappUserCopyWithImpl<$Res> implements $pharmappUserCopyWith<$Res> {
     Object? name = freezed,
     Object? surname = freezed,
     Object? email = freezed,
+    Object? password = freezed,
     Object? profile_pic_url = freezed,
     Object? addresses = freezed,
     Object? fav_pharms = freezed,
@@ -118,6 +123,10 @@ class _$pharmappUserCopyWithImpl<$Res> implements $pharmappUserCopyWith<$Res> {
       email: email == freezed
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      password: password == freezed
+          ? _value.password
+          : password // ignore: cast_nullable_to_non_nullable
               as String,
       profile_pic_url: profile_pic_url == freezed
           ? _value.profile_pic_url
@@ -151,6 +160,7 @@ abstract class _$pharmappUserCopyWith<$Res>
       String name,
       String surname,
       String email,
+      String password,
       String profile_pic_url,
       List<pharmappAddress> addresses,
       List<pharmappPharmacy> fav_pharms,
@@ -173,6 +183,7 @@ class __$pharmappUserCopyWithImpl<$Res> extends _$pharmappUserCopyWithImpl<$Res>
     Object? name = freezed,
     Object? surname = freezed,
     Object? email = freezed,
+    Object? password = freezed,
     Object? profile_pic_url = freezed,
     Object? addresses = freezed,
     Object? fav_pharms = freezed,
@@ -194,6 +205,10 @@ class __$pharmappUserCopyWithImpl<$Res> extends _$pharmappUserCopyWithImpl<$Res>
       email: email == freezed
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      password: password == freezed
+          ? _value.password
+          : password // ignore: cast_nullable_to_non_nullable
               as String,
       profile_pic_url: profile_pic_url == freezed
           ? _value.profile_pic_url
@@ -223,6 +238,7 @@ class _$_pharmappUser implements _pharmappUser {
       required this.name,
       required this.surname,
       required this.email,
+      required this.password,
       this.profile_pic_url = '',
       this.addresses = const [],
       this.fav_pharms = const [],
@@ -239,6 +255,8 @@ class _$_pharmappUser implements _pharmappUser {
   final String surname;
   @override
   final String email;
+  @override
+  final String password;
   @JsonKey()
   @override
   final String profile_pic_url;
@@ -254,7 +272,7 @@ class _$_pharmappUser implements _pharmappUser {
 
   @override
   String toString() {
-    return 'pharmappUser(id: $id, name: $name, surname: $surname, email: $email, profile_pic_url: $profile_pic_url, addresses: $addresses, fav_pharms: $fav_pharms, pre_orders: $pre_orders)';
+    return 'pharmappUser(id: $id, name: $name, surname: $surname, email: $email, password: $password, profile_pic_url: $profile_pic_url, addresses: $addresses, fav_pharms: $fav_pharms, pre_orders: $pre_orders)';
   }
 
   @override
@@ -266,6 +284,7 @@ class _$_pharmappUser implements _pharmappUser {
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality().equals(other.surname, surname) &&
             const DeepCollectionEquality().equals(other.email, email) &&
+            const DeepCollectionEquality().equals(other.password, password) &&
             const DeepCollectionEquality()
                 .equals(other.profile_pic_url, profile_pic_url) &&
             const DeepCollectionEquality().equals(other.addresses, addresses) &&
@@ -282,6 +301,7 @@ class _$_pharmappUser implements _pharmappUser {
       const DeepCollectionEquality().hash(name),
       const DeepCollectionEquality().hash(surname),
       const DeepCollectionEquality().hash(email),
+      const DeepCollectionEquality().hash(password),
       const DeepCollectionEquality().hash(profile_pic_url),
       const DeepCollectionEquality().hash(addresses),
       const DeepCollectionEquality().hash(fav_pharms),
@@ -304,6 +324,7 @@ abstract class _pharmappUser implements pharmappUser {
       required String name,
       required String surname,
       required String email,
+      required String password,
       String profile_pic_url,
       List<pharmappAddress> addresses,
       List<pharmappPharmacy> fav_pharms,
@@ -320,6 +341,8 @@ abstract class _pharmappUser implements pharmappUser {
   String get surname;
   @override
   String get email;
+  @override
+  String get password;
   @override
   String get profile_pic_url;
   @override

@@ -12,6 +12,7 @@ _$_pharmappUser _$$_pharmappUserFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String,
       surname: json['surname'] as String,
       email: json['email'] as String,
+      password: json['password'] as String,
       profile_pic_url: json['profile_pic_url'] as String? ?? '',
       addresses: (json['addresses'] as List<dynamic>?)
               ?.map((e) => pharmappAddress.fromJson(e as Map<String, dynamic>))
@@ -33,6 +34,7 @@ Map<String, dynamic> _$$_pharmappUserToJson(_$_pharmappUser instance) =>
       'name': instance.name,
       'surname': instance.surname,
       'email': instance.email,
+      'password': instance.password,
       'profile_pic_url': instance.profile_pic_url,
       'addresses': instance.addresses,
       'fav_pharms': instance.fav_pharms,
