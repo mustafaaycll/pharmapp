@@ -43,8 +43,9 @@ class _ProfileState extends State<Profile> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CircleAvatar(
+                      backgroundColor: Color(0xffe8e8e8),
                       backgroundImage: NetworkImage('${user.photoURL}' ?? ''),
-                      child: null,
+                      child: user.photoURL == null ? Text(user.email![0].toUpperCase(), style: TextStyle(fontSize: 75, color: AppColors.bodyText, fontWeight: FontWeight.w300),) : null,
                       radius: 60,
                     ),
                   ],
