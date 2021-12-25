@@ -1,10 +1,19 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class Products extends StatelessWidget {
-  const Products({Key? key}) : super(key: key);
+part 'products.freezed.dart';
+part 'products.g.dart';
 
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
+
+@freezed
+class pharmappProduct with _$pharmappProduct {
+  
+  factory pharmappProduct({
+    required int id,
+    required String name,
+    required String category,
+    required double price,
+  }) = _pharmappProduct;
+
+  factory pharmappProduct.fromJson(Map<String, dynamic> json) => _$pharmappProductFromJson(json);
 }
