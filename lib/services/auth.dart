@@ -70,16 +70,15 @@ class AuthService {
     return _userFromFirebase(user);
   }
 
-  Future addUser(String id, String name, String surname, String email, String password) async {
+  Future addUser(String id, String name, String email, String password) async {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
 
     List<pharmappAddress> a = [];
     List<pharmappPharmacy> fp = [];
     List<pharmappOrder> po = [];
-    users.doc(id).set({
+    await users.doc(id).set({
       'id': id,
-      'name': name,
-      'surname': surname,
+      'fullname': name, 
       'email': email,
       'password': password,
       'profile_pic_url': '',
@@ -96,7 +95,7 @@ class AuthService {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       User user = result.user!;
-      addUser(user.uid, name, surname, email, password);
+      addUser(user.uid, name + ' ' + surname, email, password);
       return 'Signed Up';
     } catch (e) {
       print(e.toString());
