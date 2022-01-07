@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pharm_app/models/users/users.dart';
-import 'package:pharm_app/screens/home.dart';
 
 class DatabaseService {
   final String uid;
@@ -15,12 +14,12 @@ class DatabaseService {
       return pharmappUser(
         id: uid,
         fullname: doc.get('fullname'),
-        //addresses: doc.get('address'),
+        addresses: doc.get('address'),
         email: doc.get('email'),
         password: doc.get('password'),
         profile_pic_url: doc.get('profile_pic_url'),
-        //fav_pharms: doc.get('fav_pharms'),
-        //pre_orders: doc.get('pre_orders'),
+        fav_pharms: doc.get('fav_pharms'),
+        pre_orders: doc.get('pre_orders'),
       );
     }).toList();
   }
@@ -30,12 +29,12 @@ class DatabaseService {
     return pharmappUser(
       id: uid,
       fullname: snapshot.get('fullname'),
-      //addresses: snapshot.get('addresses'),
       email: snapshot.get('email'),
       password: snapshot.get('password'),
       profile_pic_url: snapshot.get('profile_pic_url'),
-      //fav_pharms: snapshot.get('fav_pharms'),
-      //pre_orders: snapshot.get('pre_orders'),
+      addresses: snapshot.get('addresses'),
+      fav_pharms: snapshot.get('fav_pharms'),
+      pre_orders: snapshot.get('pre_orders'),
     );
   }
 

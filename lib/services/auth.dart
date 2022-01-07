@@ -57,45 +57,52 @@ class AuthService {
   Future googleSignIn() async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
 
     final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth?.accessToken,
       idToken: googleAuth?.idToken,
     );
 
-    UserCredential result = await FirebaseAuth.instance.signInWithCredential(credential);
+    UserCredential result =
+        await FirebaseAuth.instance.signInWithCredential(credential);
     User? user = result.user;
+
+    addUser(user!.uid, user.displayName, user.email, '', user.photoURL);
 
     return _userFromFirebase(user);
   }
 
-  Future addUser(String id, String name, String email, String password) async {
+  Future addUser(String id, String? name, String? email, String password, String? photo) async {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
 
-    List<pharmappAddress> a = [];
-    List<pharmappPharmacy> fp = [];
-    List<pharmappOrder> po = [];
-    await users.doc(id).set({
-      'id': id,
-      'fullname': name, 
-      'email': email,
-      'password': password,
-      'profile_pic_url': '',
-      'addresses': a,
-      'fav_pharms': fp,
-      'pre_orders': po,
-    })
-    .then((value) => print('User Added'))
-    .catchError((error) => print('Adding User Failed ${error.toString()}'));
+    List<String> a = [''];
+    List<String> fp = [''];
+    List<String> po = [''];
+    await users
+        .doc(id)
+        .set({
+          'id': id,
+          'fullname': name,
+          'email': email,
+          'password': password,
+          'profile_pic_url': photo,
+          'addresses': a,
+          'fav_pharms': fp,
+          'pre_orders': po,
+        })
+        .then((value) => print('User Added'))
+        .catchError((error) => print('Adding User Failed ${error.toString()}'));
   }
 
-  Future signUp(String name, String surname, String email, String password) async {
+  Future signUp(
+      String name, String surname, String email, String password) async {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       User user = result.user!;
-      addUser(user.uid, name + ' ' + surname, email, password);
+      addUser(user.uid, name + ' ' + surname, email, password, '');
       return 'Signed Up';
     } catch (e) {
       print(e.toString());

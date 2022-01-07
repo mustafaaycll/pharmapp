@@ -1,19 +1,9 @@
-import 'package:flutter/services.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pharm_app/models/products/products.dart';
 
-part 'addresses.freezed.dart';
-part 'addresses.g.dart';
-
-
-@freezed
-class pharmappAddress with _$pharmappAddress {
+class pharmappAddress {
   
-  factory pharmappAddress({
-    required int id,
-    required String city,
-    required String neighborhood,
-  }) = _pharmappAddress;
+  final String id;
+  final String city;
+  final String neighborhood;
 
-  factory pharmappAddress.fromJson(Map<String, dynamic> json) => _$pharmappAddressFromJson(json);
+  pharmappAddress({required this.id, required this.city, required this.neighborhood});
 }

@@ -26,7 +26,7 @@ class _ProfileState extends State<Profile> {
 
     if (user != null) {
       return StreamBuilder<pharmappUser>(
-          stream: DatabaseService(uid: '${user.uid}').userData,
+          stream: DatabaseService(uid: user.uid).userData,
           builder: (context, snapshot) {
             print(snapshot.data);
               pharmappUser? pUser = snapshot.data;
@@ -52,7 +52,7 @@ class _ProfileState extends State<Profile> {
                             CircleAvatar(
                               backgroundColor: Color(0xffe8e8e8),
                               backgroundImage:
-                                  NetworkImage('${user.photoURL}' ?? ''),
+                                  NetworkImage(pUser!.profile_pic_url),
                               child: user.photoURL == null
                                   ? Text(
                                       user.email![0].toUpperCase(),
@@ -77,7 +77,7 @@ class _ProfileState extends State<Profile> {
                                 Row(
                                   children: [
                                     Text(
-                                      '${pUser?.fullname}',
+                                      pUser.fullname,
                                       style: TextStyle(
                                           color: AppColors.bodyText,
                                           fontSize: 25),
@@ -88,7 +88,7 @@ class _ProfileState extends State<Profile> {
                                   height: 10,
                                 ),
                                 Row(
-                                  children: [Text('${user.email}')],
+                                  children: [Text(pUser.email)],
                                 )
                               ],
                             )
