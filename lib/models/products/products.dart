@@ -1,19 +1,9 @@
-import 'package:flutter/services.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
-
-part 'products.freezed.dart';
-part 'products.g.dart';
-
-
-@freezed
-class pharmappProduct with _$pharmappProduct {
+class pharmappProduct {
   
-  factory pharmappProduct({
-    required int id,
-    required String name,
-    required String category,
-    required double price,
-  }) = _pharmappProduct;
+  final String id;
+  final String name;
+  final String category;
+  final double price;
 
-  factory pharmappProduct.fromJson(Map<String, dynamic> json) => _$pharmappProductFromJson(json);
+  pharmappProduct({required this.id, required this.name, required this.category, required this.price});
 }

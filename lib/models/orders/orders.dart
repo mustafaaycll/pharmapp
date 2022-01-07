@@ -1,21 +1,11 @@
-import 'package:flutter/services.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pharm_app/models/products/products.dart';
+class pharmappOrder {
 
-part 'orders.freezed.dart';
-part 'orders.g.dart';
+  final String id;
+  final String pharmid;
+  final List<dynamic> products;
+  final DateTime date;
+  final double cost;
 
-
-@freezed
-class pharmappOrder with _$pharmappOrder {
+  pharmappOrder({required this.id, required this.pharmid, required this.products, required this.date, required this.cost});
   
-  factory pharmappOrder({
-    required int id,
-    required int pharmid,
-    @Default([]) List<pharmappProduct> products,
-    required DateTime date,
-    required double cost,
-  }) = _pharmappOrder;
-
-  factory pharmappOrder.fromJson(Map<String, dynamic> json) => _$pharmappOrderFromJson(json);
 }

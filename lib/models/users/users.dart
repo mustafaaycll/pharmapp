@@ -1,26 +1,21 @@
-import 'package:flutter/services.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+
+import 'dart:ffi';
+
+import 'package:flutter/material.dart';
 import 'package:pharm_app/models/addresses/addresses.dart';
 import 'package:pharm_app/models/orders/orders.dart';
 import 'package:pharm_app/models/pharmacies/pharmacies.dart';
 
-part 'users.freezed.dart';
-part 'users.g.dart';
+class pharmappUser {
 
-@freezed
-class pharmappUser with _$pharmappUser {
-  
-  factory pharmappUser({
-    required int id,
-    required String name,
-    required String surname,
-    required String email,
-    required String password,
-    @Default('') String profile_pic_url,
-    @Default([]) List<pharmappAddress> addresses,
-    @Default([]) List<pharmappPharmacy> fav_pharms,
-    @Default([]) List<pharmappOrder> pre_orders,
-  }) = _pharmappUser;
+  final String id;
+  final String fullname;
+  final String email;
+  final String password;
+  final String profile_pic_url;
+  final List<dynamic> addresses;
+  final List<dynamic> fav_pharms;
+  final List<dynamic> pre_orders;
 
-  factory pharmappUser.fromJson(Map<String, dynamic> json) => _$pharmappUserFromJson(json);
+  pharmappUser({required this.id, required this.fullname, required this.email, required this.password, required this.profile_pic_url, required this.addresses, required this.fav_pharms, required this.pre_orders});
 }
