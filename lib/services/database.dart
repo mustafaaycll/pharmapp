@@ -45,4 +45,8 @@ class DatabaseService {
   Stream<pharmappUser> get userData {
     return userCollection.doc(uid).snapshots().map(_userDataFromSnapshot);
   }
+
+  Future updateName(String name) async{
+    return userCollection.doc(uid).update({'fullname': name});
+  }
 }
