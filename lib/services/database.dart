@@ -48,4 +48,9 @@ class DatabaseService {
   Future updateName(String name) async{
     return userCollection.doc(uid).update({'fullname': name});
   }
+
+  Future updatePP(String url) async {
+    return userCollection.doc(uid).update({'profile_pic_url': url});
+
+  }
 }
