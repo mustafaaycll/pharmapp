@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_literals_to_create_immutables
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +59,7 @@ class _ProfileState extends State<Profile> {
                                 NetworkImage(pUser!.profile_pic_url),
                             child: user.photoURL == null
                                 ? Text(
-                                    user.email![0].toUpperCase(),
+                                    pUser.fullname[0].toUpperCase(),
                                     style: TextStyle(
                                         fontSize: 75,
                                         color: AppColors.bodyText,
@@ -137,7 +139,13 @@ class _ProfileState extends State<Profile> {
                           Expanded(
                             flex: 1,
                             child: OutlinedButton(
-                              onPressed: () {},
+                              onPressed: () async {
+                                await changePasswordPopUp(
+                                    context, pUser.method);
+                                if (pUser.method == "manual") {
+                                  AuthService().sendPasswordLink(pUser.email);
+                                }
+                              },
                               child: Padding(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 12.0),
@@ -354,6 +362,60 @@ class _ProfileState extends State<Profile> {
               ],
             ),
           );
+        });
+  }
+
+  Future<dynamic> changePasswordPopUp(BuildContext context, String mode) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          if (mode == "google") {
+            return AlertDialog(
+              backgroundColor: AppColors.titleText,
+              content: Stack(
+                children: <Widget>[
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Center(
+                                child: Text(
+                              'You logged in with Google sign-in method, password cannot be changed',
+                              textAlign: TextAlign.center,
+                            ))),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          } else {
+            return AlertDialog(
+              backgroundColor: AppColors.titleText,
+              content: Stack(
+                children: <Widget>[
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Center(
+                                child: Text(
+                              'Password reset link has been sent to your email',
+                              textAlign: TextAlign.center,
+                            ))),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
         });
   }
 }
