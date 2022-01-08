@@ -271,6 +271,7 @@ class _SignUpState extends State<SignUp> {
                                   'Successfully signed up.',
                                   style: TextStyle(color: AppColors.titleText),
                                 )));
+                                Navigator.pop(context);
                               } else if (pass != passagain) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
@@ -297,27 +298,6 @@ class _SignUpState extends State<SignUp> {
                           ),
                         ),
                       ),
-                      SizedBox(width: 6),
-                      Expanded(
-                        flex: 1,
-                        child: OutlinedButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 12.0),
-                            child: Text(
-                              'Login',
-                              style: TextStyle(color: AppColors.buttonText),
-                            ),
-                          ),
-                          style: OutlinedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: Dimen.boxBorderRadius),
-                            backgroundColor: AppColors.secondary,
-                          ),
-                        ),
-                      )
                     ],
                   )
                 ],

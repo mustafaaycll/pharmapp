@@ -1,12 +1,17 @@
 import 'dart:ffi';
+import 'dart:io';
 
 import "package:firebase_auth/firebase_auth.dart";
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:pharm_app/models/addresses/addresses.dart';
 import 'package:pharm_app/models/orders/orders.dart';
 import 'package:pharm_app/models/pharmacies/pharmacies.dart';
+import 'package:pharm_app/models/users/users.dart';
+import 'package:pharm_app/services/database.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -109,7 +114,12 @@ class AuthService {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       User user = result.user!;
-      addUser(user.uid, name + ' ' + surname, email, "manual", '');
+      String url = "";
+      
+      await FirebaseStorage.instance.ref().child('profilepics/placeholder.png').getDownloadURL().then((value) => {url = value});
+
+
+      addUser(user.uid, name + ' ' + surname, email, "manual", url);
       return 'Signed Up';
     } catch (e) {
       print(e.toString());
@@ -119,5 +129,21 @@ class AuthService {
 
   Future sendPasswordLink(String email) async {
     return await _auth.sendPasswordResetEmail(email: email);
+  }
+
+  Future uploadImageToFirebase(pharmappUser? pUser, XFile? image) async {
+    Reference firebaseStorageRef = FirebaseStorage.instance.ref().child('profilepics/${pUser!.id}'); 
+    String url = pUser.profile_pic_url;
+    try {
+      await firebaseStorageRef.putFile(File(image!.path));
+
+      await FirebaseStorage.instance.ref().child('profilepics/${pUser!.id}').getDownloadURL().then((value) => {url = value});
+
+      await DatabaseService(uid: pUser.id).updatePP(url);
+    } on FirebaseException catch (e) {
+      print("${e.message}");
+    } catch (e) {
+      print("err2");
+    }
   }
 }
