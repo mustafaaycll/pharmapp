@@ -31,7 +31,7 @@ class _ProfileState extends State<Profile> {
       return StreamBuilder<pharmappUser>(
           stream: DatabaseService(uid: user.uid).userData,
           builder: (context, snapshot) {
-            print(snapshot.data);
+
             pharmappUser? pUser = snapshot.data;
 
             return Scaffold(
@@ -323,7 +323,6 @@ class _ProfileState extends State<Profile> {
                                 onPressed: () {
                                   if (_formKey.currentState!.validate()) {
                                     _formKey.currentState!.save();
-                                    print(newName);
                                     Navigator.pop(context);
                                   }
                                 },

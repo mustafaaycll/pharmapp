@@ -25,7 +25,6 @@ class DatabaseService {
   }
 
   pharmappUser _userDataFromSnapshot(DocumentSnapshot snapshot) {
-    print(snapshot.get('fullname'));
     return pharmappUser(
       id: uid,
       fullname: snapshot.get('fullname'),
