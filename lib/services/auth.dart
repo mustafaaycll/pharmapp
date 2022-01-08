@@ -69,12 +69,19 @@ class AuthService {
         await FirebaseAuth.instance.signInWithCredential(credential);
     User? user = result.user;
 
-    addUser(user!.uid, user.displayName, user.email, '', user.photoURL);
+    final snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid)
+        .get();
 
+    if (snapshot == null || !snapshot.exists) {
+      addUser(user!.uid, user.displayName, user.email, '', user.photoURL);
+    }
     return _userFromFirebase(user);
   }
 
-  Future addUser(String id, String? name, String? email, String password, String? photo) async {
+  Future addUser(String id, String? name, String? email, String password,
+      String? photo) async {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
 
     List<String> a = [''];

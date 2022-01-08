@@ -31,7 +31,6 @@ class _ProfileState extends State<Profile> {
       return StreamBuilder<pharmappUser>(
           stream: DatabaseService(uid: user.uid).userData,
           builder: (context, snapshot) {
-
             pharmappUser? pUser = snapshot.data;
 
             return Scaffold(
@@ -107,7 +106,11 @@ class _ProfileState extends State<Profile> {
                             child: OutlinedButton(
                               onPressed: () async {
                                 await changeNamePopUp(context);
-                                DatabaseService(uid: pUser.id).updateName(newName);
+                                if (newName != "") {
+                                  DatabaseService(uid: pUser.id)
+                                      .updateName(newName);
+                                  newName = "";
+                                }
                               },
                               child: Padding(
                                 padding:
