@@ -75,12 +75,12 @@ class AuthService {
         .get();
 
     if (snapshot == null || !snapshot.exists) {
-      addUser(user!.uid, user.displayName, user.email, '', user.photoURL);
+      addUser(user!.uid, user.displayName, user.email, 'google', user.photoURL);
     }
     return _userFromFirebase(user);
   }
 
-  Future addUser(String id, String? name, String? email, String password,
+  Future addUser(String id, String? name, String? email, String method,
       String? photo) async {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
 
@@ -93,7 +93,7 @@ class AuthService {
           'id': id,
           'fullname': name,
           'email': email,
-          'password': password,
+          'method': method,
           'profile_pic_url': photo,
           'addresses': a,
           'fav_pharms': fp,
@@ -109,11 +109,15 @@ class AuthService {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       User user = result.user!;
-      addUser(user.uid, name + ' ' + surname, email, password, '');
+      addUser(user.uid, name + ' ' + surname, email, "manual", '');
       return 'Signed Up';
     } catch (e) {
       print(e.toString());
       return null;
     }
+  }
+
+  Future sendPasswordLink(String email) async {
+    return await _auth.sendPasswordResetEmail(email: email);
   }
 }
