@@ -200,7 +200,9 @@ class _ProfileState extends State<Profile> {
                             Expanded(
                               flex: 1,
                               child: OutlinedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.pushNamed(context, '/editDelAddr');
+                                },
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 12.0),

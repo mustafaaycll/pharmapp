@@ -69,7 +69,7 @@ class _editFavPharmScreenState extends State<editFavPharmScreen> {
                         ),
                       ),
                     );
-                  } else if (pharms!.length == 0) {
+                  } else if (pharms == null) {
                     return Scaffold(
                       appBar: AppBar(
                         title: Text(
@@ -83,7 +83,7 @@ class _editFavPharmScreenState extends State<editFavPharmScreen> {
                       ),
                       body: Center(
                         child: Text(
-                          'No Favourite Pharmacy',
+                          'Fetching Data',
                           style: TextStyle(
                               color: AppColors.bodyText, fontSize: 30),
                         ),
@@ -103,7 +103,7 @@ class _editFavPharmScreenState extends State<editFavPharmScreen> {
                       ),
                       body: Center(
                         child: Text(
-                          'Connecting',
+                          'No Favourite Pharmacy',
                           style: TextStyle(
                               color: AppColors.bodyText, fontSize: 30),
                         ),
