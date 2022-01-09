@@ -9,6 +9,7 @@ import 'package:pharm_app/screens/authentication/sign_up.dart';
 import 'package:pharm_app/screens/basket/basket.dart';
 import 'package:pharm_app/screens/categories/categories.dart';
 import 'package:pharm_app/screens/home.dart';
+import 'package:pharm_app/screens/profile/editFavPharmScreen.dart';
 import 'package:pharm_app/screens/profile/profile.dart';
 import 'package:pharm_app/screens/walkthrough.dart';
 import 'package:pharm_app/services/auth.dart';
@@ -108,6 +109,7 @@ class PharMapp extends StatelessWidget {
           '/basket': (context) => Basket(),
           '/login': (context) => Login(),
           '/signup': (context) => SignUp(),
+          '/editFavPharms': (context) => editFavPharmScreen(),
         },
         initialRoute: initScreen == 0 || initScreen == null ? '/WalkThrough' : "/navigationBar",
       ),
