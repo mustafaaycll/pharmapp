@@ -34,7 +34,8 @@ class _HomeState extends State<Home> {
   final _formKeyPopUp = GlobalKey<FormState>();
   String? _currAddress;
   String? _addAddress;
-  int _index = 0;
+  int _indexOrder = 0;
+  int _indexPharm = 0;
 
   List<Order> orders = <Order>[
     const Order('Faruk Eczanesi', '05/03/2021',
@@ -197,10 +198,10 @@ class _HomeState extends State<Home> {
                               itemCount: orders.length,
                               controller: PageController(viewportFraction: 0.7),
                               onPageChanged: (int index) =>
-                                  setState(() => _index = index),
+                                  setState(() => _indexOrder = index),
                               itemBuilder: (_, i) {
                                 return Transform.scale(
-                                  scale: i == _index ? 1 : 0.9,
+                                  scale: i == _indexOrder ? 1 : 0.9,
                                   child: Card(
                                     elevation: 4,
                                     shape: RoundedRectangleBorder(
@@ -329,10 +330,10 @@ class _HomeState extends State<Home> {
                                       controller:
                                           PageController(viewportFraction: 0.7),
                                       onPageChanged: (int index) =>
-                                          setState(() => _index = index),
+                                          setState(() => _indexPharm = index),
                                       itemBuilder: (_, j) {
                                         return Transform.scale(
-                                          scale: j == _index ? 1 : 0.9,
+                                          scale: j == _indexPharm ? 1 : 0.9,
                                           child: Card(
                                             elevation: 4,
                                             shape: RoundedRectangleBorder(
