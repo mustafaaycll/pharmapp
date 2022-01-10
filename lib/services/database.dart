@@ -67,6 +67,21 @@ class DatabaseService {
     return userCollection.doc(uid).update({'fav_pharms': ids});
   }
 
+  Future addFavPharm(String? pid, List<dynamic> liste) async {
+    List<dynamic> ids = [];
+    for (var i = 0; i < liste.length; i++) {
+      ids.add(liste[i]);
+    }
+    if (!ids.contains(pid)) {
+      ids.add(pid!);
+    }
+    return userCollection.doc(uid).update({'fav_pharms': ids});
+  }
+
+  bool favPharmExists (String? pid, List<dynamic> liste) {
+    return liste.contains(pid);
+  }
+
   Future removeAddress(String? aid, List<pharmappAddress?> liste) async {
     List<String> ids = [""];
     for (var i = 0; i < liste.length; i++) {
@@ -140,6 +155,24 @@ class DatabaseService_pharm {
 
   Stream<List<pharmappPharmacy?>> get pharms {
     return pharmCollection.snapshots().map(_pharmListFromSnapshot);
+  }
+
+  List<pharmappPharmacy?> _pharmListByAddr(QuerySnapshot snapshot) {
+    return List<pharmappPharmacy?>.from(snapshot.docs.map((doc) {
+      if(doc.get('service_addresses').contains(id)) {
+        return pharmappPharmacy(
+          id: doc.id,
+          name: doc.get('name'),
+          service_addresses: doc.get('service_addresses'),
+          products: doc.get('products'),
+          ratings: doc.get('ratings')
+        );
+      }
+    }).toList().where((element) => element != null));
+  }
+
+  Stream<List<pharmappPharmacy?>> get pharmsByAddr {
+    return pharmCollection.snapshots().map(_pharmListByAddr);
   }
 }
 

@@ -15,12 +15,6 @@ import 'package:provider/provider.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 import 'package:collection/collection.dart';
 
-class Address {
-  const Address(this.name, this.icon);
-  final String name;
-  final Icon icon;
-}
-
 class Order {
   const Order(this.pharmacy, this.date, this.products, this.prices);
   final String pharmacy;
