@@ -24,6 +24,7 @@ class DatabaseService {
         profile_pic_url: doc.get('profile_pic_url'),
         fav_pharms: doc.get('fav_pharms'),
         pre_orders: doc.get('pre_orders'),
+        basket: doc.get('basket'),
       );
     }).toList();
   }
@@ -38,6 +39,8 @@ class DatabaseService {
       addresses: snapshot.get('addresses'),
       fav_pharms: snapshot.get('fav_pharms'),
       pre_orders: snapshot.get('pre_orders'),
+        basket: snapshot.get('basket'),
+
     );
   }
 

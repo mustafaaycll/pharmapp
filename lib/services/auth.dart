@@ -89,9 +89,7 @@ class AuthService {
       String? photo) async {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
 
-    List<String> a = [''];
-    List<String> fp = [''];
-    List<String> po = [''];
+    List<String> emptyList = [''];
     await users
         .doc(id)
         .set({
@@ -100,9 +98,10 @@ class AuthService {
           'email': email,
           'method': method,
           'profile_pic_url': photo,
-          'addresses': a,
-          'fav_pharms': fp,
-          'pre_orders': po,
+          'addresses': emptyList,
+          'fav_pharms': emptyList,
+          'pre_orders': emptyList,
+          'basket': emptyList,
         })
         .then((value) => print('User Added'))
         .catchError((error) => print('Adding User Failed ${error.toString()}'));
