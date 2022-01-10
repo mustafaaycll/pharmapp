@@ -57,7 +57,7 @@ class _editDelAddrScreenState extends State<editDelAddrScreen> {
                               ),
                               title: Text(addrs[index]!.city),
                               trailing: IconButton(
-                                icon: const Icon(Icons.delete),
+                                icon: const Icon(Icons.delete, color: Color(0xffE13419),),
                                 onPressed: () {
                                   DatabaseService(uid: pUser.id).removeAddress(addrs[index]!.id, addrs);
                                 },
