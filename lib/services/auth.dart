@@ -102,6 +102,8 @@ class AuthService {
           'fav_pharms': emptyList,
           'pre_orders': emptyList,
           'basket': emptyList,
+          'amount': [0],
+          'currentSeller': "",
         })
         .then((value) => print('User Added'))
         .catchError((error) => print('Adding User Failed ${error.toString()}'));

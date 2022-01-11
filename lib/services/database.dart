@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:pharm_app/models/addresses/addresses.dart';
 import 'package:pharm_app/models/orders/orders.dart';
 import 'package:pharm_app/models/pharmacies/pharmacies.dart';
+import 'package:pharm_app/models/products/products.dart';
 import 'package:pharm_app/models/users/users.dart';
 
 class DatabaseService {
@@ -25,6 +27,8 @@ class DatabaseService {
         fav_pharms: doc.get('fav_pharms'),
         pre_orders: doc.get('pre_orders'),
         basket: doc.get('basket'),
+        currentSeller: doc.get('currentSeller'),
+        amount: doc.get('amount'),
       );
     }).toList();
   }
@@ -39,8 +43,9 @@ class DatabaseService {
       addresses: snapshot.get('addresses'),
       fav_pharms: snapshot.get('fav_pharms'),
       pre_orders: snapshot.get('pre_orders'),
-        basket: snapshot.get('basket'),
-
+      basket: snapshot.get('basket'),
+      amount: snapshot.get('amount'),
+      currentSeller: snapshot.get('currentSeller'),
     );
   }
 
@@ -226,4 +231,46 @@ class DatabaseService_address {
   Stream<List<pharmappAddress>> get allAddrs {
     return addrsCollection.snapshots().map(_allAddrsFromSnapshot);
   }
+}
+
+class DatabaseService_product {
+  final String id;
+  final List<dynamic> ids;
+
+  DatabaseService_product({required this.id, required this.ids});
+
+  final CollectionReference productsCollection = FirebaseFirestore.instance.collection('products');
+
+  pharmappProduct _productDataFromSnapshot(DocumentSnapshot snapshot) {
+    return pharmappProduct(
+      id: id,
+      name: snapshot.get('name'),
+      category: snapshot.get('category'),
+      price: double.parse(snapshot.get('price')),
+      url: snapshot.get('photo'),
+    );
+  }
+
+  Stream<pharmappProduct> get productData {
+    return productsCollection.doc(id).snapshots().map(_productDataFromSnapshot);
+  }
+
+  List<pharmappProduct?> _productListFromSnapshot(QuerySnapshot snapshot) {
+    return List<pharmappProduct?>.from(snapshot.docs.map((doc) {
+      if (ids.contains(doc.id)) {
+        return pharmappProduct(
+          id: doc.id,
+          name: doc.get('name'),
+          category: doc.get('category'),
+          price: double.parse(doc.get('price')),
+          url: doc.get('photo'),
+        );
+      }
+    }).toList().where((element) => element != null));
+  }
+
+  Stream<List<pharmappProduct?>> get products {
+    return productsCollection.snapshots().map(_productListFromSnapshot);
+  }
+  
 }
