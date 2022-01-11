@@ -3,6 +3,7 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pharm_app/models/addresses/addresses.dart';
+import 'package:pharm_app/models/orders/orders.dart';
 import 'package:pharm_app/models/pharmacies/pharmacies.dart';
 import 'package:pharm_app/models/users/users.dart';
 import 'package:pharm_app/screens/basket/basket.dart';
@@ -12,6 +13,7 @@ import 'package:pharm_app/services/database.dart';
 import 'package:pharm_app/utils/colors.dart';
 import 'package:pharm_app/utils/dimensions.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 import 'package:collection/collection.dart';
 
@@ -98,10 +100,14 @@ class _HomeState extends State<Home> {
                               key: _formKey,
                               child: Column(
                                 children: <Widget>[
-                                  SizedBox(height: 8,),
+                                  SizedBox(
+                                    height: 8,
+                                  ),
                                   Row(
                                     children: [
-                                      SizedBox(width: 10,),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
                                       Expanded(
                                         flex: 1,
                                         child: DropdownButtonFormField(
@@ -121,10 +127,14 @@ class _HomeState extends State<Home> {
                                           },
                                         ),
                                       ),
-                                      SizedBox(width: 10,),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
                                     ],
                                   ),
-                                  SizedBox(height: 15,),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
                                   Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -134,17 +144,16 @@ class _HomeState extends State<Home> {
                                         flex: 1,
                                         child: OutlinedButton(
                                           onPressed: () async {
-                                            await addAddressPopUp(context, pUser, addrs);
+                                            await addAddressPopUp(
+                                                context, pUser, addrs);
                                           },
                                           child: Padding(
-                                            padding:
-                                                const EdgeInsets.symmetric(
-                                                    vertical: 12.0),
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 12.0),
                                             child: Text(
                                               'Add Address',
                                               style: TextStyle(
-                                                  color:
-                                                      AppColors.buttonText),
+                                                  color: AppColors.buttonText),
                                             ),
                                           ),
                                           style: OutlinedButton.styleFrom(
@@ -169,14 +178,12 @@ class _HomeState extends State<Home> {
                                             }
                                           },
                                           child: Padding(
-                                            padding:
-                                                const EdgeInsets.symmetric(
-                                                    vertical: 12.0),
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 12.0),
                                             child: Text(
                                               'List Pharmacies',
                                               style: TextStyle(
-                                                  color:
-                                                      AppColors.buttonText),
+                                                  color: AppColors.buttonText),
                                             ),
                                           ),
                                           style: OutlinedButton.styleFrom(
@@ -189,7 +196,6 @@ class _HomeState extends State<Home> {
                                         ),
                                       ),
                                       SizedBox(width: 8),
-
                                     ],
                                   ),
                                 ],
@@ -199,137 +205,150 @@ class _HomeState extends State<Home> {
                       SizedBox(height: 20),
                       Text(
                         'Previous Orders',
-                        style: TextStyle(
-                            color: AppColors.bodyText, fontSize: 26),
+                        style:
+                            TextStyle(color: AppColors.bodyText, fontSize: 26),
                       ),
                       SizedBox(height: 15),
-                      SizedBox(
-                          height: 200,
-                          child: PageView.builder(
-                            itemCount: orders.length,
-                            controller: PageController(viewportFraction: 0.7),
-                            onPageChanged: (int index) =>
-                                setState(() => _indexOrder = index),
-                            itemBuilder: (_, i) {
-                              return Transform.scale(
-                                scale: i == _indexOrder ? 1 : 0.9,
-                                child: Card(
-                                  elevation: 4,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: Dimen.boxBorderRadius),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
-                                    children: [
-                                      Card(
-                                        color: AppColors.secondary75percent,
-                                        child: Padding(
-                                          padding: EdgeInsets.all(5),
+                      StreamBuilder<List<pharmappOrder?>>(
+                          stream: DatabaseService_order(
+                                  id: "", ids: pUser.pre_orders)
+                              .orders,
+                          builder: (context, snapshot) {
+                            List<pharmappOrder?>? orders = snapshot.data;
+                            if (orders != null && orders.length != 0) {
+                              return SizedBox(
+                                  height: 300,
+                                  child: PageView.builder(
+                                    itemCount: orders.length,
+                                    controller:
+                                        PageController(viewportFraction: 0.7),
+                                    onPageChanged: (int index) =>
+                                        setState(() => _indexOrder = index),
+                                    itemBuilder: (_, i) {
+                                      return Transform.scale(
+                                        scale: i == _indexOrder ? 1 : 0.9,
+                                        child: Card(
+                                          elevation: 4,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  Dimen.boxBorderRadius),
                                           child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.stretch,
                                             children: [
-                                              Text(
-                                                orders[i].pharmacy,
-                                                style:
-                                                    TextStyle(fontSize: 20),
+                                              Card(
+                                                color: AppColors
+                                                    .secondary75percent,
+                                                child: Padding(
+                                                  padding: EdgeInsets.all(5),
+                                                  child: Column(
+                                                    children: [
+                                                      Text(
+                                                        orders[i]!.pharmName,
+                                                        style: TextStyle(
+                                                            fontSize: 20),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Text(
+                                                        '${DateFormat('dd-MM-yyyy').format(orders[i]!.date)} \t ${orders[i]!.cost.toStringAsFixed(2)}₺',
+                                                        style: TextStyle(
+                                                            fontSize: 13),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
                                               ),
                                               SizedBox(
-                                                height: 5,
+                                                height: 10,
                                               ),
-                                              Text(
-                                                '${orders[i].date} - ${orders[i].prices.sum.toStringAsFixed(2)} TL',
-                                                style:
-                                                    TextStyle(fontSize: 13),
+                                              Expanded(
+                                                child: SingleChildScrollView(
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      ListView.builder(
+                                                        shrinkWrap: true,
+                                                        physics: NeverScrollableScrollPhysics(),
+                                                        itemCount: orders[i]!.products.length,
+                                                        itemBuilder: (context, index) {
+                                                          return Card(
+                                                            child: ListTile(
+                                                              dense: true,
+                                                              onTap: (){},
+                                                              leading: CircleAvatar(
+                                                                child: Text('x${orders[i]!.amounts[index]}', style: TextStyle(color: Colors.white, fontSize: 15),),
+                                                                radius: 15,
+                                                                backgroundColor:
+                                                                    AppColors
+                                                                        .button,
+                                                              ),
+                                                              title: Text(orders[i]!.products[index]),
+                                                              subtitle: Text('Each: ${double.parse(orders[i]!.prices[index])}₺'),
+                                                              trailing: Text('${double.parse(orders[i]!.prices[index])*orders[i]!.amounts[index]}₺'),
+                                                            ),
+                                                          );
+                                                        },
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(5),
+                                                child: OutlinedButton(
+                                                    onPressed: () {},
+                                                    child: Row(
+                                                      mainAxisAlignment:MainAxisAlignment.center,
+                                                      children: [
+                                                        Icon(
+                                                          Icons.star,
+                                                          color: AppColors.titleText,
+                                                        ),
+                                                        SizedBox(
+                                                          width: 5,
+                                                        ),
+                                                        Text(
+                                                          'Rate',
+                                                          style: TextStyle(
+                                                              color: AppColors.buttonText,
+                                                              fontSize: 15),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    style: OutlinedButton
+                                                        .styleFrom(
+                                                      shape: RoundedRectangleBorder(
+                                                          borderRadius: Dimen
+                                                              .boxBorderRadius),
+                                                      backgroundColor:
+                                                          AppColors.button,
+                                                    )),
                                               )
                                             ],
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Expanded(
-                                        flex: 1,
-                                        child: SingleChildScrollView(
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment
-                                                    .spaceBetween,
-                                            children: [
-                                              Column(
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8),
-                                                    child: Text(
-                                                        "${orders[i].products.join('\n')}"),
-                                                  ),
-                                                ],
-                                              ),
-                                              Column(
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8),
-                                                    child: Text(
-                                                        "${orders[i].prices.join('\n')}"),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(5),
-                                        child: OutlinedButton(
-                                            onPressed: () {},
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Icon(
-                                                  Icons.repeat_outlined,
-                                                  color: AppColors.titleText,
-                                                ),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                                Text(
-                                                  'Repeat',
-                                                  style: TextStyle(
-                                                      color: AppColors
-                                                          .buttonText,
-                                                      fontSize: 15),
-                                                ),
-                                              ],
-                                            ),
-                                            style: OutlinedButton.styleFrom(
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      Dimen.boxBorderRadius),
-                                              backgroundColor:
-                                                  AppColors.button,
-                                            )),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                          )),
+                                      );
+                                    },
+                                  ));
+                            } else if (orders == null) {
+                              return Text("Fetching");
+                            } else {
+                              return Text("There is no previous order");
+                            }
+                          }),
                       SizedBox(height: 20),
                       Text(
                         'Favourite Pharmacies',
-                        style: TextStyle(
-                            color: AppColors.bodyText, fontSize: 26),
+                        style:
+                            TextStyle(color: AppColors.bodyText, fontSize: 26),
                       ),
                       SizedBox(height: 15),
                       StreamBuilder<List<pharmappPharmacy?>>(
-                          stream:
-                              DatabaseService_pharm(id: "", ids: favPharms)
-                                  .pharms,
+                          stream: DatabaseService_pharm(id: "", ids: favPharms)
+                              .pharms,
                           builder: (context, snapshot) {
                             List<pharmappPharmacy?>? pharms = snapshot.data;
 
@@ -374,10 +393,12 @@ class _HomeState extends State<Home> {
                                                     const EdgeInsets.all(5),
                                                 child: OutlinedButton(
                                                     onPressed: () {
-                                                      Navigator.pushNamed(context, '/listProducts',
-                                                                      arguments: {
-                                                                        'pharm': pharms[j],
-                                                                      });
+                                                      Navigator.pushNamed(
+                                                          context,
+                                                          '/listProducts',
+                                                          arguments: {
+                                                            'pharm': pharms[j],
+                                                          });
                                                     },
                                                     child: Row(
                                                       mainAxisAlignment:
@@ -423,7 +444,9 @@ class _HomeState extends State<Home> {
                               return Text("There is no favourite pharmacy");
                             }
                           }),
-                          SizedBox(height: 16,),
+                      SizedBox(
+                        height: 16,
+                      ),
                     ],
                   ),
                 ),
@@ -469,7 +492,8 @@ class _HomeState extends State<Home> {
     }
   }
 
-  Future<dynamic> addAddressPopUp(BuildContext context, pharmappUser pUser, List<pharmappAddress?>? addrs) {
+  Future<dynamic> addAddressPopUp(
+      BuildContext context, pharmappUser pUser, List<pharmappAddress?>? addrs) {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -511,7 +535,8 @@ class _HomeState extends State<Home> {
                                     child: OutlinedButton(
                                       onPressed: () async {
                                         if (_addAddress != null) {
-                                          await DatabaseService(uid: pUser.id).addAddress(_addAddress, addrs!);
+                                          await DatabaseService(uid: pUser.id)
+                                              .addAddress(_addAddress, addrs!);
                                           setState(() {
                                             _addAddress = null;
                                           });

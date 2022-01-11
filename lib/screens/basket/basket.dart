@@ -9,10 +9,12 @@ import 'package:number_inc_dec/number_inc_dec.dart';
 import 'package:pharm_app/models/pharmacies/pharmacies.dart';
 import 'package:pharm_app/models/products/products.dart';
 import 'package:pharm_app/models/users/users.dart';
+import 'package:pharm_app/services/auth.dart';
 import 'package:pharm_app/services/database.dart';
 import 'package:pharm_app/utils/colors.dart';
 import 'package:pharm_app/utils/dimensions.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class Basket extends StatefulWidget {
   const Basket({Key? key}) : super(key: key);
@@ -222,7 +224,18 @@ class _BasketState extends State<Basket> {
                                                   width: 150,
                                                 ),
                                                 OutlinedButton(
-                                                  onPressed: () {},
+                                                  onPressed: () async {
+                                                    List<dynamic> amountsToSent = [];
+                                                    List<String> productsToSent = [];
+                                                    List<String> pricesToSent = [];
+                                                    for (var i = 0; i < products.length; i++) {
+                                                      amountsToSent.add(amounts[i+1]);
+                                                      productsToSent.add(products[i]!.name);
+                                                      pricesToSent.add(products[i]!.price.toStringAsFixed(2));
+                                                    }
+                                                    await AuthService().addOrder(pUser.id, pharm.id, pharm.name, amountsToSent, productsToSent, pricesToSent, DateFormat("dd-MM-yyyy").format(DateTime.now()), totalCost(products, amounts), false, pUser.pre_orders);
+                                                    await DatabaseService(uid: pUser.id).removeAllFromBasket();
+                                                  },
                                                   child: Text(
                                                     "Check Out",
                                                     style: TextStyle(
