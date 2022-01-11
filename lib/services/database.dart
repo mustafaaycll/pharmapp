@@ -5,6 +5,7 @@ import 'package:pharm_app/models/orders/orders.dart';
 import 'package:pharm_app/models/pharmacies/pharmacies.dart';
 import 'package:pharm_app/models/products/products.dart';
 import 'package:pharm_app/models/users/users.dart';
+import 'package:intl/intl.dart';
 
 class DatabaseService {
   final String uid;
@@ -88,6 +89,11 @@ class DatabaseService {
 
   bool favPharmExists (String? pid, List<dynamic> liste) {
     return liste.contains(pid);
+  }
+
+  Future addOrderToUser(String id, List<dynamic> pre_orders) async {
+    pre_orders.add(id);
+    return userCollection.doc(uid).update({'pre_orders': pre_orders});
   }
 
   Future removeAddress(String? aid, List<pharmappAddress?> liste) async {
@@ -347,6 +353,58 @@ class DatabaseService_product {
 
   Stream<List<pharmappProduct?>> get products {
     return productsCollection.snapshots().map(_productListFromSnapshot);
+  }
+  
+}
+
+class DatabaseService_order {
+  final String id;
+  final List<dynamic> ids;
+
+  DatabaseService_order({required this.id, required this.ids});
+
+  final CollectionReference orderCollection = FirebaseFirestore.instance.collection('orders');
+
+  pharmappOrder _orderDataFromSnapshot(DocumentSnapshot snapshot){
+    return pharmappOrder(
+      id: id,
+      pharmid: snapshot.get('pharmid'),
+      pharmName: snapshot.get('pharmName'),
+      amounts: snapshot.get('amounts'),
+      products: snapshot.get('products'),
+      prices: snapshot.get('prices'),
+      date: DateFormat("dd-MM-yyyy").parse(snapshot.get('date')),
+      cost: double.parse(snapshot.get('cost')),
+      rated: snapshot.get('rated')
+    );
+  }
+
+  Stream<pharmappOrder> get orderData {
+    return orderCollection.doc(id).snapshots().map(_orderDataFromSnapshot);
+  }
+
+  List<pharmappOrder?> _orderListFromSnapshot(QuerySnapshot snapshot) {
+    return List<pharmappOrder?>.from(snapshot.docs.map(
+      (doc) {
+        if (ids.contains(doc.id)) {
+          return pharmappOrder(
+            id: doc.id,
+            pharmid: doc.get('pharmid'),
+            pharmName: doc.get('pharmName'),
+            amounts: doc.get('amounts'),
+            products: doc.get('products'),
+            prices: doc.get('prices'),
+            date: DateFormat("dd-MM-yyyy").parse(doc.get('date')),
+            cost: double.parse(doc.get('cost')),
+            rated: doc.get('rated')
+          );
+        }
+      }
+    ).toList().where((element) => element != null));
+  }
+
+  Stream<List<pharmappOrder?>> get orders {
+    return orderCollection.snapshots().map(_orderListFromSnapshot);
   }
   
 }

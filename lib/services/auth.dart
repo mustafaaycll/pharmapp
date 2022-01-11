@@ -1,5 +1,6 @@
 import 'dart:ffi';
 import 'dart:io';
+import 'dart:math';
 
 import "package:firebase_auth/firebase_auth.dart";
 import 'package:firebase_storage/firebase_storage.dart';
@@ -107,6 +108,28 @@ class AuthService {
         })
         .then((value) => print('User Added'))
         .catchError((error) => print('Adding User Failed ${error.toString()}'));
+  }
+
+  Future addOrder(String userid, String pharmid, String pharmName, List<dynamic> amounts, List<dynamic> products, List<dynamic> prices, String date, String cost, bool rated, List<dynamic> pre_orders) async {
+    
+    const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    Random _rnd = Random();
+
+    CollectionReference orders = FirebaseFirestore.instance.collection('orders');
+    String id = await String.fromCharCodes(Iterable.generate(16, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+    await orders.doc(id).set({
+      'id': id,
+      'pharmid': pharmid,
+      'pharmName': pharmName,
+      'amounts': amounts,
+      'products': products,
+      'prices': prices,
+      'date': date,
+      'cost': cost,
+      'rated': rated,
+    }).then((value) => print("Order Added")).catchError((error) => print('Adding order failed ${error.toString()}'));
+
+    await DatabaseService(uid: userid).addOrderToUser(id, pre_orders);
   }
 
   Future signUp(
