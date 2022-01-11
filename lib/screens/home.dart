@@ -416,7 +416,7 @@ class _HomeState extends State<Home> {
               return Scaffold(
                 appBar: AppBar(
                   title: Text(
-                    'Favourite Pharmacies',
+                    'Home',
                     style: TextStyle(color: AppColors.titleText, fontSize: 26),
                   ),
                   centerTitle: true,
