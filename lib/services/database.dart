@@ -120,6 +120,31 @@ class DatabaseService {
     return userCollection.doc(uid).update({'addresses': ids});
   }
 
+  Future addToBasket(pharmappPharmacy pharm, pharmappProduct product, pharmappUser pUser, num quantity) async {
+    String currentSeller = pUser.currentSeller;
+    List<dynamic> basket = pUser.basket;
+    List<dynamic> amount = pUser.amount;
+
+    if (currentSeller == "") {
+      currentSeller = pharm.id;
+    }
+
+    if (basket.contains(product.id)) {
+      final index = basket.indexWhere((element) => element == product.id);
+      amount[index] = amount[index] + quantity;
+    } else {
+      basket.add(product.id);
+      amount.add(quantity);
+    }
+
+    return userCollection.doc(uid).update({
+      'currentSeller': currentSeller,
+      'basket': basket,
+      'amount': amount,
+    });
+
+  }
+
   // END OF FUNCTIONS RELATED TO USERS
 }
 

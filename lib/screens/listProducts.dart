@@ -20,6 +20,7 @@ class listProductScreen extends StatefulWidget {
 class _listProductScreenState extends State<listProductScreen> {
   final _formKey = GlobalKey<FormState>();
   num multiplier = 1;
+  bool approved = false;
 
   @override
   Widget build(BuildContext context) {
@@ -118,25 +119,22 @@ class _listProductScreenState extends State<listProductScreen> {
                                                       context,
                                                       pUser,
                                                       pharm,
-                                                      products
-                                                          .where((element) =>
-                                                              element!
-                                                                  .category ==
-                                                              "Painkiller")
-                                                          .toList()[index]);
-                                                  print(multiplier);
+                                                      products.where((element) =>element!.category == "Painkiller").toList()[index]);
+                                                  if (approved) {
+                                                    await DatabaseService(uid: pUser.id).addToBasket(pharm, products.where((element) => element!.category == "Painkiller").toList()[index]!, pUser, multiplier);
+                                                    setState(() {
+                                                      approved = false;
+                                                    });
+                                                  }
+                                                  setState(() {
+                                                    multiplier = 1; 
+                                                  });
                                                 },
                                                 leading: SizedBox(
                                                     height: 75,
                                                     width: 75,
                                                     child: Image.network(
-                                                        products
-                                                            .where((element) =>
-                                                                element!
-                                                                    .category ==
-                                                                "Painkiller")
-                                                            .toList()[index]!
-                                                            .url)),
+                                                        products.where((element) =>element!.category =="Painkiller").toList()[index]!.url)),
                                                 title: Text(products
                                                     .where((element) =>
                                                         element!.category ==
@@ -171,7 +169,22 @@ class _listProductScreenState extends State<listProductScreen> {
                                           itemBuilder: (context, index) {
                                             return Card(
                                               child: ListTile(
-                                                onTap: () {},
+                                                onTap: () async {
+                                                  await addToBasketPopUp(
+                                                      context,
+                                                      pUser,
+                                                      pharm,
+                                                      products.where((element) =>element!.category == "Dental Care").toList()[index]);
+                                                  if (approved) {
+                                                    await DatabaseService(uid: pUser.id).addToBasket(pharm, products.where((element) => element!.category == "Dental Care").toList()[index]!, pUser, multiplier);
+                                                    setState(() {
+                                                      approved = false;
+                                                    });
+                                                  }
+                                                  setState(() {
+                                                    multiplier = 1; 
+                                                  });
+                                                },
                                                 leading: SizedBox(
                                                     height: 75,
                                                     width: 75,
@@ -217,7 +230,22 @@ class _listProductScreenState extends State<listProductScreen> {
                                           itemBuilder: (context, index) {
                                             return Card(
                                               child: ListTile(
-                                                onTap: () {},
+                                                onTap: () async {
+                                                  await addToBasketPopUp(
+                                                      context,
+                                                      pUser,
+                                                      pharm,
+                                                      products.where((element) =>element!.category == "Personal Care").toList()[index]);
+                                                  if (approved) {
+                                                    await DatabaseService(uid: pUser.id).addToBasket(pharm, products.where((element) => element!.category == "Personal Care").toList()[index]!, pUser, multiplier);
+                                                    setState(() {
+                                                      approved = false;
+                                                    });
+                                                  }
+                                                  setState(() {
+                                                    multiplier = 1; 
+                                                  });
+                                                },
                                                 leading: SizedBox(
                                                     height: 75,
                                                     width: 75,
@@ -263,7 +291,22 @@ class _listProductScreenState extends State<listProductScreen> {
                                           itemBuilder: (context, index) {
                                             return Card(
                                               child: ListTile(
-                                                onTap: () {},
+                                                onTap: () async {
+                                                  await addToBasketPopUp(
+                                                      context,
+                                                      pUser,
+                                                      pharm,
+                                                      products.where((element) =>element!.category == "Supplementary").toList()[index]);
+                                                  if (approved) {
+                                                    await DatabaseService(uid: pUser.id).addToBasket(pharm, products.where((element) => element!.category == "Supplementary").toList()[index]!, pUser, multiplier);
+                                                    setState(() {
+                                                      approved = false;
+                                                    });
+                                                  }
+                                                  setState(() {
+                                                    multiplier = 1; 
+                                                  });
+                                                },
                                                 leading: SizedBox(
                                                     height: 75,
                                                     width: 75,
@@ -358,7 +401,7 @@ class _listProductScreenState extends State<listProductScreen> {
   }
 
   Future<dynamic>? addToBasketPopUp(BuildContext context, pharmappUser pUser,
-      pharmappPharmacy pharm, pharmappProduct? product) {
+      pharmappPharmacy pharm, pharmappProduct? product) async {
     if (pUser.currentSeller != "" && pUser.currentSeller != pharm.id) {
       return showDialog(
           context: context,
@@ -432,46 +475,61 @@ class _listProductScreenState extends State<listProductScreen> {
                                 return null;
                               }
                             },
+                            onSubmitted: (value) {
+                              setState(() {
+                                multiplier = value;
+                              });
+                            },
+                            onIncrement: (value) {
+                              setState(() {
+                                multiplier = value;
+                              });
+                            },
+                            onDecrement: (value) {
+                              setState(() {
+                                multiplier = value;
+                              });
+                            },
                             onChanged: (value) {
                               setState(() {
                                 multiplier = value;
                               });
                             },
-                            
                           ),
                         ),
                         Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: OutlinedButton(
-                                onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: OutlinedButton(
+                                  onPressed: () {
                                     _formKey.currentState!.save();
                                     Navigator.pop(context);
-                                  }
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 12.0),
-                                  child: Text(
-                                    'Add to Cart',
-                                    style:
-                                        TextStyle(color: AppColors.buttonText),
+                                    setState(() {
+                                      approved = true;
+                                    });
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 12.0),
+                                    child: Text(
+                                      'Add to Cart',
+                                      style: TextStyle(
+                                          color: AppColors.buttonText),
+                                    ),
+                                  ),
+                                  style: OutlinedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: Dimen.boxBorderRadius),
+                                    backgroundColor: AppColors.button,
                                   ),
                                 ),
-                                style: OutlinedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: Dimen.boxBorderRadius),
-                                  backgroundColor: AppColors.button,
-                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      )
+                            ],
+                          ),
+                        )
                       ],
                     ),
                   )
