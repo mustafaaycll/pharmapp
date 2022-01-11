@@ -58,7 +58,7 @@ class _listPharmsScreenState extends State<listPharmsScreen> {
                                       onTap: () {
                                         Navigator.pushNamed(context, '/listProducts',
                                         arguments: {
-                                          'pharm': pharms[index]
+                                          'pharm': pharms[index],
                                         });
                                       },
                                       leading: Image.network(

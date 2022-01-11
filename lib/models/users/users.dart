@@ -16,6 +16,9 @@ class pharmappUser {
   final List<dynamic> addresses;
   final List<dynamic> fav_pharms;
   final List<dynamic> pre_orders;
+  final List<dynamic> basket;
+  final List<dynamic> amount;
+  final String currentSeller;
 
-  pharmappUser({required this.id, required this.fullname, required this.email, required this.method, required this.profile_pic_url, required this.addresses, required this.fav_pharms, required this.pre_orders});
+  pharmappUser({required this.id, required this.fullname, required this.email, required this.method, required this.profile_pic_url, required this.addresses, required this.fav_pharms, required this.pre_orders, required this.basket, required this.amount, required this.currentSeller});
 }
