@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pharm_app/models/orders/orders.dart';
@@ -51,6 +53,16 @@ class _listProductScreenState extends State<listProductScreen> {
                         backgroundColor: AppColors.primary,
                         centerTitle: true,
                         elevation: 0.0,
+                        actions: [
+                          IconButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/basket');
+                            },
+                            icon: Icon(
+                              Icons.shopping_basket
+                            ),
+                          )
+                        ],
                       ),
                       body: Padding(
                           padding: EdgeInsets.all(8.0),

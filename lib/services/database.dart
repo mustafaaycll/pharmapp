@@ -145,6 +145,46 @@ class DatabaseService {
 
   }
 
+  Future changeAmount(List<dynamic> amounts, int index, num newAmount) async {
+    amounts[index] = newAmount;
+    return userCollection.doc(uid).update({
+      'amount': amounts
+    });
+
+  }
+
+  Future removeSingleProductFromBasket(List<dynamic> amounts, int index, List<pharmappProduct?> products, String currentSeller) async {
+    
+    List<dynamic> newAmounts = [0];
+    List<String> newIds = [""];
+    String newSeller = currentSeller;
+
+    for (var i = 1; i < amounts.length; i++) {
+      if (i-1 != index) {
+        newAmounts.add(amounts[i]);
+        newIds.add(products[i-1]!.id);
+      }
+    }
+
+    if (newAmounts.length == 1) {
+      newSeller = "";
+    }
+
+    return userCollection.doc(uid).update({
+      'currentSeller': newSeller,
+      'basket': newIds,
+      'amount': newAmounts
+    });
+  }
+
+  Future removeAllFromBasket() async {
+    return userCollection.doc(uid).update({
+      'currentSeller': "",
+      'amount': [0],
+      'basket': [""],
+    });
+  }
+
   // END OF FUNCTIONS RELATED TO USERS
 }
 
@@ -281,7 +321,7 @@ class DatabaseService_product {
   }
 
   List<pharmappProduct?> _productListFromSnapshot(QuerySnapshot snapshot) {
-    return List<pharmappProduct?>.from(snapshot.docs.map((doc) {
+    List<pharmappProduct?> result = List<pharmappProduct?>.from(snapshot.docs.map((doc) {
       if (ids.contains(doc.id)) {
         return pharmappProduct(
           id: doc.id,
@@ -292,6 +332,17 @@ class DatabaseService_product {
         );
       }
     }).toList().where((element) => element != null));
+
+    List<pharmappProduct?> returned = [];
+    for (var i = 0; i < ids.length; i++) {
+      for (var j = 0; j < result.length; j++) {
+        if(result[j]!.id == ids[i]) {
+          returned.add(result[j]);
+        }
+      }
+    }
+
+    return returned;
   }
 
   Stream<List<pharmappProduct?>> get products {

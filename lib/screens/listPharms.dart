@@ -47,6 +47,14 @@ class _listPharmsScreenState extends State<listPharmsScreen> {
                               backgroundColor: AppColors.primary,
                               centerTitle: true,
                               elevation: 0.0,
+                              actions: [
+                                IconButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, '/basket');
+                                  },
+                                  icon: Icon(Icons.shopping_basket),
+                                )
+                              ],
                             ),
                             body: Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -56,10 +64,11 @@ class _listPharmsScreenState extends State<listPharmsScreen> {
                                   return Card(
                                     child: ListTile(
                                       onTap: () {
-                                        Navigator.pushNamed(context, '/listProducts',
-                                        arguments: {
-                                          'pharm': pharms[index],
-                                        });
+                                        Navigator.pushNamed(
+                                            context, '/listProducts',
+                                            arguments: {
+                                              'pharm': pharms[index],
+                                            });
                                       },
                                       leading: Image.network(
                                           'http://www.aeo.org.tr/Helpers/DuyuruIcon.ashx?yayinyeri=sayfaicerik&Id=36690'),
