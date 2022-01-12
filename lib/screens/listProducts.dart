@@ -89,8 +89,7 @@ class _listProductScreenState extends State<listProductScreen> {
                               SizedBox(
                                 height: 8,
                               ),
-                              Text(
-                                  'Rating: ${pharm.ratings.reduce((a, b) => a + b) / pharm.ratings.length}'),
+                              rateWidget(pharm),
                               SizedBox(
                                 height: 8,
                               ),
@@ -410,6 +409,14 @@ class _listProductScreenState extends State<listProductScreen> {
             );
           }
         });
+  }
+
+  Text rateWidget(pharmappPharmacy pharm) {
+    if (pharm.ratings.reduce((a, b) => a + b) / pharm.ratings.length != 0) {
+      return Text('Rating: ${double.parse((pharm.ratings.reduce((a, b) => a + b) / pharm.ratings.length).toString()).toStringAsFixed(1)}');
+    } else {
+      return Text('No Rating');
+    }
   }
 
   Future<dynamic>? addToBasketPopUp(BuildContext context, pharmappUser pUser,
