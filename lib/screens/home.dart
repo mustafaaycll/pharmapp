@@ -2,6 +2,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:number_inc_dec/number_inc_dec.dart';
 import 'package:pharm_app/models/addresses/addresses.dart';
 import 'package:pharm_app/models/orders/orders.dart';
 import 'package:pharm_app/models/pharmacies/pharmacies.dart';
@@ -34,10 +35,15 @@ class _HomeState extends State<Home> {
   GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   final _formKey = GlobalKey<FormState>();
   final _formKeyPopUp = GlobalKey<FormState>();
+  final _formKeyRate = GlobalKey<FormState>();
+
   String? _currAddress;
   String? _addAddress;
   int _indexOrder = 0;
   int _indexPharm = 0;
+  num rate = 1;
+  bool approved = false;
+  List<dynamic> pre_rates = [];
 
   List<Order> orders = <Order>[
     const Order('Faruk Eczanesi', '05/03/2021',
@@ -266,27 +272,46 @@ class _HomeState extends State<Home> {
                                               Expanded(
                                                 child: SingleChildScrollView(
                                                   child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       ListView.builder(
                                                         shrinkWrap: true,
-                                                        physics: NeverScrollableScrollPhysics(),
-                                                        itemCount: orders[i]!.products.length,
-                                                        itemBuilder: (context, index) {
+                                                        physics:
+                                                            NeverScrollableScrollPhysics(),
+                                                        itemCount: orders[i]!
+                                                            .products
+                                                            .length,
+                                                        itemBuilder:
+                                                            (context, index) {
                                                           return Card(
                                                             child: ListTile(
                                                               dense: true,
-                                                              onTap: (){},
-                                                              leading: CircleAvatar(
-                                                                child: Text('x${orders[i]!.amounts[index]}', style: TextStyle(color: Colors.white, fontSize: 15),),
+                                                              onTap: () {},
+                                                              leading:
+                                                                  CircleAvatar(
+                                                                child: Text(
+                                                                  'x${orders[i]!.amounts[index]}',
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontSize:
+                                                                          15),
+                                                                ),
                                                                 radius: 15,
                                                                 backgroundColor:
                                                                     AppColors
                                                                         .button,
                                                               ),
-                                                              title: Text(orders[i]!.products[index]),
-                                                              subtitle: Text('Each: ${double.parse(orders[i]!.prices[index])}₺'),
-                                                              trailing: Text('${double.parse(orders[i]!.prices[index])*orders[i]!.amounts[index]}₺'),
+                                                              title: Text(orders[
+                                                                          i]!
+                                                                      .products[
+                                                                  index]),
+                                                              subtitle: Text(
+                                                                  'Each: ${double.parse(orders[i]!.prices[index])}₺'),
+                                                              trailing: Text(
+                                                                  '${double.parse(orders[i]!.prices[index]) * orders[i]!.amounts[index]}₺'),
                                                             ),
                                                           );
                                                         },
@@ -298,34 +323,100 @@ class _HomeState extends State<Home> {
                                               Padding(
                                                 padding:
                                                     const EdgeInsets.all(5),
-                                                child: OutlinedButton(
-                                                    onPressed: () {},
-                                                    child: Row(
-                                                      mainAxisAlignment:MainAxisAlignment.center,
-                                                      children: [
-                                                        Icon(
-                                                          Icons.star,
-                                                          color: AppColors.titleText,
+                                                child: orders[i]!.rated != true
+                                                    ? OutlinedButton(
+                                                        onPressed: () async {
+                                                          await ratePopUp(
+                                                              context,
+                                                              orders[i]!
+                                                                  .pharmid,
+                                                              orders[i]!
+                                                                  .pharmName);
+                                                          if (approved ==
+                                                              true) {
+                                                            await DatabaseService_pharm(
+                                                                    id: orders[
+                                                                            i]!
+                                                                        .pharmid,
+                                                                    ids: [])
+                                                                .addRating(
+                                                                    pre_rates,
+                                                                    rate);
+                                                            await DatabaseService_order(
+                                                                    id: orders[
+                                                                            i]!
+                                                                        .id,
+                                                                    ids: [])
+                                                                .markRated();
+                                                            setState(() {
+                                                              approved = false;
+                                                              pre_rates = [];
+                                                              rate = 1;
+                                                            });
+                                                          }
+                                                        },
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Icon(
+                                                              Icons.star,
+                                                              color: AppColors
+                                                                  .titleText,
+                                                            ),
+                                                            SizedBox(
+                                                              width: 5,
+                                                            ),
+                                                            Text(
+                                                              'Rate',
+                                                              style: TextStyle(
+                                                                  color: AppColors
+                                                                      .buttonText,
+                                                                  fontSize: 15),
+                                                            ),
+                                                          ],
                                                         ),
-                                                        SizedBox(
-                                                          width: 5,
+                                                        style: OutlinedButton
+                                                            .styleFrom(
+                                                          shape: RoundedRectangleBorder(
+                                                              borderRadius: Dimen
+                                                                  .boxBorderRadius),
+                                                          backgroundColor:
+                                                              AppColors.button,
+                                                        ))
+                                                    : OutlinedButton(
+                                                        onPressed: () {},
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Icon(
+                                                              Icons.check,
+                                                              color: AppColors
+                                                                  .titleText,
+                                                            ),
+                                                            SizedBox(
+                                                              width: 5,
+                                                            ),
+                                                            Text(
+                                                              'Already Rated',
+                                                              style: TextStyle(
+                                                                  color: AppColors
+                                                                      .buttonText,
+                                                                  fontSize: 15),
+                                                            ),
+                                                          ],
                                                         ),
-                                                        Text(
-                                                          'Rate',
-                                                          style: TextStyle(
-                                                              color: AppColors.buttonText,
-                                                              fontSize: 15),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    style: OutlinedButton
-                                                        .styleFrom(
-                                                      shape: RoundedRectangleBorder(
-                                                          borderRadius: Dimen
-                                                              .boxBorderRadius),
-                                                      backgroundColor:
-                                                          AppColors.button,
-                                                    )),
+                                                        style: OutlinedButton
+                                                            .styleFrom(
+                                                          shape: RoundedRectangleBorder(
+                                                              borderRadius: Dimen
+                                                                  .boxBorderRadius),
+                                                          backgroundColor:
+                                                              Colors.grey,
+                                                        )),
                                               )
                                             ],
                                           ),
@@ -569,6 +660,161 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                 );
+              });
+        });
+  }
+
+  Future<dynamic>? ratePopUp(BuildContext context, String id, String name) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return StreamBuilder<pharmappPharmacy>(
+              stream: DatabaseService_pharm(id: id, ids: []).pharmData,
+              builder: (context, snapshot) {
+                pharmappPharmacy? pharm = snapshot.data;
+
+                if (pharm != null) {
+                  List<dynamic>? rates = pharm.ratings;
+                  return AlertDialog(
+                    content: Stack(
+                      children: <Widget>[
+                        Form(
+                          key: _formKeyRate,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              SizedBox(
+                                height: 75,
+                                width: 75,
+                                child: Image.network(
+                                  'http://www.aeo.org.tr/Helpers/DuyuruIcon.ashx?yayinyeri=sayfaicerik&Id=36690',
+                                ),
+                              ),
+                              SizedBox(
+                                height: 6,
+                              ),
+                              Text(
+                                name,
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              SizedBox(
+                                height: 6,
+                              ),
+                              Text(
+                                'How satisfied were you with your purchase?',
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox(
+                                height: 6,
+                              ),
+                              Text(
+                                '1: Not at all \t 10: Very Satisfied',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 15),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: NumberInputPrefabbed.roundedButtons(
+                                  incIcon: Icons.add,
+                                  decIcon: Icons.remove,
+                                  incIconColor: Colors.white,
+                                  decIconColor: Colors.white,
+                                  style: TextStyle(fontSize: 20),
+                                  numberFieldDecoration:
+                                      InputDecoration(border: InputBorder.none),
+                                  widgetContainerDecoration: BoxDecoration(
+                                      border: Border.all(
+                                    color: Colors.white,
+                                  )),
+                                  incDecBgColor: AppColors.button,
+                                  buttonArrangement:
+                                      ButtonArrangement.incRightDecLeft,
+                                  controller: TextEditingController(),
+                                  min: 1,
+                                  max: 10,
+                                  initialValue: 1,
+                                  validator: (value) {
+                                    if (value == null) {
+                                      return "Field is empty";
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                  onSubmitted: (value) {
+                                    setState(() {
+                                      rate = value;
+                                      pre_rates = rates;
+                                    });
+                                  },
+                                  onIncrement: (value) {
+                                    setState(() {
+                                      pre_rates = rates;
+                                      rate = value;
+                                    });
+                                  },
+                                  onDecrement: (value) {
+                                    setState(() {
+                                      pre_rates = rates;
+                                      rate = value;
+                                    });
+                                  },
+                                  onChanged: (value) {
+                                    setState(() {
+                                      pre_rates = rates;
+                                      rate = value;
+                                    });
+                                  },
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: OutlinedButton(
+                                        onPressed: () {
+                                          _formKey.currentState!.save();
+                                          setState(() {
+                                            pre_rates = rates;
+                                            approved = true;
+                                          });
+                                          Navigator.pop(context);
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 12.0),
+                                          child: Text(
+                                            'Give Rate',
+                                            style: TextStyle(
+                                                color: AppColors.buttonText),
+                                          ),
+                                        ),
+                                        style: OutlinedButton.styleFrom(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  Dimen.boxBorderRadius),
+                                          backgroundColor: AppColors.button,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                } else {
+                  return AlertDialog(
+                      content: Stack(children: <Widget>[
+                    Center(
+                      child: Text("Fetching Data"),
+                    )
+                  ]));
+                }
               });
         });
   }

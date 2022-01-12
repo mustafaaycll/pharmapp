@@ -253,6 +253,24 @@ class DatabaseService_pharm {
   Stream<List<pharmappPharmacy?>> get pharmsByAddr {
     return pharmCollection.snapshots().map(_pharmListByAddr);
   }
+
+  Future addRating(List<dynamic> existing_rates, num rating) async {
+    
+    List<dynamic> assignRates = [];
+
+    if(existing_rates[0] == 0) {
+      assignRates.add(rating);
+    } else {
+      for (var i = 0; i < existing_rates.length; i++) {
+        assignRates.add(existing_rates[i]);
+      }
+      assignRates.add(rating);
+    }
+
+    return pharmCollection.doc(id).update({
+      'ratings': assignRates,
+    });  
+  }
 }
 
 class DatabaseService_address {
@@ -405,6 +423,12 @@ class DatabaseService_order {
 
   Stream<List<pharmappOrder?>> get orders {
     return orderCollection.snapshots().map(_orderListFromSnapshot);
+  }
+
+  Future markRated() async {
+    return orderCollection.doc(id).update({
+      'rated': true,
+    });
   }
   
 }

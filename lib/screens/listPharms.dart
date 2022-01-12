@@ -73,8 +73,7 @@ class _listPharmsScreenState extends State<listPharmsScreen> {
                                       leading: Image.network(
                                           'http://www.aeo.org.tr/Helpers/DuyuruIcon.ashx?yayinyeri=sayfaicerik&Id=36690'),
                                       title: Text(pharms[index]!.name),
-                                      subtitle: Text(
-                                          'Rating: ${pharms[index]!.ratings.reduce((a, b) => a + b) / pharms.length}'),
+                                      subtitle: rateWidget(pharms, index),
                                       trailing: IconButton(
                                         icon: Icon(
                                           Icons.star,
@@ -169,5 +168,13 @@ class _listPharmsScreenState extends State<listPharmsScreen> {
             );
           }
         });
+  }
+
+  Text rateWidget(List<pharmappPharmacy?> pharms, int index) {
+    if (pharms[index]!.ratings.reduce((a, b) => a + b) / pharms[index]!.ratings.length != 0) {
+      return Text('Rating: ${double.parse((pharms[index]!.ratings.reduce((a, b) => a + b) / pharms[index]!.ratings.length).toString()).toStringAsFixed(1)}');
+    } else {
+      return Text('No Rating');
+    }
   }
 }
