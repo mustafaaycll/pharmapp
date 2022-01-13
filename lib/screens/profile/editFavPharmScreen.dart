@@ -54,7 +54,7 @@ class _editFavPharmScreenState extends State<editFavPharmScreen> {
                                     'http://www.aeo.org.tr/Helpers/DuyuruIcon.ashx?yayinyeri=sayfaicerik&Id=36690'),
                                 title: Text(pharms[index]!.name),
                                 subtitle: Text(
-                                    'Rating: ${pharms[index]!.ratings.reduce((a, b) => a + b) / pharms.length}'),
+                                    'Rating: ${pharms[index]!.ratings.reduce((a, b) => a + b) / pharms[index]!.ratings.length}'),
                                 trailing: IconButton(
                                   icon: const Icon(Icons.delete, color: Color(0xffE13419),),
                                   onPressed: () {
