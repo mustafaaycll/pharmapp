@@ -402,7 +402,7 @@ class DatabaseService_order {
   }
 
   List<pharmappOrder?> _orderListFromSnapshot(QuerySnapshot snapshot) {
-    return List<pharmappOrder?>.from(snapshot.docs.map(
+    List<pharmappOrder?> result = List<pharmappOrder?>.from(snapshot.docs.map(
       (doc) {
         if (ids.contains(doc.id)) {
           return pharmappOrder(
@@ -419,6 +419,18 @@ class DatabaseService_order {
         }
       }
     ).toList().where((element) => element != null));
+
+    List<pharmappOrder?> returned = [];
+
+    for (var i = ids.length-1; i > -1; i--) {
+      for (var j = 0; j < result.length; j++) {
+        if (result[j]!.id == ids[i]) {
+          returned.add(result[j]);
+        }
+      }
+    }
+
+    return returned;
   }
 
   Stream<List<pharmappOrder?>> get orders {
