@@ -81,7 +81,7 @@ class AuthService {
         .get();
 
     if (snapshot == null || !snapshot.exists) {
-      addUser(user!.uid, user.displayName, user.email, 'google', user.photoURL);
+      addUser(user.uid, user.displayName, user.email, 'google', user.photoURL);
     }
     return _userFromFirebase(user);
   }
@@ -161,7 +161,7 @@ class AuthService {
     try {
       await firebaseStorageRef.putFile(File(image!.path));
 
-      await FirebaseStorage.instance.ref().child('profilepics/${pUser!.id}').getDownloadURL().then((value) => {url = value});
+      await FirebaseStorage.instance.ref().child('profilepics/${pUser.id}').getDownloadURL().then((value) => {url = value});
 
       await DatabaseService(uid: pUser.id).updatePP(url);
     } on FirebaseException catch (e) {

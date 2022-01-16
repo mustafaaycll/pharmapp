@@ -64,7 +64,7 @@ class _ProfileState extends State<Profile> {
                             CircleAvatar(
                               backgroundColor: Color(0xffe8e8e8),
                               backgroundImage:
-                                  NetworkImage(pUser!.profile_pic_url),
+                                  NetworkImage(pUser.profile_pic_url),
                               radius: 60,
                             ),
                           ],

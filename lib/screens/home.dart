@@ -608,7 +608,7 @@ class _HomeState extends State<Home> {
                                 hint: Text("Select a City"),
                                 items: allAddrs?.map((element) {
                                   return DropdownMenuItem(
-                                    value: element!.id,
+                                    value: element.id,
                                     child: Text(element.city),
                                   );
                                 }).toList(),
