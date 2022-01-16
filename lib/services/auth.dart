@@ -59,7 +59,7 @@ class AuthService {
       return null;
     }
   }
-
+  
   Future googleSignIn() async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
