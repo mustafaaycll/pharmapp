@@ -26,6 +26,9 @@ class _ProfileState extends State<Profile> {
   final _formKey = GlobalKey<FormState>();
   String newName = "";
 
+  final _formKeyDelete = GlobalKey<FormState>();
+  bool approvedDeletion = false;
+
   final ImagePicker _picker = ImagePicker();
   XFile? _image;
   @override
@@ -230,7 +233,8 @@ class _ProfileState extends State<Profile> {
                               flex: 1,
                               child: OutlinedButton(
                                 onPressed: () {
-                                  Navigator.pushNamed(context, '/editFavPharms');
+                                  Navigator.pushNamed(
+                                      context, '/editFavPharms');
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
@@ -274,6 +278,42 @@ class _ProfileState extends State<Profile> {
                                   shape: RoundedRectangleBorder(
                                       borderRadius: Dimen.boxBorderRadius),
                                   backgroundColor: Color(0xffE13419),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: OutlinedButton(
+                                onPressed: () async {
+                                  await deletePopUp(context);
+                                  if (approvedDeletion == true) {
+                                    await DatabaseService(uid: pUser.id).deleteuser();
+                                    await user.delete();
+                                    setState(() {
+                                      approvedDeletion = false;
+                                    });
+                                  }
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 12.0),
+                                  child: Text(
+                                    'Delete Account',
+                                    style:
+                                        TextStyle(color: AppColors.titleText),
+                                  ),
+                                ),
+                                style: OutlinedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: Dimen.boxBorderRadius),
+                                  backgroundColor: AppColors.button,
                                 ),
                               ),
                             ),
@@ -453,5 +493,81 @@ class _ProfileState extends State<Profile> {
     setState(() {
       _image = pickedFile;
     });
+  }
+
+  Future<dynamic> deletePopUp(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: AppColors.titleText,
+            content: Stack(
+              children: <Widget>[
+                Form(
+                  key: _formKeyDelete,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Column(children: [
+                            Text(
+                              'You are about to delete your account permanently. This process cannot be undone!\n\nDo you wish to continue with deletion?',
+                              textAlign: TextAlign.center,
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: OutlinedButton(
+                                    onPressed: () {
+                                      _formKeyDelete.currentState!.save();
+                                      setState(() {
+                                        approvedDeletion = false;
+                                      });
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text("No", style: TextStyle(color: Colors.white),),
+                                    style: OutlinedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: Dimen.boxBorderRadius),
+                                      backgroundColor: AppColors.button,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Expanded(
+                                  flex: 1,
+                                  child: OutlinedButton(
+                                    onPressed: () {
+                                      _formKeyDelete.currentState!.save();
+                                      setState(() {
+                                        approvedDeletion = true;
+                                      });
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text("Yes", style: TextStyle(color: Colors.white),),
+                                    style: OutlinedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: Dimen.boxBorderRadius),
+                                      backgroundColor: Color(0xffE13419),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ])),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
   }
 }

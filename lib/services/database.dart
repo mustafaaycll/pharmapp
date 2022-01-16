@@ -191,6 +191,10 @@ class DatabaseService {
     });
   }
 
+  Future deleteuser() {
+    return userCollection.doc(uid).delete();
+  }
+
   // END OF FUNCTIONS RELATED TO USERS
 }
 
