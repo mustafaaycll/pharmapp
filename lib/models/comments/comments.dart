@@ -1,10 +1,10 @@
-class pharmappUser {
-
+class pharmappComment {
+  final String id;
   final String pharmid;
   final String userid;
-  final String rate;
+  final int rate;
   final DateTime date;
   final String comment;
 
-  pharmappUser({required this.pharmid, required this.userid, required this.rate, required this.date, required this.comment});
+  pharmappComment({required this.id, required this.pharmid, required this.userid, required this.rate, required this.date, required this.comment});
 }

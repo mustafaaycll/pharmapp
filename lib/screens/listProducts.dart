@@ -2,6 +2,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:pharm_app/models/comments/comments.dart';
 import 'package:pharm_app/models/orders/orders.dart';
 import 'package:pharm_app/models/pharmacies/pharmacies.dart';
 import 'package:pharm_app/models/products/products.dart';
@@ -11,6 +12,8 @@ import 'package:pharm_app/utils/colors.dart';
 import 'package:pharm_app/utils/dimensions.dart';
 import 'package:provider/provider.dart';
 import 'package:number_inc_dec/number_inc_dec.dart';
+import 'package:intl/intl.dart';
+
 
 class listProductScreen extends StatefulWidget {
   const listProductScreen({Key? key}) : super(key: key);
@@ -43,68 +46,115 @@ class _listProductScreenState extends State<listProductScreen> {
                 builder: (context, snapshot) {
                   List<pharmappProduct?>? products = snapshot.data;
                   if (products != null && products.length != 0) {
-                    return Scaffold(
-                      appBar: AppBar(
-                        title: Text(
-                          'Products',
-                          style: TextStyle(
-                              color: AppColors.titleText, fontSize: 26),
-                        ),
-                        backgroundColor: AppColors.primary,
-                        centerTitle: true,
-                        elevation: 0.0,
-                        actions: [
-                          IconButton(
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/basket');
-                            },
-                            icon: Icon(Icons.shopping_basket),
-                          )
-                        ],
-                      ),
-                      body: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                height: 75,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                    return StreamBuilder<List<pharmappComment?>>(
+                      stream: DatabaseService_comment(id: "", ids: pharm.comments).comments,
+                      builder: (context, snapshot) {
+                        List<pharmappComment?>? comments = snapshot.data;
+                        if (comments != null && comments.length != 0) {
+                          return Scaffold(
+                            appBar: AppBar(
+                              title: Text(
+                                'Products',
+                                style: TextStyle(
+                                    color: AppColors.titleText, fontSize: 26),
+                              ),
+                              backgroundColor: AppColors.primary,
+                              centerTitle: true,
+                              elevation: 0.0,
+                              actions: [
+                                IconButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, '/basket');
+                                  },
+                                  icon: Icon(Icons.shopping_basket),
+                                )
+                              ],
+                            ),
+                            body: Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Column(
                                   children: [
-                                    Image.network(
-                                      'http://www.aeo.org.tr/Helpers/DuyuruIcon.ashx?yayinyeri=sayfaicerik&Id=36690',
+                                    SizedBox(
+                                      height: 75,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Image.network(
+                                            'http://www.aeo.org.tr/Helpers/DuyuruIcon.ashx?yayinyeri=sayfaicerik&Id=36690',
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Text(
+                                      pharm.name,
+                                      style: TextStyle(fontSize: 26),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    rateWidget(pharm),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Divider(
+                                      thickness: 1,
+                                    ),
+                                    Expanded(
+                                      child: PageView(
+                                        controller: PageController(),
+                                        children: [
+                                          productList(products, pUser, pharm),
+                                          commentList(comments)
+                                        ]
+                                      ),
                                     ),
                                   ],
+                                )),
+                        );} else if (comments == null) {
+                              return Scaffold(
+                                appBar: AppBar(
+                                  title: Text(
+                                    'Products',
+                                    style: TextStyle(
+                                        color: AppColors.titleText, fontSize: 26),
+                                  ),
+                                  centerTitle: true,
+                                  backgroundColor: AppColors.primary,
+                                  elevation: 0.0,
                                 ),
-                              ),
-                              SizedBox(
-                                height: 8,
-                              ),
-                              Text(
-                                pharm.name,
-                                style: TextStyle(fontSize: 26),
-                              ),
-                              SizedBox(
-                                height: 8,
-                              ),
-                              rateWidget(pharm),
-                              SizedBox(
-                                height: 8,
-                              ),
-                              Divider(
-                                thickness: 1,
-                              ),
-                              Expanded(
-                                child: PageView(
-                                  controller: PageController(),
-                                  children: [
-                                    productList(products, pUser, pharm),
-                                    commentList()
-                                  ]
+                                body: Center(
+                                  child: Text(
+                                    'Fetching Data',
+                                    style: TextStyle(
+                                        color: AppColors.bodyText, fontSize: 15),
+                                  ),
                                 ),
-                              ),
-                            ],
-                          )),
+                              );
+                          } else {
+                              return Scaffold(
+                                appBar: AppBar(
+                                  title: Text(
+                                    'Products',
+                                    style: TextStyle(
+                                        color: AppColors.titleText, fontSize: 26),
+                                  ),
+                                  centerTitle: true,
+                                  backgroundColor: AppColors.primary,
+                                  elevation: 0.0,
+                                ),
+                                body: Center(
+                                  child: Text(
+                                    'This Pharmacy Does Not Sell Anything',
+                                    style: TextStyle(
+                                        color: AppColors.bodyText, fontSize: 15),
+                                  ),
+                                ),
+                              );
+                            }
+                      }
                     );
                   } else if (products == null) {
                     return Scaffold(
@@ -170,7 +220,71 @@ class _listProductScreenState extends State<listProductScreen> {
         });
   }
 
-  Widget commentList() => Center(child: Text("A"),);
+  Widget commentList(List<pharmappComment?> comments) {
+    return Expanded(
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 8,
+            ),
+            Text(
+              'Comments',
+              style: TextStyle(fontSize: 30),
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: comments.length,
+              itemBuilder: (context, index) {
+                return StreamBuilder<pharmappUser?>(
+                  stream: DatabaseService(uid: comments[index]!.userid).userData,
+                  builder: (context, snapshot) {
+                    pharmappUser? commenter = snapshot.data;
+                    if (commenter != null) {
+                      return Card(
+                        child: ListTile(
+                          onTap: () {},
+                          leading: SizedBox(
+                            height: 40,
+                            width: 40,
+                            child: rateBox(comments[index]!.rate),
+                          ),
+                          title: Text(comments[index]!.comment),
+                          subtitle: Text('${commenter.fullname} - ${DateFormat('dd-MM-yyyy').format(comments[index]!.date)}'),
+                          trailing: CircleAvatar(
+                            backgroundImage: NetworkImage(commenter.profile_pic_url),
+                          ),
+                        ),
+                      );
+                    }
+                    else {
+                      return Card(
+                        child: ListTile(
+                          onTap: () {},
+                          leading: SizedBox(
+                            height: 50,
+                            width: 50,
+                            child: rateBox(comments[index]!.rate),
+                          ),
+                          title: Text(comments[index]!.comment),
+                          subtitle: Text('${DateFormat('dd-MM-yyyy').format(comments[index]!.date)}'),
+                        ),
+                      );
+                    }
+                  }
+                );
+              },
+            ),
+          ]
+        ),
+      ),
+    );
+  }
 
   Widget productList(List<pharmappProduct?> products, pharmappUser pUser,
       pharmappPharmacy pharm) {
@@ -586,6 +700,50 @@ class _listProductScreenState extends State<listProductScreen> {
               ),
             );
           });
+    }
+  }
+
+  Widget rateBox(int rate) {
+    if (rate <= 10 && rate >= 8) {
+      return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: Color(0xff02c422)
+        ),
+        child: Center(
+          child: Text(rate.toString(), style: TextStyle(color: AppColors.titleText, fontSize: 23, fontWeight: FontWeight.w900),),
+        ),
+      );
+    } else if (rate < 8 && rate >= 6 ){
+      return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: Color(0xff89f59b)
+        ),
+        child: Center(
+          child: Text(rate.toString(), style: TextStyle(color: AppColors.titleText, fontSize: 23, fontWeight: FontWeight.w900),),
+        ),
+      );
+    } else if (rate < 6 && rate >= 4){
+      return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: Color(0xffffbe3b)
+        ),
+        child: Center(
+          child: Text(rate.toString(), style: TextStyle(color: AppColors.titleText, fontSize: 23, fontWeight: FontWeight.w900),),
+        ),
+      );
+    } else {
+      return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: Color(0xffc40000)
+        ),
+        child: Center(
+          child: Text(rate.toString(), style: TextStyle(color: AppColors.titleText, fontSize: 23, fontWeight: FontWeight.w900),),
+        ),
+      );
     }
   }
 }
