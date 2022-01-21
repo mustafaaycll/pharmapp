@@ -377,7 +377,6 @@ class _ProfileState extends State<Profile> {
                             return null;
                           },
                           decoration: InputDecoration(
-                              fillColor: AppColors.secondary75percent,
                               filled: true,
                               hintText: 'Type new name',
                               border: OutlineInputBorder(

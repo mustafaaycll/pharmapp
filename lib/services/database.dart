@@ -213,7 +213,8 @@ class DatabaseService_pharm {
         name: snapshot.get('name'),
         service_addresses: snapshot.get('service_addresses'),
         products: snapshot.get('products'),
-        ratings: snapshot.get('ratings'));
+        ratings: snapshot.get('ratings'),
+        comments: snapshot.get('comments'));
   }
 
   Stream<pharmappPharmacy> get pharmData {
@@ -229,7 +230,8 @@ class DatabaseService_pharm {
                 name: doc.get('name'),
                 service_addresses: doc.get('service_addresses'),
                 products: doc.get('products'),
-                ratings: doc.get('ratings'));
+                ratings: doc.get('ratings'),
+                comments: doc.get('comments'));
           }
         })
         .toList()
@@ -248,7 +250,8 @@ class DatabaseService_pharm {
           name: doc.get('name'),
           service_addresses: doc.get('service_addresses'),
           products: doc.get('products'),
-          ratings: doc.get('ratings')
+          ratings: doc.get('ratings'),
+          comments: doc.get('comments')
         );
       }
     }).toList().where((element) => element != null));
@@ -274,6 +277,22 @@ class DatabaseService_pharm {
     return pharmCollection.doc(id).update({
       'ratings': assignRates,
     });  
+  }
+
+  Future addComment(String commentid, List<dynamic> pre_comments) async {
+    
+    List<dynamic> assignComments = [];
+
+    if(pre_comments[0] == "") {
+      assignComments.add(commentid);
+    } else {
+      for (var i = 0; i < pre_comments.length; i++) {
+        assignComments.add(pre_comments[i]);
+      }
+      assignComments.add(commentid);
+    }
+    
+    return pharmCollection.doc(id).update({'comments': assignComments});
   }
 }
 
