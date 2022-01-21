@@ -83,6 +83,13 @@ class _BasketState extends State<Basket> {
                                     padding: EdgeInsets.all(8.0),
                                     child: Column(
                                       children: [
+                                        Text(
+                                          'Shopping From',
+                                          style: TextStyle(fontSize: 15),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
                                         SizedBox(
                                           height: 75,
                                           child: Row(
@@ -105,16 +112,20 @@ class _BasketState extends State<Basket> {
                                         SizedBox(
                                           height: 8,
                                         ),
-                                        Text(
-                                            'Rating: ${pharm.ratings.reduce((a, b) => a + b) / pharm.ratings.length}'),
+                                        rateWidget(pharm),
+                                        //Text(
+                                        //    'Rating: ${pharm.ratings.reduce((a, b) => a + b) / pharm.ratings.length}'),
                                         SizedBox(
                                           height: 8,
                                         ),
                                         Divider(
                                           thickness: 1,
                                         ),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
                                         Text(
-                                          'Shopping from ${pharm.name}',
+                                          'Products in Basket are',
                                           style: TextStyle(fontSize: 15),
                                         ),
                                         SizedBox(
@@ -394,6 +405,63 @@ class _BasketState extends State<Basket> {
             'No User Logged In',
             style: TextStyle(color: AppColors.bodyText, fontSize: 30),
           ),
+        ),
+      );
+    }
+  }
+  Widget rateWidget(pharmappPharmacy pharm) {
+    double avgRate = double.parse((pharm.ratings.reduce((a, b) => a + b) / pharm.ratings.length).toString());
+    print(avgRate);
+    if (avgRate != 0) {
+      return SizedBox(
+        width: 60,
+        height: 35,
+        child: avgRateBox(avgRate),
+      );
+    } else {
+      return Text('No Rating');
+    }
+  }
+  Widget avgRateBox(double rate) {
+    print('a: ${rate.toStringAsFixed(1)}');
+    if (rate <= 10 && rate >= 8) {
+      return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: Color(0xff57e32c)
+        ),
+        child: Center(
+          child: Text(rate.toStringAsFixed(1), style: TextStyle(color: AppColors.titleText, fontSize: 23, fontWeight: FontWeight.w900),),
+        ),
+      );
+    } else if (rate < 8 && rate >= 6 ){
+      return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: Color(0xffb7dd29)
+        ),
+        child: Center(
+          child: Text(rate.toStringAsFixed(1), style: TextStyle(color: AppColors.titleText, fontSize: 23, fontWeight: FontWeight.w900),),
+        ),
+      );
+    } else if (rate < 6 && rate >= 4){
+      return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: Color(0xffffa534)
+        ),
+        child: Center(
+          child: Text(rate.toStringAsFixed(1), style: TextStyle(color: AppColors.titleText, fontSize: 23, fontWeight: FontWeight.w900),),
+        ),
+      );
+    } else {
+      return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: Color(0xffff4545)
+        ),
+        child: Center(
+          child: Text(rate.toStringAsFixed(1), style: TextStyle(color: AppColors.titleText, fontSize: 23, fontWeight: FontWeight.w900),),
         ),
       );
     }

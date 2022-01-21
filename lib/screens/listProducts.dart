@@ -33,8 +33,6 @@ class _listProductScreenState extends State<listProductScreen> {
     final user = Provider.of<User?>(context);
     pharmappPharmacy pharm = arguments['pharm'];
 
-    print(pharm.products);
-
     return StreamBuilder<pharmappUser>(
         stream: DatabaseService(uid: user!.uid).userData,
         builder: (context, snapshot) {
@@ -113,7 +111,7 @@ class _listProductScreenState extends State<listProductScreen> {
                                     ),
                                   ],
                                 )),
-                        );} else if (comments == null) {
+                          );} else if (comments == null) {
                               return Scaffold(
                                 appBar: AppBar(
                                   title: Text(
@@ -141,17 +139,61 @@ class _listProductScreenState extends State<listProductScreen> {
                                     style: TextStyle(
                                         color: AppColors.titleText, fontSize: 26),
                                   ),
-                                  centerTitle: true,
                                   backgroundColor: AppColors.primary,
+                                  centerTitle: true,
                                   elevation: 0.0,
+                                  actions: [
+                                    IconButton(
+                                      onPressed: () {
+                                        Navigator.pushNamed(context, '/basket');
+                                      },
+                                      icon: Icon(Icons.shopping_basket),
+                                    )
+                                  ],
                                 ),
-                                body: Center(
-                                  child: Text(
-                                    'This Pharmacy Does Not Sell Anything',
-                                    style: TextStyle(
-                                        color: AppColors.bodyText, fontSize: 15),
-                                  ),
-                                ),
+                                body: Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                          height: 75,
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Image.network(
+                                                'http://www.aeo.org.tr/Helpers/DuyuruIcon.ashx?yayinyeri=sayfaicerik&Id=36690',
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                        Text(
+                                          pharm.name,
+                                          style: TextStyle(fontSize: 26),
+                                        ),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                        rateWidget(pharm),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                        Divider(
+                                          thickness: 1,
+                                        ),
+                                        Expanded(
+                                          child: PageView(
+                                            controller: PageController(),
+                                            children: [
+                                              productList(products, pUser, pharm),
+                                              commentList([])
+                                            ]
+                                          ),
+                                        ),
+                                      ],
+                                    )),
                               );
                             }
                       }
@@ -177,24 +219,160 @@ class _listProductScreenState extends State<listProductScreen> {
                       ),
                     );
                   } else {
-                    return Scaffold(
-                      appBar: AppBar(
-                        title: Text(
-                          'Products',
-                          style: TextStyle(
-                              color: AppColors.titleText, fontSize: 26),
-                        ),
-                        centerTitle: true,
-                        backgroundColor: AppColors.primary,
-                        elevation: 0.0,
-                      ),
-                      body: Center(
-                        child: Text(
-                          'This Pharmacy Does Not Sell Anything',
-                          style: TextStyle(
-                              color: AppColors.bodyText, fontSize: 15),
-                        ),
-                      ),
+                    return StreamBuilder<List<pharmappComment?>>(
+                      stream: DatabaseService_comment(id: "", ids: pharm.comments).comments,
+                      builder: (context, snapshot) {
+                        List<pharmappComment?>? comments = snapshot.data;
+                        if (comments != null && comments.length != 0) {
+                          return Scaffold(
+                            appBar: AppBar(
+                              title: Text(
+                                'Products',
+                                style: TextStyle(
+                                    color: AppColors.titleText, fontSize: 26),
+                              ),
+                              backgroundColor: AppColors.primary,
+                              centerTitle: true,
+                              elevation: 0.0,
+                              actions: [
+                                IconButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, '/basket');
+                                  },
+                                  icon: Icon(Icons.shopping_basket),
+                                )
+                              ],
+                            ),
+                            body: Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    SizedBox(
+                                      height: 75,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Image.network(
+                                            'http://www.aeo.org.tr/Helpers/DuyuruIcon.ashx?yayinyeri=sayfaicerik&Id=36690',
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Text(
+                                      pharm.name,
+                                      style: TextStyle(fontSize: 26),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    rateWidget(pharm),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Divider(
+                                      thickness: 1,
+                                    ),
+                                    Expanded(
+                                      child: PageView(
+                                        controller: PageController(),
+                                        children: [
+                                          productList(products, pUser, pharm),
+                                          commentList(comments)
+                                        ]
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                          );
+                          } else if (comments == null) {
+                              return Scaffold(
+                                appBar: AppBar(
+                                  title: Text(
+                                    'Products',
+                                    style: TextStyle(
+                                        color: AppColors.titleText, fontSize: 26),
+                                  ),
+                                  centerTitle: true,
+                                  backgroundColor: AppColors.primary,
+                                  elevation: 0.0,
+                                ),
+                                body: Center(
+                                  child: Text(
+                                    'Fetching Data',
+                                    style: TextStyle(
+                                        color: AppColors.bodyText, fontSize: 15),
+                                  ),
+                                ),
+                              );
+                          } else {
+                              return Scaffold(
+                                appBar: AppBar(
+                                  title: Text(
+                                    'Products',
+                                    style: TextStyle(
+                                        color: AppColors.titleText, fontSize: 26),
+                                  ),
+                                  backgroundColor: AppColors.primary,
+                                  centerTitle: true,
+                                  elevation: 0.0,
+                                  actions: [
+                                    IconButton(
+                                      onPressed: () {
+                                        Navigator.pushNamed(context, '/basket');
+                                      },
+                                      icon: Icon(Icons.shopping_basket),
+                                    )
+                                  ],
+                                ),
+                                body: Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                          height: 75,
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Image.network(
+                                                'http://www.aeo.org.tr/Helpers/DuyuruIcon.ashx?yayinyeri=sayfaicerik&Id=36690',
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                        Text(
+                                          pharm.name,
+                                          style: TextStyle(fontSize: 26),
+                                        ),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                        rateWidget(pharm),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                        Divider(
+                                          thickness: 1,
+                                        ),
+                                        Expanded(
+                                          child: PageView(
+                                            controller: PageController(),
+                                            children: [
+                                              productList(products, pUser, pharm),
+                                              commentList([])
+                                            ]
+                                          ),
+                                        ),
+                                      ],
+                                    )),
+                              );
+                            }
+                      }
                     );
                   }
                 });
@@ -236,6 +414,20 @@ class _listProductScreenState extends State<listProductScreen> {
             SizedBox(
               height: 8,
             ),
+            comments.isEmpty ?
+            Column(
+              children: [
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Sorry, there is no comment",),
+                  ],
+                ),
+              ],
+            ) :
             ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
@@ -286,278 +478,375 @@ class _listProductScreenState extends State<listProductScreen> {
     );
   }
 
-  Widget productList(List<pharmappProduct?> products, pharmappUser pUser,
-      pharmappPharmacy pharm) {
-    return Expanded(
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
+  Widget productList(List<pharmappProduct?> products, pharmappUser pUser, pharmappPharmacy pharm) {
+    
+    if (products.isEmpty) {
+      return Column(
+        children: [
+          SizedBox(
+                height: 8,
+          ),
+          Row(
+            children: [
+              Text(
+                'Products',
+                style: TextStyle(fontSize: 30),
+              ),
+            ],
+          ),
+          SizedBox(
               height: 8,
-            ),
-            Text(
-              'Painkillers',
-              style: TextStyle(fontSize: 30),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: products
-                    .where((element) => element!.category == "Painkiller")
-                    .toList()
-                    .length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: ListTile(
-                      onTap: () async {
-                        await addToBasketPopUp(
-                            context,
-                            pUser,
-                            pharm,
-                            products
-                                .where((element) =>
-                                    element!.category == "Painkiller")
-                                .toList()[index]);
-                        if (approved) {
-                          await DatabaseService(uid: pUser.id).addToBasket(
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Sorry, there is no comment",),
+            ],
+          )
+        ],
+      );
+    } else {
+      return Expanded(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 8,
+              ),
+              Text(
+                'Painkillers',
+                style: TextStyle(fontSize: 30),
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              products.where((element) => element!.category == "Painkiller").toList().isEmpty ?
+              Column(
+                children: [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("No products under the category of painkillers"),
+                    ],
+                  ),
+                ],
+              ) :
+              ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: products.where((element) => element!.category == "Painkiller").toList().length,
+                  itemBuilder: (context, index) {
+                    return
+                    Card(
+                      child: ListTile(
+                        onTap: () async {
+                          await addToBasketPopUp(
+                              context,
+                              pUser,
                               pharm,
                               products
                                   .where((element) =>
                                       element!.category == "Painkiller")
-                                  .toList()[index]!,
-                              pUser,
-                              multiplier);
+                                  .toList()[index]);
+                          if (approved) {
+                            await DatabaseService(uid: pUser.id).addToBasket(
+                                pharm,
+                                products
+                                    .where((element) =>
+                                        element!.category == "Painkiller")
+                                    .toList()[index]!,
+                                pUser,
+                                multiplier);
+                            setState(() {
+                              approved = false;
+                            });
+                          }
                           setState(() {
-                            approved = false;
+                            multiplier = 1;
                           });
-                        }
-                        setState(() {
-                          multiplier = 1;
-                        });
-                      },
-                      leading: SizedBox(
-                          height: 75,
-                          width: 75,
-                          child: Image.network(products
-                              .where((element) =>
-                                  element!.category == "Painkiller")
-                              .toList()[index]!
-                              .url)),
-                      title: Text(products
-                          .where((element) => element!.category == "Painkiller")
-                          .toList()[index]!
-                          .name),
-                      subtitle: Text(
-                          '${products.where((element) => element!.category == "Painkiller").toList()[index]!.price} ₺'),
-                    ),
-                  );
-                }),
-            SizedBox(
-              height: 16,
-            ),
-            Text(
-              'Dental Care',
-              style: TextStyle(fontSize: 30),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: products
-                    .where((element) => element!.category == "Dental Care")
-                    .toList()
-                    .length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: ListTile(
-                      onTap: () async {
-                        await addToBasketPopUp(
-                            context,
-                            pUser,
-                            pharm,
-                            products
+                        },
+                        leading: SizedBox(
+                            height: 75,
+                            width: 75,
+                            child: Image.network(products
                                 .where((element) =>
-                                    element!.category == "Dental Care")
-                                .toList()[index]);
-                        if (approved) {
-                          await DatabaseService(uid: pUser.id).addToBasket(
+                                    element!.category == "Painkiller")
+                                .toList()[index]!
+                                .url)),
+                        title: Text(products
+                            .where((element) => element!.category == "Painkiller")
+                            .toList()[index]!
+                            .name),
+                        subtitle: Text(
+                            '${products.where((element) => element!.category == "Painkiller").toList()[index]!.price} ₺'),
+                      ),
+                    );
+                  }),
+              SizedBox(
+                height: 16,
+              ),
+              Text(
+                'Dental Care',
+                style: TextStyle(fontSize: 30),
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              products.where((element) => element!.category == "Dental Care").toList().isEmpty ?
+              Column(
+                children: [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("No products under the category of dental care"),
+                    ],
+                  ),
+                ],
+              ) :
+              ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: products
+                      .where((element) => element!.category == "Dental Care")
+                      .toList()
+                      .length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      child: ListTile(
+                        onTap: () async {
+                          await addToBasketPopUp(
+                              context,
+                              pUser,
                               pharm,
                               products
                                   .where((element) =>
                                       element!.category == "Dental Care")
-                                  .toList()[index]!,
-                              pUser,
-                              multiplier);
+                                  .toList()[index]);
+                          if (approved) {
+                            await DatabaseService(uid: pUser.id).addToBasket(
+                                pharm,
+                                products
+                                    .where((element) =>
+                                        element!.category == "Dental Care")
+                                    .toList()[index]!,
+                                pUser,
+                                multiplier);
+                            setState(() {
+                              approved = false;
+                            });
+                          }
                           setState(() {
-                            approved = false;
+                            multiplier = 1;
                           });
-                        }
-                        setState(() {
-                          multiplier = 1;
-                        });
-                      },
-                      leading: SizedBox(
-                          height: 75,
-                          width: 75,
-                          child: Image.network(products
-                              .where((element) =>
-                                  element!.category == "Dental Care")
-                              .toList()[index]!
-                              .url)),
-                      title: Text(products
-                          .where(
-                              (element) => element!.category == "Dental Care")
-                          .toList()[index]!
-                          .name),
-                      subtitle: Text(
-                          '${products.where((element) => element!.category == "Dental Care").toList()[index]!.price} ₺'),
-                    ),
-                  );
-                }),
-            SizedBox(
-              height: 16,
-            ),
-            Text(
-              'Personal Care',
-              style: TextStyle(fontSize: 30),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: products
-                    .where((element) => element!.category == "Personal Care")
-                    .toList()
-                    .length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: ListTile(
-                      onTap: () async {
-                        await addToBasketPopUp(
-                            context,
-                            pUser,
-                            pharm,
-                            products
+                        },
+                        leading: SizedBox(
+                            height: 75,
+                            width: 75,
+                            child: Image.network(products
                                 .where((element) =>
-                                    element!.category == "Personal Care")
-                                .toList()[index]);
-                        if (approved) {
-                          await DatabaseService(uid: pUser.id).addToBasket(
+                                    element!.category == "Dental Care")
+                                .toList()[index]!
+                                .url)),
+                        title: Text(products
+                            .where(
+                                (element) => element!.category == "Dental Care")
+                            .toList()[index]!
+                            .name),
+                        subtitle: Text(
+                            '${products.where((element) => element!.category == "Dental Care").toList()[index]!.price} ₺'),
+                      ),
+                    );
+                  }),
+              SizedBox(
+                height: 16,
+              ),
+              Text(
+                'Personal Care',
+                style: TextStyle(fontSize: 30),
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              products.where((element) => element!.category == "Personal Care").toList().isEmpty ?
+              Column(
+                children: [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("No products under the category of personal care"),
+                    ],
+                  ),
+                ],
+              ) :
+              ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: products
+                      .where((element) => element!.category == "Personal Care")
+                      .toList()
+                      .length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      child: ListTile(
+                        onTap: () async {
+                          await addToBasketPopUp(
+                              context,
+                              pUser,
                               pharm,
                               products
                                   .where((element) =>
                                       element!.category == "Personal Care")
-                                  .toList()[index]!,
-                              pUser,
-                              multiplier);
+                                  .toList()[index]);
+                          if (approved) {
+                            await DatabaseService(uid: pUser.id).addToBasket(
+                                pharm,
+                                products
+                                    .where((element) =>
+                                        element!.category == "Personal Care")
+                                    .toList()[index]!,
+                                pUser,
+                                multiplier);
+                            setState(() {
+                              approved = false;
+                            });
+                          }
                           setState(() {
-                            approved = false;
+                            multiplier = 1;
                           });
-                        }
-                        setState(() {
-                          multiplier = 1;
-                        });
-                      },
-                      leading: SizedBox(
-                          height: 75,
-                          width: 75,
-                          child: Image.network(products
-                              .where((element) =>
-                                  element!.category == "Personal Care")
-                              .toList()[index]!
-                              .url)),
-                      title: Text(products
-                          .where(
-                              (element) => element!.category == "Personal Care")
-                          .toList()[index]!
-                          .name),
-                      subtitle: Text(
-                          '${products.where((element) => element!.category == "Personal Care").toList()[index]!.price} ₺'),
-                    ),
-                  );
-                }),
-            SizedBox(
-              height: 16,
-            ),
-            Text(
-              'Supplementary',
-              style: TextStyle(fontSize: 30),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: products
-                    .where((element) => element!.category == "Supplementary")
-                    .toList()
-                    .length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: ListTile(
-                      onTap: () async {
-                        await addToBasketPopUp(
-                            context,
-                            pUser,
-                            pharm,
-                            products
+                        },
+                        leading: SizedBox(
+                            height: 75,
+                            width: 75,
+                            child: Image.network(products
                                 .where((element) =>
-                                    element!.category == "Supplementary")
-                                .toList()[index]);
-                        if (approved) {
-                          await DatabaseService(uid: pUser.id).addToBasket(
+                                    element!.category == "Personal Care")
+                                .toList()[index]!
+                                .url)),
+                        title: Text(products
+                            .where(
+                                (element) => element!.category == "Personal Care")
+                            .toList()[index]!
+                            .name),
+                        subtitle: Text(
+                            '${products.where((element) => element!.category == "Personal Care").toList()[index]!.price} ₺'),
+                      ),
+                    );
+                  }),
+              SizedBox(
+                height: 16,
+              ),
+              Text(
+                'Supplementary',
+                style: TextStyle(fontSize: 30),
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              products.where((element) => element!.category == "Supplementary").toList().isEmpty ?
+              Column(
+                children: [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("No products under the category of supplementary"),
+                    ],
+                  ),
+                ],
+              ) :
+              ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: products
+                      .where((element) => element!.category == "Supplementary")
+                      .toList()
+                      .length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      child: ListTile(
+                        onTap: () async {
+                          await addToBasketPopUp(
+                              context,
+                              pUser,
                               pharm,
                               products
                                   .where((element) =>
                                       element!.category == "Supplementary")
-                                  .toList()[index]!,
-                              pUser,
-                              multiplier);
+                                  .toList()[index]);
+                          if (approved) {
+                            await DatabaseService(uid: pUser.id).addToBasket(
+                                pharm,
+                                products
+                                    .where((element) =>
+                                        element!.category == "Supplementary")
+                                    .toList()[index]!,
+                                pUser,
+                                multiplier);
+                            setState(() {
+                              approved = false;
+                            });
+                          }
                           setState(() {
-                            approved = false;
+                            multiplier = 1;
                           });
-                        }
-                        setState(() {
-                          multiplier = 1;
-                        });
-                      },
-                      leading: SizedBox(
-                          height: 75,
-                          width: 75,
-                          child: Image.network(products
-                              .where((element) =>
-                                  element!.category == "Supplementary")
-                              .toList()[index]!
-                              .url)),
-                      title: Text(products
-                          .where(
-                              (element) => element!.category == "Supplementary")
-                          .toList()[index]!
-                          .name),
-                      subtitle: Text(
-                          '${products.where((element) => element!.category == "Supplementary").toList()[index]!.price} ₺'),
-                    ),
-                  );
-                }),
-          ],
+                        },
+                        leading: SizedBox(
+                            height: 75,
+                            width: 75,
+                            child: Image.network(products
+                                .where((element) =>
+                                    element!.category == "Supplementary")
+                                .toList()[index]!
+                                .url)),
+                        title: Text(products
+                            .where(
+                                (element) => element!.category == "Supplementary")
+                            .toList()[index]!
+                            .name),
+                        subtitle: Text(
+                            '${products.where((element) => element!.category == "Supplementary").toList()[index]!.price} ₺'),
+                      ),
+                    );
+                  }),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    }
   }
 
-  Text rateWidget(pharmappPharmacy pharm) {
-    if (pharm.ratings.reduce((a, b) => a + b) / pharm.ratings.length != 0) {
-      return Text(
-          'Rating: ${double.parse((pharm.ratings.reduce((a, b) => a + b) / pharm.ratings.length).toString()).toStringAsFixed(1)}');
+  Widget rateWidget(pharmappPharmacy pharm) {
+    double avgRate = double.parse((pharm.ratings.reduce((a, b) => a + b) / pharm.ratings.length).toString());
+    print(avgRate);
+    if (avgRate != 0) {
+      return Column(
+        children: [
+          SizedBox(
+            width: 60,
+            height: 35,
+            child: avgRateBox(avgRate),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Text("Swipe left to see comments")
+        ],
+      );
     } else {
       return Text('No Rating');
     }
@@ -708,7 +997,7 @@ class _listProductScreenState extends State<listProductScreen> {
       return Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: Color(0xff02c422)
+          color: Color(0xff57e32c)
         ),
         child: Center(
           child: Text(rate.toString(), style: TextStyle(color: AppColors.titleText, fontSize: 23, fontWeight: FontWeight.w900),),
@@ -718,7 +1007,7 @@ class _listProductScreenState extends State<listProductScreen> {
       return Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: Color(0xff89f59b)
+          color: Color(0xffb7dd29)
         ),
         child: Center(
           child: Text(rate.toString(), style: TextStyle(color: AppColors.titleText, fontSize: 23, fontWeight: FontWeight.w900),),
@@ -728,7 +1017,7 @@ class _listProductScreenState extends State<listProductScreen> {
       return Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: Color(0xffffbe3b)
+          color: Color(0xffffa534)
         ),
         child: Center(
           child: Text(rate.toString(), style: TextStyle(color: AppColors.titleText, fontSize: 23, fontWeight: FontWeight.w900),),
@@ -738,10 +1027,54 @@ class _listProductScreenState extends State<listProductScreen> {
       return Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: Color(0xffc40000)
+          color: Color(0xffff4545)
         ),
         child: Center(
           child: Text(rate.toString(), style: TextStyle(color: AppColors.titleText, fontSize: 23, fontWeight: FontWeight.w900),),
+        ),
+      );
+    }
+  }
+  Widget avgRateBox(double rate) {
+    print('a: ${rate.toStringAsFixed(1)}');
+    if (rate <= 10 && rate >= 8) {
+      return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: Color(0xff57e32c)
+        ),
+        child: Center(
+          child: Text(rate.toStringAsFixed(1), style: TextStyle(color: AppColors.titleText, fontSize: 23, fontWeight: FontWeight.w900),),
+        ),
+      );
+    } else if (rate < 8 && rate >= 6 ){
+      return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: Color(0xffb7dd29)
+        ),
+        child: Center(
+          child: Text(rate.toStringAsFixed(1), style: TextStyle(color: AppColors.titleText, fontSize: 23, fontWeight: FontWeight.w900),),
+        ),
+      );
+    } else if (rate < 6 && rate >= 4){
+      return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: Color(0xffffa534)
+        ),
+        child: Center(
+          child: Text(rate.toStringAsFixed(1), style: TextStyle(color: AppColors.titleText, fontSize: 23, fontWeight: FontWeight.w900),),
+        ),
+      );
+    } else {
+      return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: Color(0xffff4545)
+        ),
+        child: Center(
+          child: Text(rate.toStringAsFixed(1), style: TextStyle(color: AppColors.titleText, fontSize: 23, fontWeight: FontWeight.w900),),
         ),
       );
     }
