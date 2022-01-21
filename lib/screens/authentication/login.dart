@@ -223,19 +223,57 @@ class _LoginState extends State<Login> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
                                 SizedBox(
-                                  width: 50,
+                                  width: 100,
+                                ),
+                                Text(
+                                  'Login with',
+                                  style: TextStyle(color: AppColors.bodyText),
                                 ),
                                 Image(
                                   image: AssetImage('assets/google_logo.png'),
                                   width: 23,
                                   height: 23,
                                 ),
+                                SizedBox(
+                                  width: 100,
+                                ),
+                              ],
+                            ),
+                            style: OutlinedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: Dimen.boxBorderRadius),
+                              backgroundColor: Color(0xffe8e8e8),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: OutlinedButton(
+                            onPressed: () {
+                              auth.facebookSignIn();
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                SizedBox(
+                                  width: 105,
+                                ),
                                 Text(
-                                  'Login with Google Account',
+                                  'Login with',
                                   style: TextStyle(color: AppColors.bodyText),
                                 ),
+                                Image(
+                                  image: AssetImage('assets/facebook_logo.png'),
+                                  width: 23,
+                                  height: 23,
+                                ),
                                 SizedBox(
-                                  width: 50,
+                                  width: 105,
                                 ),
                               ],
                             ),
