@@ -438,7 +438,7 @@ class _ProfileState extends State<Profile> {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
-          if (mode == "google") {
+          if (mode != "manual") {
             return AlertDialog(
               backgroundColor: AppColors.titleText,
               content: Stack(
@@ -448,11 +448,11 @@ class _ProfileState extends State<Profile> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        const Padding(
+                        Padding(
                             padding: EdgeInsets.all(8.0),
                             child: Center(
                                 child: Text(
-                              'You logged in with Google sign-in method, password cannot be changed',
+                              'You logged in with ${mode[0].toUpperCase()+mode.substring(1)} sign-in method, password cannot be changed',
                               textAlign: TextAlign.center,
                             ))),
                       ],

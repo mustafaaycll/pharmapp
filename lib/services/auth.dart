@@ -13,6 +13,7 @@ import 'package:pharm_app/models/orders/orders.dart';
 import 'package:pharm_app/models/pharmacies/pharmacies.dart';
 import 'package:pharm_app/models/users/users.dart';
 import 'package:pharm_app/services/database.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -85,6 +86,24 @@ class AuthService {
     }
     return _userFromFirebase(user);
   }
+
+  Future facebookSignIn() async {
+    final LoginResult faceUser = await FacebookAuth.instance.login();
+    final OAuthCredential credential = FacebookAuthProvider.credential(faceUser.accessToken!.token);
+    UserCredential result =
+        await FirebaseAuth.instance.signInWithCredential(credential);
+    User? user = result.user;
+    
+    final snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid)
+        .get();
+    if (snapshot == null || !snapshot.exists) {
+      addUser(user.uid, user.displayName, user.email, 'facebook', user.photoURL);
+    }
+    return _userFromFirebase(user);
+  }
+
 
   Future addUser(String id, String? name, String? email, String method,
       String? photo) async {
