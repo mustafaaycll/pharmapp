@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pharm_app/models/addresses/addresses.dart';
+import 'package:pharm_app/models/comments/comments.dart';
 import 'package:pharm_app/models/orders/orders.dart';
 import 'package:pharm_app/models/pharmacies/pharmacies.dart';
 import 'package:pharm_app/models/products/products.dart';
@@ -213,7 +214,8 @@ class DatabaseService_pharm {
         name: snapshot.get('name'),
         service_addresses: snapshot.get('service_addresses'),
         products: snapshot.get('products'),
-        ratings: snapshot.get('ratings'));
+        ratings: snapshot.get('ratings'),
+        comments: snapshot.get('comments'));
   }
 
   Stream<pharmappPharmacy> get pharmData {
@@ -229,7 +231,8 @@ class DatabaseService_pharm {
                 name: doc.get('name'),
                 service_addresses: doc.get('service_addresses'),
                 products: doc.get('products'),
-                ratings: doc.get('ratings'));
+                ratings: doc.get('ratings'),
+                comments: doc.get('comments'));
           }
         })
         .toList()
@@ -248,7 +251,8 @@ class DatabaseService_pharm {
           name: doc.get('name'),
           service_addresses: doc.get('service_addresses'),
           products: doc.get('products'),
-          ratings: doc.get('ratings')
+          ratings: doc.get('ratings'),
+          comments: doc.get('comments')
         );
       }
     }).toList().where((element) => element != null));
@@ -274,6 +278,22 @@ class DatabaseService_pharm {
     return pharmCollection.doc(id).update({
       'ratings': assignRates,
     });  
+  }
+
+  Future addComment(String commentid, List<dynamic> pre_comments) async {
+    
+    List<dynamic> assignComments = [];
+
+    if(pre_comments[0] == "") {
+      assignComments.add(commentid);
+    } else {
+      for (var i = 0; i < pre_comments.length; i++) {
+        assignComments.add(pre_comments[i]);
+      }
+      assignComments.add(commentid);
+    }
+
+    return pharmCollection.doc(id).update({'comments': assignComments});
   }
 }
 
@@ -447,4 +467,61 @@ class DatabaseService_order {
     });
   }
   
+}
+
+class DatabaseService_comment {
+  final String id;
+  final List<dynamic> ids;
+
+  DatabaseService_comment({required this.id, required this.ids});
+
+  final CollectionReference commentCollection = FirebaseFirestore.instance.collection('comments');
+
+  pharmappComment _commentDataFromSnapshot(DocumentSnapshot snapshot) {
+    return pharmappComment(
+      id: id,
+      pharmid: snapshot.get('pharm'),
+      userid: snapshot.get('userid'),
+      rate: snapshot.get('rate'),
+      date: DateFormat("dd-MM-yyyy").parse(snapshot.get('date')),
+      comment: snapshot.get('comment'),
+    );
+  }
+
+  Stream<pharmappComment> get commentData {
+    return commentCollection.doc(id).snapshots().map(_commentDataFromSnapshot);
+  }
+
+  List<pharmappComment?> _commentListFromSnapshot (QuerySnapshot snapshot) {
+    List<pharmappComment?> result = List<pharmappComment?>.from(snapshot.docs.map(
+      (doc) {
+        if (ids.contains(doc.id)) {
+          return pharmappComment(
+            id: doc.id,
+            pharmid: doc.get('pharm'),
+            userid: doc.get('userid'),
+            rate: doc.get('rate'),
+            date: DateFormat("dd-MM-yyyy").parse(doc.get('date')),
+            comment: doc.get('comment'),
+          );
+        }
+      }
+    ).toList().where((element) => element != null));
+
+    List<pharmappComment?> returned = [];
+
+    for (var i = ids.length-1; i > -1; i--) {
+      for (var j = 0; j < result.length; j++) {
+        if (result[j]!.id == ids[i]) {
+          returned.add(result[j]);
+        }
+      }
+    }
+
+    return returned;
+  }
+
+  Stream<List<pharmappComment?>> get comments {
+    return commentCollection.snapshots().map(_commentListFromSnapshot);
+  }
 }

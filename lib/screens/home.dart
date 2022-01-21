@@ -10,6 +10,7 @@ import 'package:pharm_app/models/users/users.dart';
 import 'package:pharm_app/screens/basket/basket.dart';
 import 'package:pharm_app/screens/categories/categories.dart';
 import 'package:pharm_app/screens/authentication/login.dart';
+import 'package:pharm_app/services/auth.dart';
 import 'package:pharm_app/services/database.dart';
 import 'package:pharm_app/utils/colors.dart';
 import 'package:pharm_app/utils/dimensions.dart';
@@ -44,30 +45,9 @@ class _HomeState extends State<Home> {
   num rate = 1;
   bool approved = false;
   List<dynamic> pre_rates = [];
+  List<dynamic> pre_comments = [];
 
-  List<Order> orders = <Order>[
-    const Order('Faruk Eczanesi', '05/03/2021',
-        ['Ortodontik Diş Fırçası', 'Apranax Fort Ağrı Kesici'], [57.0, 24.56]),
-    const Order(
-        'Güneş Eczanesi', '04/01/2021', ['Listerine Ağız Bakım'], [33.49]),
-    const Order('Parlak Eczanesi', '25/10/2020',
-        ['BreatheRight Burun Bandı', 'Batticon Tentürdiyot'], [42.49, 11.90]),
-    const Order('Tuzla Eczanesi', '17/08/2020', [
-      'Diş Fırçası',
-      'Apranax Fort Ağrı Kesici',
-      'Cımbız',
-      'Sanitabant Yarabandı',
-      'Gazlı Bez'
-    ], [
-      57.0,
-      24.56,
-      11.50,
-      3.40,
-      5.00
-    ]),
-    const Order('Sevgi Eczanesi', '04/06/2020',
-        ['Cold Away C', 'Arveles Ağrı Kesici'], [10.0, 7.96])
-  ];
+  String? comment = "";
 
   @override
   Widget build(BuildContext context) {
@@ -326,39 +306,28 @@ class _HomeState extends State<Home> {
                                                 child: orders[i]!.rated != true
                                                     ? OutlinedButton(
                                                         onPressed: () async {
-                                                          await ratePopUp(
-                                                              context,
-                                                              orders[i]!
-                                                                  .pharmid,
-                                                              orders[i]!
-                                                                  .pharmName);
-                                                          if (approved ==
-                                                              true) {
+                                                          await ratePopUp(context,orders[i]!.pharmid,orders[i]!.pharmName);
+                                                          if (approved == true) {
                                                             await DatabaseService_pharm(
-                                                                    id: orders[
-                                                                            i]!
-                                                                        .pharmid,
-                                                                    ids: [])
-                                                                .addRating(
-                                                                    pre_rates,
-                                                                    rate);
+                                                                    id: orders[i]!.pharmid,
+                                                                    ids: []).addRating(pre_rates,rate);
                                                             await DatabaseService_order(
-                                                                    id: orders[
-                                                                            i]!
-                                                                        .id,
-                                                                    ids: [])
-                                                                .markRated();
+                                                                    id: orders[i]!.id,
+                                                                    ids: []).markRated();
+                                                            if (comment != "") {
+                                                              await AuthService().addComment(pUser.id, orders[i]!.pharmid, DateFormat("dd-MM-yyyy").format(orders[i]!.date), comment, rate, pre_comments);
+                                                            }
                                                             setState(() {
                                                               approved = false;
                                                               pre_rates = [];
                                                               rate = 1;
+                                                              comment = "";
+                                                              pre_comments = [];
                                                             });
                                                           }
                                                         },
                                                         child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
+                                                          mainAxisAlignment:MainAxisAlignment.center,
                                                           children: [
                                                             Icon(
                                                               Icons.star,
@@ -675,7 +644,9 @@ class _HomeState extends State<Home> {
 
                 if (pharm != null) {
                   List<dynamic>? rates = pharm.ratings;
+                  List<dynamic>? comments = pharm.comments;
                   return AlertDialog(
+                    scrollable: true,
                     content: Stack(
                       children: <Widget>[
                         Form(
@@ -744,26 +715,60 @@ class _HomeState extends State<Home> {
                                     setState(() {
                                       rate = value;
                                       pre_rates = rates;
+                                      pre_comments = comments;
                                     });
                                   },
                                   onIncrement: (value) {
                                     setState(() {
                                       pre_rates = rates;
                                       rate = value;
+                                      pre_comments = comments;
                                     });
                                   },
                                   onDecrement: (value) {
                                     setState(() {
                                       pre_rates = rates;
                                       rate = value;
+                                      pre_comments = comments;
                                     });
                                   },
                                   onChanged: (value) {
                                     setState(() {
                                       pre_rates = rates;
                                       rate = value;
+                                      pre_comments = comments;
                                     });
                                   },
+                                ),
+                              ),
+                              Text(
+                                'Do you have any additional comment?',
+                                textAlign: TextAlign.center,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: TextFormField(
+                                  validator: (value) {},
+                                  onSaved: (value) {
+                                    setState(() {
+                                      comment = value;
+                                    });
+                                  },
+                                  onChanged: (value) {
+                                    setState(() {
+                                      comment = value;
+                                    });
+                                  },
+                                  maxLines: null,
+                                  decoration: InputDecoration(
+                                    filled: true,
+                                    hintText: 'Add comment (optional)',
+                                    border: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: AppColors.secondary50percent,
+                                      ),
+                                    borderRadius: Dimen.boxBorderRadius,
+                              )),
                                 ),
                               ),
                               Padding(

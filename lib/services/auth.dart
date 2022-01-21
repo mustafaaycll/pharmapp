@@ -151,6 +151,23 @@ class AuthService {
     await DatabaseService(uid: userid).addOrderToUser(id, pre_orders);
   }
 
+  Future addComment(String userid, String pharmid, String date, String? comment, num rate, List<dynamic> pre_comments) async {
+    const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    Random _rnd = Random();
+
+    CollectionReference orders = FirebaseFirestore.instance.collection('comments');
+    String id = await String.fromCharCodes(Iterable.generate(16, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+    await orders.doc(id).set({
+      'id': id,
+      'comment': comment,
+      'date': date,
+      'pharm': pharmid,
+      'rate': rate,
+      'userid': userid,
+    });
+    await DatabaseService_pharm(id: pharmid, ids: []).addComment(id, pre_comments);
+  }
+
   Future signUp(
       String name, String surname, String email, String password) async {
     try {
