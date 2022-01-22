@@ -125,7 +125,7 @@ class _BasketState extends State<Basket> {
                                           height: 8,
                                         ),
                                         Text(
-                                          'Products in Basket are',
+                                          'Products in basket are',
                                           style: TextStyle(fontSize: 15),
                                         ),
                                         SizedBox(
@@ -195,7 +195,7 @@ class _BasketState extends State<Basket> {
                                                               products[index]!
                                                                   .name),
                                                           subtitle: Text(
-                                                              '${(products[index]!.price * amounts[index + 1]).toStringAsFixed(2)}₺\n(Each: ${products[index]!.price}₺)'),
+                                                              '${(products[index]!.price * amounts[index + 1]).toStringAsFixed(2)}₺\n(Each: ${products[index]!.price.toStringAsFixed(2)}₺)'),
                                                           trailing: IconButton(
                                                               icon: const Icon(
                                                                 Icons.delete,
@@ -220,19 +220,12 @@ class _BasketState extends State<Basket> {
                                           child: Padding(
                                             padding: EdgeInsets.all(8.0),
                                             child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
                                                 Text(
                                                   '${totalCost(products, amounts)}₺',
                                                   style:
                                                       TextStyle(fontSize: 26),
-                                                ),
-                                                SizedBox(
-                                                  width: 150,
                                                 ),
                                                 OutlinedButton(
                                                   onPressed: () async {
@@ -247,10 +240,13 @@ class _BasketState extends State<Basket> {
                                                     await AuthService().addOrder(pUser.id, pharm.id, pharm.name, amountsToSent, productsToSent, pricesToSent, DateFormat("dd-MM-yyyy").format(DateTime.now()), totalCost(products, amounts), false, pUser.pre_orders);
                                                     await DatabaseService(uid: pUser.id).removeAllFromBasket();
                                                   },
-                                                  child: Text(
-                                                    "Check Out",
-                                                    style: TextStyle(
-                                                        color: Colors.white),
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(Icons.check, color: AppColors.buttonText, size: 20,),
+                                                      SizedBox(width: 10),
+                                                      Text("Check Out",style: TextStyle(color: Colors.white),
+                                                      ),
+                                                    ],
                                                   ),
                                                   style:
                                                       OutlinedButton.styleFrom(
@@ -260,10 +256,7 @@ class _BasketState extends State<Basket> {
                                                     backgroundColor:
                                                         AppColors.secondary,
                                                   ),
-                                                ),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
+                                                )
                                               ],
                                             ),
                                           ),
@@ -352,19 +345,55 @@ class _BasketState extends State<Basket> {
                     backgroundColor: AppColors.primary,
                     elevation: 0.0,
                   ),
-                  body: Center(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.network(
-                            'https://www.pngall.com/wp-content/uploads/5/Shopping-Cart-PNG-Image.png'),
-                        Text(
-                          'Basket is Empty',
-                          style: TextStyle(
-                              color: AppColors.bodyText, fontSize: 30),
-                        ),
-                      ],
+                  body: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: Column(
+                        children: [
+                          Expanded(
+                            child: Image.asset(
+                                'assets/cartfadeout.png', width: 200,),
+                          ),
+                          Divider(
+                            thickness: 1,
+                          ),
+                          SizedBox(
+                            height: 50,
+                            child: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Basket seems to be empty',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: AppColors.bodyText, fontSize: 15),
+                                  ),
+                                  OutlinedButton(
+                                    onPressed: () {},
+                                    child: Row(
+                                      children: [
+                                        Icon(Icons.bookmark, color: AppColors.buttonText, size: 20,),
+                                        SizedBox(width: 10),
+                                        Text("Bookmarks",style: TextStyle(color: Colors.white),),
+                                      ],
+                                    ),
+                                    style:
+                                        OutlinedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: Dimen
+                                              .boxBorderRadius),
+                                      backgroundColor:
+                                          AppColors.button,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 );
