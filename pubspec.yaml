@@ -81,6 +81,7 @@ flutter:
     - assets/anon.png
     - assets/drug.png
     - assets/cart.png
+    - assets/cartfadeout.png
     - assets/pharm.png
 
 
