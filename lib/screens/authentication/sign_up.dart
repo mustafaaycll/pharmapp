@@ -33,8 +33,9 @@ class _SignUpState extends State<SignUp> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.primary,
-        title: Text('SignUp'),
+        elevation: 0,
       ),
+      backgroundColor: AppColors.primary,
       body: Padding(
         padding: Dimen.regularPadding,
         child: Center(
@@ -50,7 +51,7 @@ class _SignUpState extends State<SignUp> {
                       Text(
                         'PharMapp',
                         style: TextStyle(
-                          color: AppColors.bodyText,
+                          color: AppColors.titleText,
                           fontWeight: FontWeight.w700,
                           fontSize: 50,
                         ),
@@ -70,7 +71,7 @@ class _SignUpState extends State<SignUp> {
                             }
                           },
                           decoration: InputDecoration(
-                              fillColor: AppColors.secondary75percent,
+                              fillColor:Color(0xffe8e8e8),
                               filled: true,
                               hintText: 'Name',
                               border: OutlineInputBorder(
@@ -78,7 +79,9 @@ class _SignUpState extends State<SignUp> {
                                   color: AppColors.secondary50percent,
                                 ),
                                 borderRadius: Dimen.boxBorderRadius,
-                              )),
+                              ),
+                              errorStyle: TextStyle(color: Colors.white),    
+                          ),
                           keyboardType: TextInputType.emailAddress,
                           onSaved: (value) {
                             if (value != null) {
@@ -98,11 +101,11 @@ class _SignUpState extends State<SignUp> {
                         child: TextFormField(
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'Surname cannot be empty';
+                              return 'Surname cannot be empty!';
                             }
                           },
                           decoration: InputDecoration(
-                              fillColor: AppColors.secondary75percent,
+                              fillColor: Color(0xffe8e8e8),
                               filled: true,
                               hintText: 'Surname',
                               border: OutlineInputBorder(
@@ -110,7 +113,9 @@ class _SignUpState extends State<SignUp> {
                                   color: AppColors.secondary50percent,
                                 ),
                                 borderRadius: Dimen.boxBorderRadius,
-                              )),
+                              ),
+                              errorStyle: TextStyle(color: Colors.white),
+                          ),
                           keyboardType: TextInputType.emailAddress,
                           onSaved: (value) {
                             if (value != null) {
@@ -130,11 +135,11 @@ class _SignUpState extends State<SignUp> {
                         child: TextFormField(
                           validator: (value) {
                             if (value == null) {
-                              return 'E-mail field cannot be empty';
+                              return 'E-mail field cannot be empty!';
                             } else {
                               String trimmedValue = value.trim();
                               if (trimmedValue.isEmpty) {
-                                return 'E-mail field cannot be empty';
+                                return 'E-mail field cannot be empty!';
                               }
                               if (!EmailValidator.validate(trimmedValue)) {
                                 return 'Please enter a valid email';
@@ -143,7 +148,7 @@ class _SignUpState extends State<SignUp> {
                             return null;
                           },
                           decoration: InputDecoration(
-                              fillColor: AppColors.secondary75percent,
+                              fillColor: Color(0xffe8e8e8),
                               filled: true,
                               hintText: 'E-mail',
                               border: OutlineInputBorder(
@@ -151,7 +156,9 @@ class _SignUpState extends State<SignUp> {
                                   color: AppColors.secondary50percent,
                                 ),
                                 borderRadius: Dimen.boxBorderRadius,
-                              )),
+                              ),
+                              errorStyle: TextStyle(color: Colors.white),
+                          ),
                           keyboardType: TextInputType.emailAddress,
                           onSaved: (value) {
                             if (value != null) {
@@ -184,7 +191,7 @@ class _SignUpState extends State<SignUp> {
                             return null;
                           },
                           decoration: InputDecoration(
-                            fillColor: AppColors.secondary75percent,
+                            fillColor: Color(0xffe8e8e8),
                             filled: true,
                             hintText: 'Password',
                             border: OutlineInputBorder(
@@ -193,6 +200,7 @@ class _SignUpState extends State<SignUp> {
                               ),
                               borderRadius: Dimen.boxBorderRadius,
                             ),
+                            errorStyle: TextStyle(color: Colors.white),
                           ),
                           keyboardType: TextInputType.text,
                           obscureText: true,
@@ -220,7 +228,7 @@ class _SignUpState extends State<SignUp> {
                             }
                           },
                           decoration: InputDecoration(
-                            fillColor: AppColors.secondary75percent,
+                            fillColor: Color(0xffe8e8e8),
                             filled: true,
                             hintText: 'Password again',
                             border: OutlineInputBorder(
@@ -229,6 +237,7 @@ class _SignUpState extends State<SignUp> {
                               ),
                               borderRadius: Dimen.boxBorderRadius,
                             ),
+                            errorStyle: TextStyle(color: Colors.white),
                           ),
                           keyboardType: TextInputType.text,
                           obscureText: true,

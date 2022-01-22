@@ -78,6 +78,10 @@ flutter:
   assets:
     - assets/google_logo.png
     - assets/facebook_logo.png
+    - assets/anon.png
+    - assets/drug.png
+    - assets/cart.png
+    - assets/pharm.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

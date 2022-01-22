@@ -30,6 +30,12 @@ class AuthService {
     try {
       UserCredential result = await _auth.signInAnonymously();
       User user = result.user!;
+      
+      String url = "";
+      
+      await FirebaseStorage.instance.ref().child('profilepics/placeholder.png').getDownloadURL().then((value) => {url = value});
+      
+      await addUser(user.uid, 'Anonym', 'no email address', 'anonym', url);
       return _userFromFirebase(user);
     } catch (e) {
       return null;

@@ -24,43 +24,24 @@ class _WalkThroughState extends State<WalkThrough> {
         globalBackgroundColor: Colors.white,
         pages: [
           PageViewModel(
-            bodyWidget: introScreen(
-              context,
-              1,
-              'WELCOME',
-              'Awesome Pharmacy Application',
-              'https://www.forumistanbul.com.tr/media/image/eczane.jpg',
-            ),
+            image: Image.asset('assets/pharm.png', width: 200,),
+            bodyWidget: Text('Hey! Welcome to super easy online pharmacy shopping application where you can buy your needs instantly from close pharmacies.', textAlign: TextAlign.center,style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),),
             title: '',
           ),
           PageViewModel(
-            bodyWidget: introScreen(
-              context,
-              2,
-              'PROFILE',
-              'Create Your Profile Easily',
-              'https://www.forumistanbul.com.tr/media/image/eczane.jpg',
-            ),
+            image: Image.asset('assets/anon.png', width: 250,),
+            bodyWidget: Text('You can easily create your profile and start shopping!\n\nPrivacy concerned? You can also continue anonymously.', textAlign: TextAlign.center,style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),),
             title: '',
           ),
           PageViewModel(
-            bodyWidget: introScreen(
-              context,
-              3,
-              'CONTENT',
-              'Search Whatever You Want',
-              'https://www.forumistanbul.com.tr/media/image/eczane.jpg',
-            ),
+            image: Image.asset('assets/drug.png', width: 180,),
+            bodyWidget: Text('Painkillers, personal care products and supplementaries..\n\nMore and more are here in PharMapp.', textAlign: TextAlign.center,style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),),
             title: '',
           ),
           PageViewModel(
-            bodyWidget: introScreen(
-              context,
-              4,
-              'SHOP',
-              'Get It Instantly',
-              'https://www.forumistanbul.com.tr/media/image/eczane.jpg',
-            ),
+            image: Image.asset('assets/cart.png', width: 200,),
+            bodyWidget: Text('Shop instantly with secure purchase system.\n\nFor all and more, proceed to PharMapp!', textAlign: TextAlign.center,style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),),
+
             title: '',
           ),
         ],
@@ -96,7 +77,7 @@ class _WalkThroughState extends State<WalkThrough> {
           ),
         ),
         done: const Text(
-          'Welcome Screen',
+          'Proceed to PharMapp',
           style: TextStyle(
             color: const Color(0xff393E41),
           ),
