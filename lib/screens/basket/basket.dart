@@ -174,8 +174,8 @@ class _BasketState extends State<Basket> {
                                                                 child: Text(
                                                                   'x${amounts[index + 1]}',
                                                                   style: TextStyle(
-                                                                      color: Colors
-                                                                          .white),
+                                                                      color: Colors.white,
+                                                                      fontSize: amounts[index + 1] <= 100 ? 15 : 10),
                                                                 ),
                                                                 radius: 15,
                                                                 backgroundColor:
@@ -186,9 +186,7 @@ class _BasketState extends State<Basket> {
                                                                   height: 75,
                                                                   width: 75,
                                                                   child: Image.network(
-                                                                      products[
-                                                                              index]!
-                                                                          .url)),
+                                                                      products[index]!.url)),
                                                             ],
                                                           ),
                                                           title: Text(
@@ -199,8 +197,7 @@ class _BasketState extends State<Basket> {
                                                           trailing: IconButton(
                                                               icon: const Icon(
                                                                 Icons.delete,
-                                                                color: Color(
-                                                                    0xffE13419),
+                                                                color: Color(0xffE13419),
                                                               ),
                                                               onPressed: () async {
                                                                 await DatabaseService(uid: pUser.id).removeSingleProductFromBasket(amounts, index, products, currentSeller);
@@ -533,7 +530,7 @@ class _BasketState extends State<Basket> {
                           buttonArrangement: ButtonArrangement.incRightDecLeft,
                           controller: TextEditingController(),
                           min: 1,
-                          max: 10,
+                          max: double.infinity,
                           initialValue: multiplier,
                           validator: (value) {
                             if (value == null) {

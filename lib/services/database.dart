@@ -110,6 +110,8 @@ class DatabaseService {
         ids.add(liste[i]!.id);
       }
     }
+
+    await DatabaseService_bookmark(id: bid, ids: []).deleteBookmark();
     return userCollection.doc(uid).update({'bookmarks': ids});
   }
 
@@ -623,5 +625,9 @@ class DatabaseService_bookmark {
 
   Stream<List<pharmappBookmark?>> get bookmarks {
     return bookmarkCollection.snapshots().map(_bookmarkListFromSnapshot);
+  }
+
+  Future deleteBookmark() async {
+    return bookmarkCollection.doc(id).delete();
   }
 }

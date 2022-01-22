@@ -621,6 +621,7 @@ class _listProductScreenState extends State<listProductScreen> {
 
   Widget listProductsByCategory(String cat, List<pharmappProduct?> products, pharmappUser pUser, pharmappPharmacy pharm) {
     List<dynamic> pre_bookmarks = pUser.bookmarks;
+    List<pharmappProduct?> categorizedProducts = products.where((element) => element!.category == cat).toList();
     return StreamBuilder<List<pharmappBookmark?>>(
       stream: DatabaseService_bookmark(id: "", ids: pUser.bookmarks).bookmarks,
       builder: (context, snapshot) {
@@ -628,12 +629,12 @@ class _listProductScreenState extends State<listProductScreen> {
         return ListView.builder(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
-          itemCount: products.where((element) => element!.category == cat).toList().length,
+          itemCount: categorizedProducts.length,
           itemBuilder: (context, index) {
             return Card(
               child: ListTile(
                 onTap: () async {
-                  await addToBasketPopUp(context,pUser,pharm,products.where((element) =>element!.category == cat).toList()[index]);
+                  await addToBasketPopUp(context,pUser,pharm,categorizedProducts[index]);
                   if (approved) {
                     await DatabaseService(uid: pUser.id).addToBasket(pharm, products.where((element) =>element!.category == cat).toList()[index]!,pUser,multiplier);
                     setState(() {
@@ -647,21 +648,22 @@ class _listProductScreenState extends State<listProductScreen> {
                 leading: SizedBox(
                     height: 75,
                     width: 75,
-                    child: Image.network(products.where((element) =>element!.category == cat).toList()[index]!.url)
+                    child: Image.network(categorizedProducts[index]!.url)
                 ),
-                title: Text(products.where((element) => element!.category == cat).toList()[index]!.name),
-                subtitle: Text('${products.where((element) => element!.category == cat).toList()[index]!.price} ₺'),
-                trailing: IconButton(
-                  icon: DatabaseService(uid: pUser.id).bookmarkExists(products.where((element) => element!.category == cat).toList()[index]!.id, pharm.id, bookmarks) ?
+                title: Text(categorizedProducts[index]!.name),
+                subtitle: Text('${categorizedProducts[index]!.price} ₺'),
+                trailing: bookmarks != null ?
+                IconButton(
+                  icon: DatabaseService(uid: pUser.id).bookmarkExists(categorizedProducts[index]!.id, pharm.id, bookmarks) ?
                   Icon(Icons.bookmark, color: AppColors.button,) : Icon(Icons.bookmark_outline),
                   onPressed: () async {
-                    if (!DatabaseService(uid: pUser.id).bookmarkExists(products.where((element) => element!.category == cat).toList()[index]!.id, pharm.id, bookmarks)) {
-                      await AuthService().addBookmark(pharm.id, products.where((element) => element!.category == cat).toList()[index]!.id, pUser.id, DateFormat('dd-MM-yyyy').format(DateTime.now()), pre_bookmarks);
+                    if (!DatabaseService(uid: pUser.id).bookmarkExists(categorizedProducts[index]!.id, pharm.id, bookmarks)) {
+                      await AuthService().addBookmark(pharm.id, categorizedProducts[index]!.id, pUser.id, DateFormat('dd-MM-yyyy').format(DateTime.now()), pre_bookmarks);
                     } else {
-                      await DatabaseService(uid: pUser.id).removeBookmarkFromUser(products.where((element) => element!.category == cat).toList()[index]!.id, pharm.id, bookmarks);
+                      await DatabaseService(uid: pUser.id).removeBookmarkFromUser(categorizedProducts[index]!.id, pharm.id, bookmarks);
                     }
                   },
-                ),
+                ) : Icon(Icons.hourglass_empty),
               ),
             );
           }
