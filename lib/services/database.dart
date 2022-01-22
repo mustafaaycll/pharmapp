@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pharm_app/models/addresses/addresses.dart';
+import 'package:pharm_app/models/bookmarks/bookmarks.dart';
 import 'package:pharm_app/models/comments/comments.dart';
 import 'package:pharm_app/models/orders/orders.dart';
 import 'package:pharm_app/models/pharmacies/pharmacies.dart';
@@ -31,6 +32,7 @@ class DatabaseService {
         basket: doc.get('basket'),
         currentSeller: doc.get('currentSeller'),
         amount: doc.get('amount'),
+        bookmarks: doc.get('bookmarks')
       );
     }).toList();
   }
@@ -48,6 +50,7 @@ class DatabaseService {
       basket: snapshot.get('basket'),
       amount: snapshot.get('amount'),
       currentSeller: snapshot.get('currentSeller'),
+      bookmarks: snapshot.get('bookmarks')
     );
   }
 
@@ -90,6 +93,48 @@ class DatabaseService {
 
   bool favPharmExists (String? pid, List<dynamic> liste) {
     return liste.contains(pid);
+  }
+
+  Future removeBookmarkFromUser(String productid, String pharmid, List<pharmappBookmark?>? liste) async {
+    String bid = "";
+
+    for (var i = 0; i < liste!.length; i++) {
+      if (liste[i]!.productid == productid && liste[i]!.pharmid == pharmid) {
+        bid = liste[i]!.id;
+      }
+    }
+
+    List<String> ids = [""];
+    for (var i = 0; i < liste.length; i++) {
+      if (liste[i]!.id != bid) {
+        ids.add(liste[i]!.id);
+      }
+    }
+    return userCollection.doc(uid).update({'bookmarks': ids});
+  }
+
+  Future addBookmarkToUser(String bid, List<dynamic> liste) async{
+    List<dynamic> ids = [];
+    for (var i = 0; i < liste.length; i++) {
+      ids.add(liste[i]);
+    }
+    if (!ids.contains(bid)) {
+      ids.add(bid);
+    }
+
+    return userCollection.doc(uid).update({'bookmarks': ids});
+  }
+
+  bool bookmarkExists (String productid, String pharmid, List<pharmappBookmark?>? liste) {
+    bool exists = false;
+    for (var i = 0; i < liste!.length; i++) {
+      if (liste[i]!.productid == productid && liste[i]!.pharmid == pharmid) {
+        exists = true;
+        break;
+      }
+    }
+
+    return exists;
   }
 
   Future addOrderToUser(String id, List<dynamic> pre_orders) async {
@@ -523,5 +568,60 @@ class DatabaseService_comment {
 
   Stream<List<pharmappComment?>> get comments {
     return commentCollection.snapshots().map(_commentListFromSnapshot);
+  }
+}
+
+class DatabaseService_bookmark {
+  final String id;
+  final List<dynamic> ids;
+
+  DatabaseService_bookmark({required this.id, required this.ids});
+
+  final CollectionReference bookmarkCollection = FirebaseFirestore.instance.collection('bookmarks');
+
+  pharmappBookmark _bookmarkDataFromSnapshot(DocumentSnapshot snapshot) {
+    return pharmappBookmark(
+      id: id,
+      pharmid: snapshot.get('pharmid'),
+      productid: snapshot.get('productid'),
+      userid: snapshot.get('userid'),
+      date: DateFormat("dd-MM-yyyy").parse(snapshot.get('date')),
+    );
+  }
+
+  Stream<pharmappBookmark> get bookmarkData {
+    return bookmarkCollection.doc(id).snapshots().map(_bookmarkDataFromSnapshot);
+  }
+
+  List<pharmappBookmark?> _bookmarkListFromSnapshot(QuerySnapshot snapshot) {
+    List<pharmappBookmark?> result = List<pharmappBookmark?>.from(snapshot.docs.map(
+      (doc) {
+        if (ids.contains(doc.id)) {
+          return pharmappBookmark(
+            id: doc.id,
+            pharmid: doc.get('pharmid'),
+            productid: doc.get('productid'),
+            userid: doc.get('userid'),
+            date: DateFormat("dd-MM-yyyy").parse(doc.get('date')),
+          );
+        }
+      }
+    ).toList().where((element) => element != null));
+  
+    List<pharmappBookmark?> returned = [];
+
+    for (var i = ids.length-1; i > -1; i--) {
+      for (var j = 0; j < result.length; j++) {
+        if (result[j]!.id == ids[i]) {
+          returned.add(result[j]);
+        }
+      }
+    }
+
+    return returned;
+  }
+
+  Stream<List<pharmappBookmark?>> get bookmarks {
+    return bookmarkCollection.snapshots().map(_bookmarkListFromSnapshot);
   }
 }

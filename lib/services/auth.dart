@@ -130,6 +130,7 @@ class AuthService {
           'basket': emptyList,
           'amount': [0],
           'currentSeller': "",
+          'bookmarks': emptyList,
         })
         .then((value) => print('User Added'))
         .catchError((error) => print('Adding User Failed ${error.toString()}'));
@@ -155,6 +156,23 @@ class AuthService {
     }).then((value) => print("Order Added")).catchError((error) => print('Adding order failed ${error.toString()}'));
 
     await DatabaseService(uid: userid).addOrderToUser(id, pre_orders);
+  }
+
+  Future addBookmark(String pharmid, String productid, String userid, String date, List<dynamic> pre_bookmarks) async{
+    const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    Random _rnd = Random();
+
+    CollectionReference bookmarksRef = FirebaseFirestore.instance.collection('bookmarks');
+    String id = await String.fromCharCodes(Iterable.generate(16, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+    await bookmarksRef.doc(id).set({
+      'id': id,
+      'pharmid': pharmid,
+      'productid': productid,
+      'userid': userid,
+      'date': date, 
+    }).then((value) => print("Bookmark Added")).catchError((error) => print('Adding bookmark failed ${error.toString()}'));
+
+    await DatabaseService(uid: userid).addBookmarkToUser(id, pre_bookmarks);
   }
 
   Future addComment(String userid, String pharmid, String date, String? comment, num rate, List<dynamic> pre_comments) async {
