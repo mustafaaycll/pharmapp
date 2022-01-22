@@ -33,320 +33,314 @@ class _ProfileState extends State<Profile> {
   XFile? _image;
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User?>(
-        context); //use this to check if the user is logged in
+    final user = Provider.of<User?>(context); //use this to check if the user is logged in
+    return StreamBuilder<pharmappUser>(
+        stream: DatabaseService(uid: user!.uid).userData,
+        builder: (context, snapshot) {
+          pharmappUser? pUser = snapshot.data;
 
-    if (user != null) {
-      return StreamBuilder<pharmappUser>(
-          stream: DatabaseService(uid: user.uid).userData,
-          builder: (context, snapshot) {
-            pharmappUser? pUser = snapshot.data;
-
-            if (pUser != null) {
-              return Scaffold(
-                appBar: AppBar(
-                  title: Text(
-                    'Profile',
-                    style: TextStyle(color: AppColors.titleText, fontSize: 26),
-                  ),
-                  centerTitle: true,
-                  backgroundColor: AppColors.primary,
-                  elevation: 0.0,
+          if (pUser != null) {
+            return Scaffold(
+              appBar: AppBar(
+                title: Text(
+                  'Profile',
+                  style: TextStyle(color: AppColors.titleText, fontSize: 26),
                 ),
-                body: SingleChildScrollView(
-                  child: Padding(
-                    padding: Dimen.regularPadding,
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            CircleAvatar(
-                              backgroundColor: Color(0xffe8e8e8),
-                              backgroundImage:
-                                  NetworkImage(pUser.profile_pic_url),
-                              radius: 60,
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      pUser.fullname,
-                                      style: TextStyle(
-                                          color: AppColors.bodyText,
-                                          fontSize: 25),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  children: [Text(pUser.email)],
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: OutlinedButton(
-                                onPressed: () async {
-                                  await changeNamePopUp(context);
-                                  if (newName != "") {
-                                    DatabaseService(uid: pUser.id)
-                                        .updateName(newName);
-                                    newName = "";
-                                  }
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 12.0),
-                                  child: Text(
-                                    'Change Name and Surname',
-                                    style:
-                                        TextStyle(color: AppColors.buttonText),
-                                  ),
-                                ),
-                                style: OutlinedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: Dimen.boxBorderRadius),
-                                  backgroundColor: AppColors.button,
+                centerTitle: true,
+                backgroundColor: AppColors.primary,
+                elevation: 0.0,
+              ),
+              body: SingleChildScrollView(
+                child: Padding(
+                  padding: Dimen.regularPadding,
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: Color(0xffe8e8e8),
+                            backgroundImage:
+                                NetworkImage(pUser.profile_pic_url),
+                            radius: 60,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    pUser.fullname,
+                                    style: TextStyle(
+                                        color: AppColors.bodyText,
+                                        fontSize: 25),
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [Text(pUser.email)],
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: OutlinedButton(
+                              onPressed: () async {
+                                await changeNamePopUp(context);
+                                if (newName != "") {
+                                  DatabaseService(uid: pUser.id)
+                                      .updateName(newName);
+                                  newName = "";
+                                }
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 12.0),
+                                child: Text(
+                                  'Change Name and Surname',
+                                  style:
+                                      TextStyle(color: AppColors.buttonText),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: OutlinedButton(
-                                onPressed: () async {
-                                  await changePasswordPopUp(
-                                      context, pUser.method);
-                                  if (pUser.method == "manual") {
-                                    AuthService().sendPasswordLink(pUser.email);
-                                  }
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 12.0),
-                                  child: Text(
-                                    'Change Password',
-                                    style:
-                                        TextStyle(color: AppColors.buttonText),
-                                  ),
-                                ),
-                                style: OutlinedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: Dimen.boxBorderRadius),
-                                  backgroundColor: AppColors.button,
-                                ),
+                              style: OutlinedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: Dimen.boxBorderRadius),
+                                backgroundColor: AppColors.button,
                               ),
                             ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: OutlinedButton(
-                                onPressed: () async {
-                                  await pickImage();
-                                  await AuthService()
-                                      .uploadImageToFirebase(pUser, _image);
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 12.0),
-                                  child: Text(
-                                    'Change Profile Picture',
-                                    style:
-                                        TextStyle(color: AppColors.buttonText),
-                                  ),
-                                ),
-                                style: OutlinedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: Dimen.boxBorderRadius),
-                                  backgroundColor: AppColors.button,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: OutlinedButton(
+                              onPressed: () async {
+                                await changePasswordPopUp(
+                                    context, pUser.method);
+                                if (pUser.method == "manual") {
+                                  AuthService().sendPasswordLink(pUser.email);
+                                }
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 12.0),
+                                child: Text(
+                                  'Change Password',
+                                  style:
+                                      TextStyle(color: AppColors.buttonText),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: OutlinedButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(context, '/editDelAddr');
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 12.0),
-                                  child: Text(
-                                    'Edit Delivery Addresses',
-                                    style:
-                                        TextStyle(color: AppColors.buttonText),
-                                  ),
-                                ),
-                                style: OutlinedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: Dimen.boxBorderRadius),
-                                  backgroundColor: AppColors.button,
-                                ),
+                              style: OutlinedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: Dimen.boxBorderRadius),
+                                backgroundColor: AppColors.button,
                               ),
                             ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: OutlinedButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                      context, '/editFavPharms');
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 12.0),
-                                  child: Text(
-                                    'Edit Favourite Pharmacies',
-                                    style:
-                                        TextStyle(color: AppColors.buttonText),
-                                  ),
-                                ),
-                                style: OutlinedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: Dimen.boxBorderRadius),
-                                  backgroundColor: AppColors.button,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: OutlinedButton(
+                              onPressed: () async {
+                                await pickImage();
+                                await AuthService()
+                                    .uploadImageToFirebase(pUser, _image);
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 12.0),
+                                child: Text(
+                                  'Change Profile Picture',
+                                  style:
+                                      TextStyle(color: AppColors.buttonText),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: OutlinedButton(
-                                onPressed: () {
-                                  auth.signOut();
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 12.0),
-                                  child: Text(
-                                    'Log Out',
-                                    style:
-                                        TextStyle(color: AppColors.titleText),
-                                  ),
-                                ),
-                                style: OutlinedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: Dimen.boxBorderRadius),
-                                  backgroundColor: Color(0xffE13419),
-                                ),
+                              style: OutlinedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: Dimen.boxBorderRadius),
+                                backgroundColor: AppColors.button,
                               ),
                             ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: OutlinedButton(
-                                onPressed: () async {
-                                  await deletePopUp(context);
-                                  if (approvedDeletion == true) {
-                                    await DatabaseService(uid: pUser.id).deleteuser();
-                                    await user.delete();
-                                    setState(() {
-                                      approvedDeletion = false;
-                                    });
-                                  }
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 12.0),
-                                  child: Text(
-                                    'Delete Account',
-                                    style:
-                                        TextStyle(color: AppColors.titleText),
-                                  ),
-                                ),
-                                style: OutlinedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: Dimen.boxBorderRadius),
-                                  backgroundColor: AppColors.button,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: OutlinedButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/editDelAddr');
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 12.0),
+                                child: Text(
+                                  'Edit Delivery Addresses',
+                                  style:
+                                      TextStyle(color: AppColors.buttonText),
                                 ),
                               ),
+                              style: OutlinedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: Dimen.boxBorderRadius),
+                                backgroundColor: AppColors.button,
+                              ),
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: OutlinedButton(
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, '/editFavPharms');
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 12.0),
+                                child: Text(
+                                  'Edit Favourite Pharmacies',
+                                  style:
+                                      TextStyle(color: AppColors.buttonText),
+                                ),
+                              ),
+                              style: OutlinedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: Dimen.boxBorderRadius),
+                                backgroundColor: AppColors.button,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: OutlinedButton(
+                              onPressed: () {
+                                auth.signOut();
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 12.0),
+                                child: Text(
+                                  'Log Out',
+                                  style:
+                                      TextStyle(color: AppColors.titleText),
+                                ),
+                              ),
+                              style: OutlinedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: Dimen.boxBorderRadius),
+                                backgroundColor: Color(0xffE13419),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: OutlinedButton(
+                              onPressed: () async {
+                                await deletePopUp(context);
+                                if (approvedDeletion == true) {
+                                  await DatabaseService(uid: pUser.id).deleteuser();
+                                  await user.delete();
+                                  setState(() {
+                                    approvedDeletion = false;
+                                  });
+                                }
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 12.0),
+                                child: Text(
+                                  'Delete Account',
+                                  style:
+                                      TextStyle(color: AppColors.titleText),
+                                ),
+                              ),
+                              style: OutlinedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: Dimen.boxBorderRadius),
+                                backgroundColor: AppColors.button,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-              );
-            } else {
-              return Scaffold(
-                appBar: AppBar(
-                  title: Text(
-                    'Profile',
-                    style: TextStyle(color: AppColors.titleText, fontSize: 26),
-                  ),
-                  centerTitle: true,
-                  backgroundColor: AppColors.primary,
-                  elevation: 0.0,
+              ),
+            );
+          } else {
+            return Scaffold(
+              appBar: AppBar(
+                title: Text(
+                  'Profile',
+                  style: TextStyle(color: AppColors.titleText, fontSize: 26),
                 ),
-                body: Center(
-                  child: Text(
-                    'Connecting',
-                    style: TextStyle(color: AppColors.bodyText, fontSize: 30),
-                  ),
+                centerTitle: true,
+                backgroundColor: AppColors.primary,
+                elevation: 0.0,
+              ),
+              body: Center(
+                child: Text(
+                  'Connecting',
+                  style: TextStyle(color: AppColors.bodyText, fontSize: 30),
                 ),
-              );
-            }
-          });
-    } else {
-      return Login();
-    }
+              ),
+            );
+          }
+        });
   }
 
   Future<dynamic> changeNamePopUp(BuildContext context) {

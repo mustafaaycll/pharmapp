@@ -169,38 +169,42 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar>
   Widget build(BuildContext context) {
     final user = Provider.of<User?>(context);
 
-    return new Scaffold(
-      body: _children[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: AppColors.secondary,
-        selectedIconTheme: IconThemeData(color: AppColors.secondary),
-        unselectedItemColor: AppColors.bodyText,
-        unselectedFontSize: 14.0,
-        showUnselectedLabels: true,
-        onTap: (int index) {
-          onTappedBar(index);
-          _setCurrentScreen(pages[index], user);
-        },
-        currentIndex: _currentIndex,
-        items: [
-          BottomNavigationBarItem(
-            icon: new Icon(Icons.home,),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: new Icon(Icons.category),
-            label: 'Categories',
-          ),
-          BottomNavigationBarItem(
-            icon: new Icon(Icons.shopping_basket),
-            label: 'Basket',
-          ),
-          BottomNavigationBarItem(
-            icon: new Icon(Icons.manage_accounts),
-            label: 'Account',
-          ),
-        ],
-      ),
-    );
+    if (user == null) {
+      return Login();
+    } else {
+      return new Scaffold(
+        body: _children[_currentIndex],
+        bottomNavigationBar: BottomNavigationBar(
+          selectedItemColor: AppColors.secondary,
+          selectedIconTheme: IconThemeData(color: AppColors.secondary),
+          unselectedItemColor: AppColors.bodyText,
+          unselectedFontSize: 14.0,
+          showUnselectedLabels: true,
+          onTap: (int index) {
+            onTappedBar(index);
+            _setCurrentScreen(pages[index], user);
+          },
+          currentIndex: _currentIndex,
+          items: [
+            BottomNavigationBarItem(
+              icon: new Icon(Icons.home,),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: new Icon(Icons.category),
+              label: 'Categories',
+            ),
+            BottomNavigationBarItem(
+              icon: new Icon(Icons.shopping_basket),
+              label: 'Basket',
+            ),
+            BottomNavigationBarItem(
+              icon: new Icon(Icons.manage_accounts),
+              label: 'Account',
+            ),
+          ],
+        ),
+      );
+    }
   }
 }

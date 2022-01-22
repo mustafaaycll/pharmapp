@@ -34,15 +34,7 @@ class _LoginState extends State<Login> {
 
     if (user == null) {
       return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'Login',
-            style: TextStyle(color: AppColors.titleText, fontSize: 26),
-          ),
-          backgroundColor: AppColors.primary,
-          centerTitle: true,
-          elevation: 0.0,
-        ),
+        backgroundColor: AppColors.primary,
         body: Padding(
           padding: Dimen.regularPadding,
           child: Center(
@@ -58,7 +50,7 @@ class _LoginState extends State<Login> {
                         Text(
                           'PharMapp',
                           style: TextStyle(
-                            color: AppColors.bodyText,
+                            color: AppColors.titleText,
                             fontWeight: FontWeight.w700,
                             fontSize: 50,
                           ),
@@ -87,7 +79,7 @@ class _LoginState extends State<Login> {
                               return null;
                             },
                             decoration: InputDecoration(
-                                fillColor: AppColors.secondary75percent,
+                              fillColor: Color(0xffe8e8e8),
                                 filled: true,
                                 hintText: 'E-mail',
                                 border: OutlineInputBorder(
@@ -95,7 +87,9 @@ class _LoginState extends State<Login> {
                                     color: AppColors.secondary50percent,
                                   ),
                                   borderRadius: Dimen.boxBorderRadius,
-                                )),
+                                ),
+                                errorStyle: TextStyle(color: Colors.white),
+                            ),
                             keyboardType: TextInputType.emailAddress,
                             onSaved: (value) {
                               if (value != null) {
@@ -128,7 +122,7 @@ class _LoginState extends State<Login> {
                               return null;
                             },
                             decoration: InputDecoration(
-                              fillColor: AppColors.secondary75percent,
+                              fillColor: Color(0xffe8e8e8),
                               filled: true,
                               hintText: 'Password',
                               border: OutlineInputBorder(
@@ -137,6 +131,7 @@ class _LoginState extends State<Login> {
                                 ),
                                 borderRadius: Dimen.boxBorderRadius,
                               ),
+                              errorStyle: TextStyle(color: Colors.white),
                             ),
                             keyboardType: TextInputType.text,
                             obscureText: true,
@@ -275,6 +270,33 @@ class _LoginState extends State<Login> {
                                 SizedBox(
                                   width: 105,
                                 ),
+                              ],
+                            ),
+                            style: OutlinedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: Dimen.boxBorderRadius),
+                              backgroundColor: Color(0xffe8e8e8),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: OutlinedButton(
+                            onPressed: () async {
+                              await auth.signInAnon();
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  'Continue Anonymously',
+                                  style: TextStyle(color: AppColors.bodyText),
+                                )
                               ],
                             ),
                             style: OutlinedButton.styleFrom(
