@@ -77,10 +77,10 @@ class _listPharmsScreenState extends State<listPharmsScreen> {
                                       trailing: IconButton(
                                         icon: Icon(
                                           Icons.star,
-                                          color: DatabaseService(uid: user.uid)
-                                                  .favPharmExists(
+                                          color: DatabaseService(uid: user.uid).favPharmExists(
                                                       pharms[index]!.id,
-                                                      pUser.fav_pharms)
+                                                      pUser.fav_pharms
+                                                )
                                               ? Color(0xffffa200)
                                               : Color(0xff969493),
                                         ),

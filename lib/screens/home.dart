@@ -19,14 +19,6 @@ import 'package:intl/intl.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 import 'package:collection/collection.dart';
 
-class Order {
-  const Order(this.pharmacy, this.date, this.products, this.prices);
-  final String pharmacy;
-  final String date;
-  final List<String> products;
-  final List<double> prices;
-}
-
 class Home extends StatefulWidget {
   @override
   State<Home> createState() => _HomeState();
