@@ -166,9 +166,7 @@ class _BasketState extends State<Basket> {
                                                             });
                                                           },
                                                           leading: Row(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .min,
+                                                            mainAxisSize:MainAxisSize.min,
                                                             children: [
                                                               CircleAvatar(
                                                                 child: Text(
@@ -178,15 +176,12 @@ class _BasketState extends State<Basket> {
                                                                       fontSize: amounts[index + 1] <= 100 ? 15 : 10),
                                                                 ),
                                                                 radius: 15,
-                                                                backgroundColor:
-                                                                    AppColors
-                                                                        .button,
+                                                                backgroundColor:AppColors.button,
                                                               ),
                                                               SizedBox(
                                                                   height: 75,
                                                                   width: 75,
-                                                                  child: Image.network(
-                                                                      products[index]!.url)),
+                                                                  child: Image.network(products[index]!.url)),
                                                             ],
                                                           ),
                                                           title: Text(
@@ -368,7 +363,9 @@ class _BasketState extends State<Basket> {
                                         color: AppColors.bodyText, fontSize: 15),
                                   ),
                                   OutlinedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.pushNamed(context, '/editBookmarks');
+                                    },
                                     child: Row(
                                       children: [
                                         Icon(Icons.bookmark, color: AppColors.buttonText, size: 20,),

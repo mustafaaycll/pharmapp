@@ -505,7 +505,7 @@ class _listProductScreenState extends State<listProductScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Sorry, there is no comment",),
+              Text("Sorry, there is no product",),
             ],
           )
         ],
@@ -636,7 +636,7 @@ class _listProductScreenState extends State<listProductScreen> {
                 onTap: () async {
                   await addToBasketPopUp(context,pUser,pharm,categorizedProducts[index]);
                   if (approved) {
-                    await DatabaseService(uid: pUser.id).addToBasket(pharm, products.where((element) =>element!.category == cat).toList()[index]!,pUser,multiplier);
+                    await DatabaseService(uid: pUser.id).addToBasket(pharm, categorizedProducts[index]!,pUser,multiplier);
                     setState(() {
                       approved = false;
                     });

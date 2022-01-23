@@ -260,6 +260,35 @@ class _ProfileState extends State<Profile> {
                             flex: 1,
                             child: OutlinedButton(
                               onPressed: () {
+                                Navigator.pushNamed(context, '/editBookmarks');
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 12.0),
+                                child: Text(
+                                  'Manage Bookmarks',
+                                  style:
+                                      TextStyle(color: AppColors.buttonText),
+                                ),
+                              ),
+                              style: OutlinedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: Dimen.boxBorderRadius),
+                                backgroundColor: AppColors.button,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: OutlinedButton(
+                              onPressed: () {
                                 auth.signOut();
                               },
                               child: Padding(
