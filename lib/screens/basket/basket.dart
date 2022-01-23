@@ -73,6 +73,12 @@ class _BasketState extends State<Basket> {
                                     actions: [
                                       IconButton(
                                         onPressed: () {
+                                          Navigator.pushNamed(context, '/editBookmarks');
+                                        },
+                                        icon: Icon(Icons.bookmark),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
                                           DatabaseService(uid: pUser.id).removeAllFromBasket();
                                         },
                                         icon: Icon(Icons.delete_rounded,),
@@ -284,20 +290,64 @@ class _BasketState extends State<Basket> {
                                   appBar: AppBar(
                                     title: Text(
                                       'Basket',
-                                      style: TextStyle(
-                                          color: AppColors.titleText,
-                                          fontSize: 26),
+                                      style:
+                                          TextStyle(color: AppColors.titleText, fontSize: 26),
                                     ),
                                     centerTitle: true,
                                     backgroundColor: AppColors.primary,
                                     elevation: 0.0,
                                   ),
-                                  body: Center(
-                                    child: Text(
-                                      'Basket Has No Product',
-                                      style: TextStyle(
-                                          color: AppColors.bodyText,
-                                          fontSize: 15),
+                                  body: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Center(
+                                      child: Column(
+                                        children: [
+                                          Expanded(
+                                            child: Image.asset(
+                                                'assets/cartfadeout.png', width: 200,),
+                                          ),
+                                          Divider(
+                                            thickness: 1,
+                                          ),
+                                          SizedBox(
+                                            height: 50,
+                                            child: Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    'Basket seems to be empty',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        color: AppColors.bodyText, fontSize: 15),
+                                                  ),
+                                                  OutlinedButton(
+                                                    onPressed: () {
+                                                      Navigator.pushNamed(context, '/editBookmarks');
+                                                    },
+                                                    child: Row(
+                                                      children: [
+                                                        Icon(Icons.bookmark, color: AppColors.buttonText, size: 20,),
+                                                        SizedBox(width: 10),
+                                                        Text("Bookmarks",style: TextStyle(color: Colors.white),),
+                                                      ],
+                                                    ),
+                                                    style:
+                                                        OutlinedButton.styleFrom(
+                                                      shape: RoundedRectangleBorder(
+                                                          borderRadius: Dimen
+                                                              .boxBorderRadius),
+                                                      backgroundColor:
+                                                          AppColors.button,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 );
