@@ -103,14 +103,15 @@ class DatabaseService {
         bid = liste[i]!.id;
       }
     }
-
     List<String> ids = [""];
+    List<String> idstobereversed = [];
     for (var i = 0; i < liste.length; i++) {
       if (liste[i]!.id != bid) {
-        ids.add(liste[i]!.id);
+        idstobereversed.add(liste[i]!.id);
       }
     }
-
+    idstobereversed = List<String>.from(idstobereversed.reversed);
+    ids = ids + idstobereversed;
     await DatabaseService_bookmark(id: bid, ids: []).deleteBookmark();
     return userCollection.doc(uid).update({'bookmarks': ids});
   }
@@ -207,7 +208,7 @@ class DatabaseService {
 
   }
 
-  Future removeSingleProductFromBasket(List<dynamic> amounts, int index, List<pharmappProduct?> products, String currentSeller) async {
+  Future removeSingleProductFromBasket(List<dynamic> amounts, int index, List<pharmappProduct?>? products, String currentSeller) async {
     
     List<dynamic> newAmounts = [0];
     List<String> newIds = [""];
@@ -216,7 +217,7 @@ class DatabaseService {
     for (var i = 1; i < amounts.length; i++) {
       if (i-1 != index) {
         newAmounts.add(amounts[i]);
-        newIds.add(products[i-1]!.id);
+        newIds.add(products![i-1]!.id);
       }
     }
 
