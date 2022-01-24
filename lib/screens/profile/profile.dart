@@ -199,8 +199,7 @@ class _ProfileState extends State<Profile> {
                           child: OutlinedButton(
                             onPressed: () async {
                               await pickImage();
-                              await AuthService()
-                                  .uploadImageToFirebase(pUser, _image);
+                              await AuthService().uploadImageToFirebase(pUser, _image);
                             },
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
@@ -288,7 +287,7 @@ class _ProfileState extends State<Profile> {
                           flex: 1,
                           child: OutlinedButton(
                             onPressed: () {
-                              Navigator.pushNamed(context, '/editBookmarks');
+                              Navigator.pushNamed(context, '/editBookmarks',);
                             },
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
@@ -348,6 +347,10 @@ class _ProfileState extends State<Profile> {
                           flex: 1,
                           child: OutlinedButton(
                             onPressed: () {
+                              Navigator.pushNamed(context, '/managePharm',
+                              arguments: {
+                                'user': pUser,
+                              });
                             },
                             child: Padding(
                               padding: const EdgeInsets.symmetric(

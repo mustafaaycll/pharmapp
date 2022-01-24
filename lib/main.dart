@@ -14,6 +14,7 @@ import 'package:pharm_app/screens/listProducts.dart';
 import 'package:pharm_app/screens/profile/editBookmarksScreen.dart';
 import 'package:pharm_app/screens/profile/editDelAddrScreen.dart';
 import 'package:pharm_app/screens/profile/editFavPharmScreen.dart';
+import 'package:pharm_app/screens/profile/managePharmScreen.dart';
 import 'package:pharm_app/screens/profile/profile.dart';
 import 'package:pharm_app/screens/walkthrough.dart';
 import 'package:pharm_app/services/auth.dart';
@@ -118,6 +119,7 @@ class PharMapp extends StatelessWidget {
           '/listPharms': (context) => listPharmsScreen(),
           '/listProducts': (context) => listProductScreen(),
           '/editBookmarks' : (context) => editBookmarksScreen(),
+          '/managePharm' : (context) => managePharmScreen(),
         },
         initialRoute: initScreen == 0 || initScreen == null ? '/WalkThrough' : "/navigationBar",
       ),

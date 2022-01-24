@@ -349,6 +349,21 @@ class DatabaseService_pharm {
 
     return pharmCollection.doc(id).update({'comments': assignComments});
   }
+
+  Future changeProducts(List<dynamic> newList) async {
+    return pharmCollection.doc(id).update({'products': newList});
+  }
+
+  Future removeProduct(List<dynamic> currentProducts, String? idtobedeleted) async {
+    List<dynamic> returnedList = [];
+    for (var i = 0; i < currentProducts.length; i++) {
+      if (currentProducts[i] != idtobedeleted) {
+        returnedList.add(currentProducts[i]);
+      }
+    }
+
+    return pharmCollection.doc(id).update({'products': returnedList});
+  }
 }
 
 class DatabaseService_address {
@@ -447,8 +462,28 @@ class DatabaseService_product {
     return returned;
   }
 
+  List<pharmappProduct?> _allProductsFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      return pharmappProduct(
+        id: doc.id,
+        name: doc.get('name'),
+        category: doc.get('category'),
+        price: double.parse(doc.get('price')),
+        url: doc.get('photo'),
+      );
+    }).toList();
+  }
+
   Stream<List<pharmappProduct?>> get products {
     return productsCollection.snapshots().map(_productListFromSnapshot);
+  }
+
+  Stream<List<pharmappProduct?>> get allProducts {
+    return productsCollection.snapshots().map(_allProductsFromSnapshot);
+  }
+
+  Future updatePrice(String price) async {
+    return productsCollection.doc(id).update({'price': price});
   }
   
 }
