@@ -32,7 +32,8 @@ class DatabaseService {
         basket: doc.get('basket'),
         currentSeller: doc.get('currentSeller'),
         amount: doc.get('amount'),
-        bookmarks: doc.get('bookmarks')
+        bookmarks: doc.get('bookmarks'),
+        ownership: doc.get('ownership'),
       );
     }).toList();
   }
@@ -50,7 +51,8 @@ class DatabaseService {
       basket: snapshot.get('basket'),
       amount: snapshot.get('amount'),
       currentSeller: snapshot.get('currentSeller'),
-      bookmarks: snapshot.get('bookmarks')
+      bookmarks: snapshot.get('bookmarks'),
+      ownership: snapshot.get('ownership'),
     );
   }
 
@@ -173,6 +175,10 @@ class DatabaseService {
     }
 
     return userCollection.doc(uid).update({'addresses': ids});
+  }
+
+  Future addPharmOwnership(String id) async {
+    return userCollection.doc(uid).update({'ownership':id});
   }
 
   Future addToBasket(pharmappPharmacy pharm, pharmappProduct product, pharmappUser pUser, num quantity) async {
