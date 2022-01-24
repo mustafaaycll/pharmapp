@@ -71,48 +71,48 @@ class _listProductScreenState extends State<listProductScreen> {
                               ],
                             ),
                             body: Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      height: 75,
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Image.network(
-                                            'http://www.aeo.org.tr/Helpers/DuyuruIcon.ashx?yayinyeri=sayfaicerik&Id=36690',
-                                          ),
-                                        ],
-                                      ),
+                              padding: EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 75,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Image.network(
+                                          'http://www.aeo.org.tr/Helpers/DuyuruIcon.ashx?yayinyeri=sayfaicerik&Id=36690',
+                                        ),
+                                      ],
                                     ),
-                                    SizedBox(
-                                      height: 8,
+                                  ),
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  Text(
+                                    pharm.name,
+                                    style: TextStyle(fontSize: 26),
+                                  ),
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  rateWidget(pharm),
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  Divider(
+                                    thickness: 1,
+                                  ),
+                                  Expanded(
+                                    child: PageView(
+                                      controller: PageController(),
+                                      children: [
+                                        productList(products, pUser, pharm),
+                                        commentList(comments)
+                                      ]
                                     ),
-                                    Text(
-                                      pharm.name,
-                                      style: TextStyle(fontSize: 26),
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    rateWidget(pharm),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    Divider(
-                                      thickness: 1,
-                                    ),
-                                    Expanded(
-                                      child: PageView(
-                                        controller: PageController(),
-                                        children: [
-                                          productList(products, pUser, pharm),
-                                          commentList(comments)
-                                        ]
-                                      ),
-                                    ),
-                                  ],
-                                )),
+                                  ),
+                                ],
+                              )),
                           );} else if (comments == null) {
                               return Scaffold(
                                 appBar: AppBar(

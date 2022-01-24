@@ -159,6 +159,18 @@ class AuthService {
     await DatabaseService(uid: userid).addOrderToUser(id, pre_orders);
   }
 
+  Future addProduct(String id, String? category, String? name, String url, String? price) async {
+    CollectionReference products = FirebaseFirestore.instance.collection('products');
+
+    await products.doc(id).set({
+      'id': id,
+      'category': category,
+      'name': name,
+      'photo': url,
+      'price': price,
+    }).then((value) => print("Product added")).catchError((error) => print("Product adding failed: ${error.toString()}"));
+  }
+
   Future createPharm(String userid, String name, List<String> addresses) async {
     const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
     Random _rnd = Random();
@@ -168,8 +180,8 @@ class AuthService {
     await pharmRef.doc(id).set({
       'id': id,
       'name': name,
-      'comments': [],
-      'products': [],
+      'comments': [""],
+      'products': [""],
       'ratings': [0],
       'service_addresses': addresses,
     }).then((value) => print("Pharmacy created")).catchError((error) => print("Creating pharmacy failed: ${error.toString()}"));
@@ -235,7 +247,7 @@ class AuthService {
   }
 
   Future uploadImageToFirebase(pharmappUser? pUser, XFile? image) async {
-    Reference firebaseStorageRef = FirebaseStorage.instance.ref().child('profilepics/${pUser!.id}'); 
+    Reference firebaseStorageRef = FirebaseStorage.instance.ref().child('profilepics/${pUser!.id}');
     String url = pUser.profile_pic_url;
     try {
       await firebaseStorageRef.putFile(File(image!.path));
@@ -243,6 +255,29 @@ class AuthService {
       await FirebaseStorage.instance.ref().child('profilepics/${pUser.id}').getDownloadURL().then((value) => {url = value});
 
       await DatabaseService(uid: pUser.id).updatePP(url);
+    } on FirebaseException catch (e) {
+      print("${e.message}");
+    } catch (e) {
+      print("err2");
+    }
+  }
+
+  Future uploadImageToFirebaseThenAddProductToFirestoreAndPharm(pharmappPharmacy? pharm, XFile? image, String? category, String? name, String? price) async {
+    const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    Random _rnd = Random();
+    String id = await String.fromCharCodes(Iterable.generate(16, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+    Reference firebaseStorageRef = FirebaseStorage.instance.ref().child('productpics/$id');
+    String url = "";
+    try {
+      await firebaseStorageRef.putFile(File(image!.path));
+      await FirebaseStorage.instance.ref().child('productpics/$id').getDownloadURL().then((value) => {url = value});
+      await addProduct(id, category, name, url, price);
+      List<dynamic> newList = [];
+      for (var i = 0; i < pharm!.products.length; i++) {
+        newList.add(pharm!.products[i]);
+      }
+      newList.add(id);
+      await DatabaseService_pharm(id: pharm.id, ids: []).changeProducts(newList);
     } on FirebaseException catch (e) {
       print("${e.message}");
     } catch (e) {

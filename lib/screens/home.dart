@@ -130,8 +130,7 @@ class _HomeState extends State<Home> {
                                                 vertical: 12.0),
                                             child: Text(
                                               'Add Address',
-                                              style: TextStyle(
-                                                  color: AppColors.buttonText),
+                                              style: TextStyle(color: AppColors.buttonText),
                                             ),
                                           ),
                                           style: OutlinedButton.styleFrom(
