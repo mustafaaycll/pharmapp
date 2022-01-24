@@ -319,10 +319,6 @@ class _ProfileState extends State<Profile> {
                           child: OutlinedButton(
                             onPressed: () async {
                               await createPharmPopUp(context, pUser.id);
-                              print("Approve is: $approvedPharmCreation");
-                              if (approvedPharmCreation) {
-                                await AuthService().createPharm(pUser.id, pharmName, servAddresses);
-                              }
                               setState(() {
                                 pharmName = "";
                                 servAddresses = [];
@@ -787,8 +783,8 @@ class _ProfileState extends State<Profile> {
                               onPressed: () async {
                                 if (_formKeyPharmCreation.currentState!.validate()) {
                                   _formKeyPharmCreation.currentState!.save();
-                                  Navigator.pop(context);
                                   await selectCityPopUp(context, userid);
+                                  Navigator.pop(context);
                                 }
                               },
                               child: Padding(
