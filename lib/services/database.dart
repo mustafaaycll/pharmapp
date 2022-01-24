@@ -356,6 +356,9 @@ class DatabaseService_pharm {
 
   Future removeProduct(List<dynamic> currentProducts, String? idtobedeleted) async {
     List<dynamic> returnedList = [];
+    if (currentProducts.length == 1) {
+      returnedList.add("");
+    }
     for (var i = 0; i < currentProducts.length; i++) {
       if (currentProducts[i] != idtobedeleted) {
         returnedList.add(currentProducts[i]);

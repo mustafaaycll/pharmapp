@@ -68,6 +68,11 @@ class _managePharmScreenState extends State<managePharmScreen> {
                 centerTitle: true,
                 backgroundColor: AppColors.primary,
                 elevation: 0.0,
+                actions: [
+                  IconButton(onPressed: () async {
+                    await deletePharmPopUp(context, pharm);
+                  }, icon: Icon(Icons.delete_forever)),
+                ],
               ),
               body: Padding(
                 padding: EdgeInsets.all(8),
@@ -1066,6 +1071,93 @@ class _managePharmScreenState extends State<managePharmScreen> {
                               child: OutlinedButton(
                                 onPressed: () async {
                                   await DatabaseService_pharm(id: pharm!.id, ids: []).removeProduct(pharm.products, product.id);
+                                  Navigator.pop(context);
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 12.0),
+                                  child: Text(
+                                    'Delete',
+                                    style:
+                                        TextStyle(color: AppColors.buttonText),
+                                  ),
+                                ),
+                                style: OutlinedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: Dimen.boxBorderRadius),
+                                  backgroundColor: Color(0xffE13419),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ]
+                    )
+                  )
+                )
+              )
+            ]
+          )
+        );
+      }
+    );
+  }
+
+  Future<dynamic> deletePharmPopUp(BuildContext context, pharmappPharmacy? pharm) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          content: Stack(
+            children: <Widget>[
+              SingleChildScrollView(
+                child: Form(
+                  key: null,
+                  child: Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(height: 8,),
+                        SizedBox(
+                          height: 200,
+                          width: 200,
+                          child: Image.network('http://www.aeo.org.tr/Helpers/DuyuruIcon.ashx?yayinyeri=sayfaicerik&Id=36690'),
+                        ),
+                        SizedBox(height: 8,),
+                        SizedBox(height: 8,),
+                        Text("You are about to remove\n${pharm!.name}\n\nDo you want to continue?", textAlign: TextAlign.center,),
+                        SizedBox(height: 8,),
+                        Row(
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: OutlinedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 12.0),
+                                  child: Text(
+                                    'Cancel',
+                                    style:
+                                        TextStyle(color: AppColors.buttonText),
+                                  ),
+                                ),
+                                style: OutlinedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: Dimen.boxBorderRadius),
+                                  backgroundColor: AppColors.button,
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 5,),
+                            Expanded(
+                              flex: 1,
+                              child: OutlinedButton(
+                                onPressed: () async {
                                   Navigator.pop(context);
                                 },
                                 child: Padding(
