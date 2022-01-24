@@ -131,6 +131,7 @@ class AuthService {
           'amount': [0],
           'currentSeller': "",
           'bookmarks': emptyList,
+          'ownership' : ""
         })
         .then((value) => print('User Added'))
         .catchError((error) => print('Adding User Failed ${error.toString()}'));
@@ -156,6 +157,24 @@ class AuthService {
     }).then((value) => print("Order Added")).catchError((error) => print('Adding order failed ${error.toString()}'));
 
     await DatabaseService(uid: userid).addOrderToUser(id, pre_orders);
+  }
+
+  Future createPharm(String userid, String name, List<String> addresses) async {
+    const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    Random _rnd = Random();
+
+    CollectionReference pharmRef = FirebaseFirestore.instance.collection('pharmacies');
+    String id = await String.fromCharCodes(Iterable.generate(16, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+    await pharmRef.doc(id).set({
+      'id': id,
+      'name': name,
+      'comments': [],
+      'products': [],
+      'ratings': [0],
+      'service_addresses': addresses,
+    }).then((value) => print("Pharmacy created")).catchError((error) => print("Creating pharmacy failed: ${error.toString()}"));
+
+    await DatabaseService(uid: userid).addPharmOwnership(id);
   }
 
   Future addBookmark(String pharmid, String productid, String userid, String date, List<dynamic> pre_bookmarks) async{
