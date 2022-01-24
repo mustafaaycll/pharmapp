@@ -83,6 +83,10 @@ flutter:
     - assets/cart.png
     - assets/cartfadeout.png
     - assets/pharm.png
+    - assets/supplementary.png
+    - assets/dental_care.png
+    - assets/personal_care.png
+    - assets/painkillers.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

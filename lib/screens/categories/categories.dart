@@ -27,163 +27,150 @@ class _CategoriesState extends State<Categories> {
         centerTitle: true,
         backgroundColor: AppColors.primary,
         elevation: 0.0,
-        actions: [IconButton(
-          onPressed: buttonPressed, // onpressed is gonna be changed
-          //onPressed: (){
-            //Navigator.pushNamed(context, '/filters');
-          //},
-          icon: Icon(
-            Icons.filter_list_alt, // filtreleme iconu gelecek.
-            color: AppColors.titleText,
-          ),
-        ),
-        ],
       ),
-      body: PageView(
-        children: [
-          SingleChildScrollView(
-            child: Center(
-              child: Column(
-                //crossAxisAlignment: CrossAxisAlignment.stretch,
-                children:[
-                  SizedBox(height: 16,),
-                  OutlinedButton(
-                    onPressed: buttonPressed,//onpressed is gonna be changed
-                    child: Text(
-                      'Painkillers',
-                      style: TextStyle(
-                          color: AppColors.bodyText,
-                          fontSize: 26,
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Expanded(
+              flex: 1,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              child: Image.asset('assets/painkillers.png'),
+                            ),
+                            SizedBox(height: 20,),
+                            Column(
+                              children: [
+                                Text("Painkillers", style: TextStyle(fontSize: 20),),
+                                OutlinedButton(
+                                  onPressed: () {},
+                                  child: Text("List products",style:TextStyle(color: AppColors.buttonText)),
+                                  style: OutlinedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: Dimen.boxBorderRadius),
+                                    backgroundColor: AppColors.button,
+                                  ),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    style: OutlinedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: Dimen.boxBorderRadius
-                      ),
-                      backgroundColor: AppColors.secondary50percent,
-                      minimumSize: Size(375.0,100.0),
                     ),
                   ),
-                  SizedBox(height: 16,),
-                  OutlinedButton(
-                    onPressed: buttonPressed,//onpressed is gonna be changed
-                    child: Text(
-                      'Dental Care',
-                      style: TextStyle(
-                          color: AppColors.bodyText,
-                          fontSize: 26,
+                  Expanded(
+                    child: Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              child: Image.asset('assets/supplementary.png'),
+                            ),
+                            SizedBox(height: 20,),
+                            Column(
+                              children: [
+                                Text("Supplementaries", style: TextStyle(fontSize: 20),),
+                                OutlinedButton(
+                                  onPressed: () {},
+                                  child: Text("List products",style:TextStyle(color: AppColors.buttonText)),
+                                  style: OutlinedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: Dimen.boxBorderRadius),
+                                    backgroundColor: AppColors.button,
+                                  ),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    style: OutlinedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: Dimen.boxBorderRadius
-                      ),
-                      backgroundColor: AppColors.secondary50percent,
-                      minimumSize: Size(375.0,100.0),
-                    ),
-                  ),
-                  SizedBox(height: 16,),
-                  OutlinedButton(
-                    onPressed: buttonPressed,//onpressed is gonna be changed
-                    child: Text(
-                      'Cosmetics',
-                      style: TextStyle(
-                          color: AppColors.bodyText,
-                          fontSize: 26,
-                      ),
-                    ),
-                    style: OutlinedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: Dimen.boxBorderRadius
-                      ),
-                      backgroundColor: AppColors.secondary50percent,
-                      minimumSize: Size(375.0,100.0),
-                    ),
-                  ),
-                  SizedBox(height: 16,),
-                  OutlinedButton(
-                    onPressed: buttonPressed,//onpressed is gonna be changed
-                    child: Text(
-                      'Vitamins',
-                      style: TextStyle(
-                          color: AppColors.bodyText,
-                          fontSize: 26,
-                      ),
-                    ),
-                    style: OutlinedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: Dimen.boxBorderRadius
-                      ),
-                      backgroundColor: AppColors.secondary50percent,
-                      minimumSize: Size(375.0,100.0),
-                    ),
-                  ),
-                  SizedBox(height: 16,),
-                  OutlinedButton(
-                    onPressed: buttonPressed,//onpressed is gonna be changed
-                    child: Text(
-                      'Non-Prescription Drugs',
-                      style: TextStyle(
-                          color: AppColors.bodyText,
-                          fontSize: 26,
-                      ),
-                    ),
-                    style: OutlinedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: Dimen.boxBorderRadius
-                      ),
-                      backgroundColor: AppColors.secondary50percent,
-                      minimumSize: Size(375.0,100.0),
-                    ),
-                  ),
-                  SizedBox(height: 16,),
-                  OutlinedButton(
-                    onPressed: buttonPressed,//onpressed is gonna be changed
-                    child: Text(
-                      'Category6',
-                      style: TextStyle(
-                          color: AppColors.bodyText,
-                          fontSize: 26,
-                      ),
-                    ),
-                    style: OutlinedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: Dimen.boxBorderRadius
-                      ),
-                      backgroundColor: AppColors.secondary50percent,
-                      minimumSize: Size(375.0,100.0),
-                    ),
-                  ),
-                  SizedBox(height: 16,),
-                  OutlinedButton(
-                    onPressed: buttonPressed, //onpressed is gonna be changed
-                    child: Text(
-                      'Category7',
-                      style: TextStyle(
-                          color: AppColors.bodyText,
-                          fontSize: 26,
-                      ),
-                    ),
-                    style: OutlinedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: Dimen.boxBorderRadius
-                      ),
-                      backgroundColor: AppColors.secondary50percent,
-                      minimumSize: Size(375.0,100.0),
                     ),
                   ),
                 ],
-              ),
+              )
             ),
-          ),
-        ],
+            Expanded(
+              flex: 1,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              child: Image.asset('assets/dental_care.png'),
+                            ),
+                            SizedBox(height: 20,),
+                            Column(
+                              children: [
+                                Text("Dental Care", style: TextStyle(fontSize: 20),),
+                                OutlinedButton(
+                                  onPressed: () {},
+                                  child: Text("List products",style:TextStyle(color: AppColors.buttonText)),
+                                  style: OutlinedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: Dimen.boxBorderRadius),
+                                    backgroundColor: AppColors.button,
+                                  ),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              child: Image.asset('assets/personal_care.png'),
+                            ),
+                            SizedBox(height: 20,),
+                            Column(
+                              children: [
+                                Text("Personal Care", style: TextStyle(fontSize: 20),),
+                                OutlinedButton(
+                                  onPressed: () {},
+                                  child: Text("List products",style:TextStyle(color: AppColors.buttonText)),
+                                  style: OutlinedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: Dimen.boxBorderRadius),
+                                    backgroundColor: AppColors.button,
+                                  ),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ),
+          ],
+        ),
       ),
     );
   }
-}
-// wont be used.
-void buttonPressed(){
-  print('Button tapped');
 }
 
 
