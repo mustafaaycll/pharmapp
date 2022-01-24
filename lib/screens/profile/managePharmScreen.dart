@@ -70,7 +70,8 @@ class _managePharmScreenState extends State<managePharmScreen> {
                 elevation: 0.0,
                 actions: [
                   IconButton(onPressed: () async {
-                    await deletePharmPopUp(context, pharm);
+                    await deletePharmPopUp(context, pharm, pUser);
+                    Navigator.pop(context);
                   }, icon: Icon(Icons.delete_forever)),
                 ],
               ),
@@ -1103,7 +1104,7 @@ class _managePharmScreenState extends State<managePharmScreen> {
     );
   }
 
-  Future<dynamic> deletePharmPopUp(BuildContext context, pharmappPharmacy? pharm) async {
+  Future<dynamic> deletePharmPopUp(BuildContext context, pharmappPharmacy? pharm, pharmappUser? pUser) async {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -1158,6 +1159,8 @@ class _managePharmScreenState extends State<managePharmScreen> {
                               flex: 1,
                               child: OutlinedButton(
                                 onPressed: () async {
+                                  await DatabaseService_pharm(id: pharm.id, ids: []).removePharm();
+                                  await DatabaseService(uid: pUser!.id).resetOwnership();
                                   Navigator.pop(context);
                                 },
                                 child: Padding(

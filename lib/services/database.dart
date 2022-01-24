@@ -250,6 +250,10 @@ class DatabaseService {
     return userCollection.doc(uid).delete();
   }
 
+  Future resetOwnership() async {
+    return userCollection.doc(uid).update({'ownership': ""});
+  }
+
   // END OF FUNCTIONS RELATED TO USERS
 }
 
@@ -366,6 +370,10 @@ class DatabaseService_pharm {
     }
 
     return pharmCollection.doc(id).update({'products': returnedList});
+  }
+
+  Future removePharm() async {
+    return pharmCollection.doc(id).delete();
   }
 }
 
